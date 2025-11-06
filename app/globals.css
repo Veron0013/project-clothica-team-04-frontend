@@ -5,7 +5,8 @@
   --main-theme-light: #d6eac0;
   --main-color-ligth: #000;
   --color-red: #9d0000;
-
+  --background: #f3f9ed;
+  --foreground: #000;
 
   --color-scheme-1-background: var(--color-deco-lightest);
   --color-neutral-darkest: #000;
@@ -74,8 +75,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #f3f9ed;
+    --foreground: #000;
   }
 }
 
