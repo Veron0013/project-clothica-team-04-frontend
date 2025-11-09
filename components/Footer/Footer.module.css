@@ -95,6 +95,9 @@
   justify-content: center;
   gap: 18px;
 }
+.svgInstagram {
+}
+
 @media screen and (min-width: 768px) {
   .section {
     padding: 48px 0px;
@@ -130,7 +133,7 @@
     font-size: 14px;
   }
   .input {
-    width: 273px;
+    max-width: 273px;
     transition: border 250ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   .input::placeholder {
@@ -141,7 +144,7 @@
     border: 1px solid #3b4331;
   }
   .button {
-    width: 111px;
+    max-width: 111px;
     height: 33px;
     display: flex;
     align-items: center;
