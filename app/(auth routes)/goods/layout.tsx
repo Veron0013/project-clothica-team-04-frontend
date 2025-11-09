@@ -22,7 +22,7 @@ export default function GoodsLayout({ children }: { children: React.ReactNode })
 
 	return (
 		<FiltersContext.Provider value={{ filters, setFilters }}>
-			<div className="grid grid-cols-[250px_1fr] gap-4">
+			<div className="grid grid-cols-[250px_1fr] gap-4 pt-50">
 				<aside>
 					<Filters />
 				</aside>

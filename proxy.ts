@@ -5,10 +5,10 @@ import { cookies } from "next/headers"
 import { checkServerSession } from "./lib/api/serverApi"
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies"
 
-const privateRoutes = ["/profile", "/notes"]
+const privateRoutes = ["/profile"]
 const publicRoutes = ["/sign-in", "/sign-up"]
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
 	const { pathname } = request.nextUrl
 	const cookieStore = await cookies()
 	const accessToken = cookieStore.get("accessToken")?.value
@@ -83,7 +83,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ["/profile/:path*", "/notes/:path*", "/sign-in", "/sign-up"],
+	matcher: ["/profile/:path*", "/sign-in", "/sign-up"],
 }
 
 const goHome = (cookieStore: ReadonlyRequestCookies, request: NextRequest) => {

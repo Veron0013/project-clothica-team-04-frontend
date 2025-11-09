@@ -1,23 +1,41 @@
-export type Product = {
-  id: string;
-  title: string;
-  price: number;
-  image: string; 
-  rating?: number;
-  reviewsCount?: number;
-  category?: string;
-};
+export type GoodCategory = {
+	_id: string
+	name: string
+	img_url: string
+}
+
+export type Good = {
+	_id: string
+	//title: string
+	name: string
+	price: number
+	image: string
+	currency: string
+	color?: string[]
+	size: string[]
+	characteristics: string[]
+	gender: string
+	//rating?: number
+	//reviewsCount?: number
+	category?: GoodCategory
+	prevDescription?: string
+	feedbackCount?: number
+	averageRating?: number
+}
 
 export type GoodsResponse = {
-  items: Product[];
-  total: number;
-};
+	goods: Good[]
+	page: number
+	perPage: number
+	totalGoods: number
+	totalPages: number
+}
 
 export type GoodsQuery = {
-  category?: string;
-  size?: string[];
-  color?: string[];
-  gender?: string;
-  limit: number; 
-  offset: number; 
-};
+	category?: string
+	size?: string[]
+	color?: string[]
+	gender?: string
+	perPage: number
+	page: number
+}

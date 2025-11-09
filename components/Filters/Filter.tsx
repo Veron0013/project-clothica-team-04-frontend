@@ -9,7 +9,7 @@ export default function Filters() {
 	//const [options, setOptions] = useState({ categories: [] })
 	const router = useRouter()
 
-	console.log("f", filters)
+	//console.log("filter", filters)
 
 	//useEffect(() => {
 	//  fetch('/api/filters')
@@ -25,7 +25,8 @@ export default function Filters() {
 	return (
 		<div>
 			<h3>Фільтри</h3>
-			<button onClick={() => handleFilterChange({ price_from: "1", price_to: "100" })}>Ціна 1–100</button>
+			<button onClick={() => handleFilterChange({ fromPrice: "1", toPrice: "1000" })}>Ціна 1–1000</button>
+			<button onClick={() => handleFilterChange({ fromPrice: "1000", toPrice: "10000" })}>Ціна 1000–10000</button>
 		</div>
 	)
 }

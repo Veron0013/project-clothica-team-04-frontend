@@ -1,67 +1,74 @@
-"use client";
+"use client"
 
-import { GoodsList, GoodsListItem } from "@/components/GoodsList";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { GoodsList } from "@/components/GoodsList"
+import { getGoods } from "@/lib/api/api"
+import toastMessage, { MyToastType } from "@/lib/messageService"
+import { PER_PAGE } from "@/lib/vars"
+import { GoodsQuery, GoodsResponse } from "@/types/goods"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useState } from "react"
+import styles from "@/components/GoodsList/GoodsList.module.css"
 
-const mock: GoodsListItem[] = [
-  { id: "1", title: "Базова футболка", price: 1499, image: "/img/a.jpg" },
-  { id: "2", title: "Класичне худі", price: 1999, image: "/img/b.jpg" },
-  { id: "3", title: "Джинси Relaxed Fit", price: 2499, image: "/img/c.jpg" },
-];
+//interface Props ={
+//	initialData: GoodsResponse
+//}
 
 const ProductsPageClient = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const sp = useSearchParams();
+	const [perPage, setPerPage] = useState<number>(PER_PAGE)
+	//const router = useRouter()
 
-  const LOAD_STEP = 3;
-  const offset = Number(sp.get("offset") ?? 0);
+	const sp = useSearchParams()
 
-  function replaceParams(mutator: (p: URLSearchParams) => void) {
-    const next = new URLSearchParams(sp.toString());
-    mutator(next);
-    router.replace(`${pathname}?${next.toString()}`, { scroll: false });
-  }
+	const searchParams: GoodsQuery = {
+		perPage,
+		page: Number(sp.get("page") ?? 1),
+		...Object.fromEntries(sp.entries()),
+	} as unknown as GoodsQuery
 
-  function onLoadMore() {
-    replaceParams((next) => {
-      const curr = Number(next.get("offset") ?? 0);
-      next.set("offset", String(curr + LOAD_STEP));
-    });
-  }
+	const cPage: number = Number(searchParams.page)
 
-  function onResetFilters() {
-    replaceParams((next) => {
-      ["category", "gender", "size", "color"].forEach((k) => next.delete(k));
-      next.set("offset", "0");
-    });
-  }
+	const [currentPage, setCurrentPage] = useState<number>(cPage ? cPage : 1)
 
-  const shown = Math.min(mock.length, offset + LOAD_STEP + 3);
-  const items = mock.slice(0, shown);
-  const total = mock.length;
+	const {
+		data,
+		//isLoading,
+		//error,
+	} = useQuery({
+		queryKey: ["GoodsByCategories", searchParams, currentPage],
+		queryFn: () => fetchQueryData(),
+		placeholderData: keepPreviousData,
+		refetchOnMount: false,
+	})
 
-  return (
-    <>
-      <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-        <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-          Знайди свій стиль з Clothica вже сьогодні!
-        </h1>
-        <p className="max-w-md text-lg leading-8 text-foreground">
-          Clothica — це місце, де комфорт поєднується зі стилем. Ми створюємо базовий одяг, який легко комбінується та
-          підходить для будь-якої нагоди. Обирай речі, що підкреслять твою індивідуальність і завжди будуть актуальними.
-        </p>
-        <GoodsList
-          items={items}
-          total={total}
-          isLoading={false}
-          isError={false}
-          onLoadMore={onLoadMore}
-          onResetFilters={onResetFilters}
-        />
-      </div>
-    </>
-  )
+	const fetchQueryData = async () => {
+		const res = await getGoods(searchParams)
+		if (!res.goods.length) {
+			toastMessage(MyToastType.error, "bad request")
+		}
+		return res
+	}
+
+	const handleClick = () => {
+		setPerPage(perPage + 3)
+		setCurrentPage(currentPage + 1)
+		//const params = new URLSearchParams(searchParams).toString()
+		//const params = {perPage: perPage+3,...searchParams}
+
+		//router.push(`/goods?${searchParams}`)
+	}
+	console.log("data", searchParams, currentPage)
+
+	return (
+		<>
+			<div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
+				{data?.goods && data.goods.length > 0 && <GoodsList items={data.goods} />}
+				<button className={styles.cardCta} onClick={handleClick}>
+					Детальніше
+				</button>
+			</div>
+		</>
+	)
 }
 
 export default ProductsPageClient
