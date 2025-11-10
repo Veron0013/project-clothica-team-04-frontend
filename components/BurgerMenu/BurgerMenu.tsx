@@ -1,11 +1,15 @@
 import Link from "next/link";
 import css from "./BurgerMenu.module.css"
+import { useAuthStore } from "@/lib/store/authStore";
 
 interface BurgerMenuProps {
   menuOpen: boolean;
 }
 
-export default function BurgerMenu({menuOpen}: BurgerMenuProps ){
+export default function BurgerMenu({ menuOpen }: BurgerMenuProps) {
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
     return ( <div
       className={`${css.burgerMenu} ${menuOpen ? css.active : ""}`}
     >
@@ -20,16 +24,17 @@ export default function BurgerMenu({menuOpen}: BurgerMenuProps ){
             <Link href="">Категорії</Link>
           </li>
         </ul>
-        <div className={css.BurgerAuth}>
-          <Link href="" className={css.BurgerNavUp}>
+      <div className={css.BurgerAuth}>
+        {!isAuthenticated ? (
+          <><Link href="" className={css.BurgerNavUp}>
             Вхід
           </Link>
           <Link href="" className={css.BurgerNavIn}>
             Реєстрація
-                </Link> 
-                {/* <a href="" className={css.BurgerNavUpBasket}>
+                </Link> </>
+        ):  (<Link href="" className={css.BurgerNavUpBasket}>
             Кабінет
-          </a> */
-          }    
+          </Link> 
+          )}    
            </div> </div> )
 }
