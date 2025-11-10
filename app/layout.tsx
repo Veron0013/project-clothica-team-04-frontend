@@ -7,7 +7,7 @@ import TanStackProvider from "@/components/TanStackProvider/TanStackProvider"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Toaster } from "react-hot-toast"
 import AuthProvider from "@/components/AuthProvider/AuthProvider"
-import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/Footer/Footer"
 import Header from "@/components/Header/Header"
 
 const interSans = Inter({
@@ -48,25 +48,25 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${interSans.variable} ${nunitoSans.variable} antialiased`}
-      >
-        <TanStackProvider>
-          <div className="layout">
-            <AuthProvider>
-              <Suspense fallback={<Loading />}><Header /></Suspense>
-              <Suspense fallback={<Loading />}>
-                <main className="main">{children}</main>
-              </Suspense>
-              <Footer />
-            </AuthProvider>
-          </div>
-          <Toaster />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </TanStackProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={`${interSans.variable} ${nunitoSans.variable} antialiased`}>
+				<TanStackProvider>
+					<div className="layout">
+						<AuthProvider>
+							<Suspense fallback={<Loading />}>
+								<Header />
+							</Suspense>
+							<Suspense fallback={<Loading />}>
+								<main className="container">{children}</main>
+							</Suspense>
+							<Footer />
+						</AuthProvider>
+					</div>
+					<Toaster />
+					<ReactQueryDevtools initialIsOpen={false} />
+				</TanStackProvider>
+			</body>
+		</html>
+	)
 }

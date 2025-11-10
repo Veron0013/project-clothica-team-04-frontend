@@ -5,15 +5,9 @@ export const ERROR_MAIN_MESSAGE: string = "Oops. Seems like error. Try again lat
 export const LOADING_MAIN_MESSAGE: string = "Please, wait. Loading..."
 export const UPDATING_MAIN_MESSAGE: string = "Updating user info. Please, wait..."
 export const CONFIRM_DELETE_MESSAGE: string = "Shure you want to delete this note?"
-export const TAGS_ARRAY: string[] = [
-	"Work",
-	"Personal",
-	"Meeting",
-	"Shopping",
-	"Ideas",
-	"Travel",
-	"Finance",
-	"Health",
-	"Important",
-	"Todo",
-]
+
+export const BREAKPOINTS = {
+	mobile: "767px",
+	tablet: "768px",
+	desktop: "1440px",
+}
