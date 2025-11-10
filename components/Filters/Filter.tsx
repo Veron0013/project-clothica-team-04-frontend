@@ -2,7 +2,7 @@
 
 import { useContext } from "react"
 import { useRouter } from "next/navigation"
-import { FiltersContext } from "../../app/(auth routes)/goods/layout"
+import { FiltersContext } from "../../app/(public routes)/goods/layout"
 
 export default function Filters() {
 	const { filters } = useContext(FiltersContext)
