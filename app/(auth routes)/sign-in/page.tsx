@@ -39,8 +39,8 @@ const SignIn = () => {
 				<h1 className={css.formTitle}>Sign in</h1>
 				<form className={css.form} action={handleSubmit}>
 					<div className={css.formGroup}>
-						<label htmlFor="email">Email</label>
-						<input id="email" type="email" name="email" className={css.input} required />
+						<label htmlFor="phone">Email</label>
+						<input id="phone" type="phone" name="phone" className={css.input} required />
 					</div>
 
 					<div className={css.formGroup}>

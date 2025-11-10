@@ -12,3 +12,8 @@ export const getGoods = async (searchParams: GoodsQuery): Promise<GoodsResponse>
 	const response = await nextServer.get("/goods", { params: searchParams })
 	return response.data
 }
+
+export const getCategories = async (): Promise<GoodsResponse> => {
+	const response = await nextServer.get("/categories")
+	return response.data
+}

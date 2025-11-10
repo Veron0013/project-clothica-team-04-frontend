@@ -9,6 +9,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import styles from "@/components/GoodsList/GoodsList.module.css"
+import MessageNoInfo from "@/components/MessageNoInfo/MessageNoInfo"
 
 //interface Props ={
 //	initialData: GoodsResponse
@@ -66,6 +67,11 @@ const ProductsPageClient = () => {
 				<button className={styles.cardCta} onClick={handleClick}>
 					Детальніше
 				</button>
+				<MessageNoInfo
+					buttonText="go home"
+					text="За вашим запитом не знайдено жодних товарів, спробуйте змінити фільтри, або скинути їх"
+					route="/"
+				/>
 			</div>
 		</>
 	)

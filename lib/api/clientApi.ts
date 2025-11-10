@@ -1,4 +1,4 @@
-import { PER_PAGE, TAGS_ARRAY } from "@/lib/vars"
+import { PER_PAGE } from "@/lib/vars"
 import type { Note, NoteId, NotePost, NotesData, SortBy, Tag } from "@/types/note"
 import { User } from "@/types/user"
 import { nextServer } from "./api"
@@ -6,7 +6,7 @@ import { nextServer } from "./api"
 //axios.defaults.baseURL = MAIN_URL
 //axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`
 export type LoginRequest = {
-	email: string
+	phone: string
 	password: string
 }
 
@@ -20,9 +20,9 @@ export type RestorePasswordRequest = {
 }
 
 export type RegisterRequest = {
-	email: string
+	phone: string
 	password: string
-	userName: string
+	username: string
 }
 
 type CheckSessionRequest = {
@@ -47,10 +47,6 @@ export type Category = {
 	description: string
 	createdAt: string
 	updatedAt: string
-}
-
-export const getCategories = (): string[] => {
-	return TAGS_ARRAY
 }
 
 export const createQueryParams = (search = "", page = 1, tag?: string): ApiQueryParams => {
