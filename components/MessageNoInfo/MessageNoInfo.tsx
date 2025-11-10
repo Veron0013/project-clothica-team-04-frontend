@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import style from './MessageNoInfo.module.css';
+import styles from './MessageNoInfo.module.css';
 
 interface MessageNoInfoProps {
   text: string;
@@ -15,7 +15,7 @@ interface MessageNoInfoProps {
 export default function MessageNoInfo({
     text,
     buttonText,
-    route = '/goods' })
+    route = '/goods' }: MessageNoInfoProps)
 {
   const router = useRouter();
 
@@ -24,10 +24,10 @@ export default function MessageNoInfo({
   };
 
   return (
-    <div className={styles['message-container']}>
-      <p className={styles['message-text']}>{text}</p>
-      <button onClick={handleClick} className={styles['message-button']}>
-        {buttonText}
+    <div className={styles['message_container']}>
+      <p className={styles['message_text']}>{text}</p>
+      <button onClick={handleClick} className={styles['message_button']}>
+        {buttonText} 
       </button>
     </div>
   );
