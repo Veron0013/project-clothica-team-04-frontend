@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --main-bg-l: #f9fcf6;
+  --main-background-light: #f9fcf6;
   --main-theme-light: #d6eac0;
   --main-color-ligth: #000;
+  --color-deco-light: #c5e1a5;
   --color-red: #9d0000;
 
   --background: #f3f9ed;
@@ -96,6 +97,7 @@ body {
   min-height: 100vh;
   margin: 0;
 }
+
 html,
 body {
   max-width: 100vw;
@@ -108,9 +110,11 @@ body {
 a {
   text-decoration: none;
 }
+
 li {
   list-style: none;
 }
+
 button {
   cursor: pointer;
 }

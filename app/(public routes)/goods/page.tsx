@@ -11,7 +11,6 @@ interface Props {
 }
 
 const ProductsPage = async ({ searchParams }: Props) => {
-	const page = 1
 	const queryClient = new QueryClient()
 
 	const queryParams = await searchParams
@@ -22,8 +21,6 @@ const ProductsPage = async ({ searchParams }: Props) => {
 		queryKey: ["GoodsByCategories", queryParams],
 		queryFn: () => getGoods(queryParams),
 	})
-
-	//const goods = await getGoods({ perPage: 12, page })
 
 	return (
 		<HydrationBoundary state={dehydrate(queryClient)}>
