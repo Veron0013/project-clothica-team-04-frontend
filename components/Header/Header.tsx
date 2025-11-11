@@ -3,9 +3,13 @@
 import { useState, useEffect } from "react";
 import css from "./Header.module.css";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import Link from "next/link";
+import { useAuthStore } from "@/lib/store/authStore";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
     useEffect(() => {
     if (menuOpen) {
@@ -16,8 +20,9 @@ export default function Header() {
   }, [menuOpen]);
 
   return (
-    <div className={css.container}>
-      <header className={css.header}>
+    <header className={css.section}>
+    <div className="container">
+      <div className={css.header}>
         <a href="" className={css.logo}>
           <svg width="84" height="36" aria-label="Clothica logo">
             <use href="/sprite.svg#icon-company-logo" />
@@ -25,25 +30,26 @@ export default function Header() {
         </a>
         <ul className={css.nav}>
           <li>
-            <a href="">Головна</a>
+            <Link href="/" aria-label="Home page">Головна</Link>
           </li>
           <li>
-            <a href="">Товари</a>
+            <Link href="/goods">Товари</Link>
           </li>
           <li>
-            <a href="">Категорії</a>
+            <Link href="/categories">Категорії</Link>
           </li>
         </ul>
         <div className={css.auth}>
-          <a href="" className={css.navUp}>
+          {!isAuthenticated ? (
+            <><Link href="/sign-in" className={css.navUp}>
             Вхід
-          </a>
-          <a href="" className={css.navIn}>
+          </Link>
+          <Link href="/sign-up" className={css.navIn}>
             Реєстрація
-          </a>
-          {/* <a href="" className={css.navUpBasket}>
+          </Link></>
+          ): (<Link href="" className={css.navUpBasket}>
             Кабінет
-          </a> */}
+          </Link>) }
           <div className={css.navCont}>
             <button
               className={css.burger}
@@ -58,14 +64,15 @@ export default function Header() {
               <svg width="24" height="24">
                 <use href="/sprite.svg#shopping_cart" />
               </svg>
+              <span className={css.badge}>1</span>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
-      {menuOpen && (
-          <BurgerMenu menuOpen={menuOpen}/>
-      )}
-    </div>
+      {<BurgerMenu menuOpen={menuOpen} onClose={() => setMenuOpen(false)} />
+      }
+      </div>
+      </header>
   );
 }

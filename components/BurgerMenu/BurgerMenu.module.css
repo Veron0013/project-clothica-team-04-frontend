@@ -5,15 +5,17 @@
   left: 0;
   width: 100%;
   height: 100%;
-  transform: translateY(-100%);
   opacity: 0;
-  transition: transform 0.4s ease, opacity 0.8s ease;
+  transform: translateY(-12px);
+  transition: opacity 400ms ease, transform 300ms ease;
+  visibility: hidden;
   pointer-events: none;
-  z-index: 200;
+  z-index: 9999999;
 }
 .active {
-  transform: translateY(0);
   opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
   pointer-events: all;
 }
 .burgerNav {
@@ -38,6 +40,20 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 6px 12px;
+  min-width: 305px;
+  height: 36px;
+}
+
+.BurgerNavUpBasket{
+display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c5e1a5;
   border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 100px;
   font-weight: 500;

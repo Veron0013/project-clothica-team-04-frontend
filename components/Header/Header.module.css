@@ -1,109 +1,136 @@
-.hidden{
+.hidden {
   display: none;
 }
-.container{
-    background-color: #d6eac0;
+.section {
+background-color: #d6eac0;
 }
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-padding-top: 18px;
-padding-bottom: 18px;
-position: relative;
-    z-index: 100;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  position: relative;
+  z-index: 100;
 }
+
 .nav {
   display: none;
 }
-.logo {
-    padding-left: 20px;
-}
-.navUp{
-    display: none;
+
+.navUp {
+  display: none;
 }
 
-.navIn{
+.navIn {
   display: none;
 }
-.navUpBasket{
+.navUpBasket {
   display: none;
 }
-.navCont{
-    display: flex;
-    gap:16px ;
+.navCont {
+  display: flex;
+  gap: 16px;
 }
 
 .burger {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background-color: rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 100px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 100px;
+  cursor: pointer;
 }
 
 .basket {
-    display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        background-color: #000;
-        border: 1px solid #000;
-            border-radius: 100px;
-            fill: #fff;
-            cursor: pointer;
-            margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background-color: #000;
+  border: 1px solid #000;
+  border-radius: 100px;
+  fill: #fff;
+  cursor: pointer;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #c62828;
+  color: white;
+  width: 11px;
+  height: 12px;
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (min-width: 768px) {
-.auth{
-  display: flex;
-  gap: 16px ;
-}
-.burger{
+  .auth {
+    display: flex;
+    gap: 16px;
+  }
+  .burger {
     display: none;
-}
-  .nav{
+  }
+  .nav {
     display: flex;
     gap: 32px;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 1.5;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5;
   }
-  .navUp{
+  .navUp {
     display: flex;
     align-items: center;
-      justify-content: center;
-background-color: rgba(0, 0, 0, 0.05);
-border: 1px solid rgba(255, 255, 255, 0);
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0);
     border-radius: 100px;
     font-size: 14px;
     font-weight: 500;
     padding: 4px 10px;
   }
-  .navIn{
+  .navIn {
     display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #c5e1a5;
-      border: 1px solid rgba(255, 255, 255, 0);
-      border-radius: 100px;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 4px 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: #c5e1a5;
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 10px;
+  }
+  .navUpBasket {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0);
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 10px;
   }
 }
 
 @media screen and (min-width: 1440px) {
-  .nav{
+  .nav {
     font-size: 16px;
   }
-  .navUp{
-  font-size: 16px;
+  .navUp {
+    font-size: 16px;
   }
 }

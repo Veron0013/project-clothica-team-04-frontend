@@ -1,16 +1,18 @@
 // components/MessageNoInfo/MessageNoInfo.tsx
 
-"use client";
+"use client"
+
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './MessageNoInfo.module.css';
 
 interface MessageNoInfoProps {
-  text: string;
-  buttonText: string;
-  route?: string; // '/goods' | '/categories'
+	text: string
+	buttonText: string
+	route?: string // '/goods' | '/categories'
 }
+
 
 export default function MessageNoInfo({
     text,
@@ -19,9 +21,9 @@ export default function MessageNoInfo({
 {
   const router = useRouter();
 
-  const handleClick = () => {
-    router.push(route);
-  };
+	const handleClick = () => {
+		router.push(route)
+	}
 
   return (
     <div className={styles['message_container']}>
@@ -32,3 +34,4 @@ export default function MessageNoInfo({
     </div>
   );
 }
+

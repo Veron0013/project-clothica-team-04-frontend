@@ -1,0 +1,90 @@
+.filterPanel {
+	display: flex;
+	gap: 1rem;
+	width: 100%;
+}
+
+/* === Desktop (aside) === */
+.filterPanel__aside {
+	width: 260px;
+	min-width: 220px;
+	background-color: var(--color-bg-secondary, #f8f8f8);
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+	padding: 1rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* === Mobile === */
+.filterPanel__button {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background-color: var(--color-primary, #0070f3);
+	color: #fff;
+	border: none;
+	padding: 0.75rem 1.25rem;
+	font-size: 0.9rem;
+	border-radius: 2rem;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+	cursor: pointer;
+	z-index: 50;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.filterPanel__button:hover {
+	background-color: var(--color-primary-hover, #005ad3);
+	transform: translateY(-2px);
+}
+
+/* === Модальне вікно === */
+.filterPanel__modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
+	backdrop-filter: blur(2px);
+}
+
+.filterPanel__content {
+	background-color: #fff;
+	width: 90%;
+	max-width: 400px;
+	border-radius: 1rem;
+	padding: 1.5rem;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+	position: relative;
+}
+
+.filterPanel__close {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+	color: #444;
+	transition: color 0.2s ease;
+}
+
+.filterPanel__close:hover {
+	color: #000;
+}
+
+/* === Responsive tweaks === */
+@media (min-width: 768px) {
+	.filterPanel__button {
+		display: none;
+	}
+
+	.filterPanel__modal {
+		display: none;
+	}
+}
