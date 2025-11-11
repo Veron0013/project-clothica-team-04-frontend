@@ -155,13 +155,21 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 prefetch={false}
-                className={css.socialLinks}
+                className={`${css.socialLinks} ${css.someOther} ${
+                  isDisabled ? css.disabled : ""
+                }`}
+                aria-disabled={isDisabled}
+                tabIndex={isDisabled ? -1 : 0}
+                onClick={(e) => {
+                  if (isDisabled) e.preventDefault();
+                }}
               >
                 <svg width="32" height="32" aria-hidden="true">
                   <use href="/sprite.svg#Facebook"></use>
                 </svg>
               </Link>
             </li>
+
             <li>
               <Link
                 href="https://www.instagram.com"
@@ -169,7 +177,14 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 prefetch={false}
-                className={css.socialLinks}
+                className={`${css.socialLinks} ${css.someOther} ${
+                  isDisabled ? css.disabled : ""
+                }`}
+                aria-disabled={isDisabled}
+                tabIndex={isDisabled ? -1 : 0}
+                onClick={(e) => {
+                  if (isDisabled) e.preventDefault();
+                }}
               >
                 <svg
                   className={css.svgInstagram}
@@ -181,6 +196,7 @@ export default function Footer() {
                 </svg>
               </Link>
             </li>
+
             <li>
               <Link
                 href="https://x.com"
@@ -188,13 +204,21 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 prefetch={false}
-                className={css.socialLinks}
+                className={`${css.socialLinks} ${css.someOther} ${
+                  isDisabled ? css.disabled : ""
+                }`}
+                aria-disabled={isDisabled}
+                tabIndex={isDisabled ? -1 : 0}
+                onClick={(e) => {
+                  if (isDisabled) e.preventDefault();
+                }}
               >
                 <svg width="32" height="32" aria-hidden="true">
                   <use href="/sprite.svg#X"></use>
                 </svg>
               </Link>
             </li>
+
             <li>
               <Link
                 href="https://www.youtube.com"
@@ -202,7 +226,14 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 prefetch={false}
-                className={css.socialLinks}
+                className={`${css.socialLinks} ${css.someOther} ${
+                  isDisabled ? css.disabled : ""
+                }`}
+                aria-disabled={isDisabled}
+                tabIndex={isDisabled ? -1 : 0}
+                onClick={(e) => {
+                  if (isDisabled) e.preventDefault();
+                }}
               >
                 <svg width="32" height="32" aria-hidden="true">
                   <use href="/sprite.svg#Youtube"></use>
