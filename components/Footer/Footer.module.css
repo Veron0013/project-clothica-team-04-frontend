@@ -98,6 +98,13 @@
 .svgInstagram {
 }
 
+.disabledCancelButton {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
 @media screen and (min-width: 768px) {
   .section {
     padding: 48px 0px;
