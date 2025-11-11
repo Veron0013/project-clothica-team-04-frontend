@@ -20,8 +20,9 @@ export default function Header() {
   }, [menuOpen]);
 
   return (
-    <div className={css.container}>
-      <header className={css.header}>
+    <header className={css.section}>
+    <div className="container">
+      <div className={css.header}>
         <a href="" className={css.logo}>
           <svg width="84" height="36" aria-label="Clothica logo">
             <use href="/sprite.svg#icon-company-logo" />
@@ -29,21 +30,21 @@ export default function Header() {
         </a>
         <ul className={css.nav}>
           <li>
-            <Link href="" aria-label="Home page">Головна</Link>
+            <Link href="/" aria-label="Home page">Головна</Link>
           </li>
           <li>
-            <Link href="">Товари</Link>
+            <Link href="/goods">Товари</Link>
           </li>
           <li>
-            <Link href="">Категорії</Link>
+            <Link href="/categories">Категорії</Link>
           </li>
         </ul>
         <div className={css.auth}>
           {!isAuthenticated ? (
-            <><Link href="" className={css.navUp}>
+            <><Link href="/sign-in" className={css.navUp}>
             Вхід
           </Link>
-          <Link href="" className={css.navIn}>
+          <Link href="/sign-up" className={css.navIn}>
             Реєстрація
           </Link></>
           ): (<Link href="" className={css.navUpBasket}>
@@ -67,10 +68,11 @@ export default function Header() {
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
-      {<BurgerMenu menuOpen={menuOpen}/>
+      {<BurgerMenu menuOpen={menuOpen} onClose={() => setMenuOpen(false)} />
       }
-    </div>
+      </div>
+      </header>
   );
 }

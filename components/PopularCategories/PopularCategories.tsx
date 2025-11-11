@@ -1,12 +1,12 @@
 "use client";
 
 import css from "./PopularCategories.module.css";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Keyboard, A11y } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import { useState, useEffect } from "react";
-import Link from "next/link";
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Navigation, Keyboard, A11y } from "swiper/modules";
+// import "swiper/css";
+// import "swiper/css/navigation";
+// import { useState, useEffect } from "react";
+// import Link from "next/link";
 
 export default function PopularCategories() {
   return (

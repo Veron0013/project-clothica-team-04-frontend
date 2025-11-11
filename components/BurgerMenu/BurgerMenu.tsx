@@ -4,9 +4,10 @@ import { useAuthStore } from "@/lib/store/authStore";
 
 interface BurgerMenuProps {
   menuOpen: boolean;
+  onClose: () => void;
 }
 
-export default function BurgerMenu({ menuOpen }: BurgerMenuProps) {
+export default function BurgerMenu({ menuOpen, onClose }: BurgerMenuProps) {
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
@@ -15,24 +16,24 @@ export default function BurgerMenu({ menuOpen }: BurgerMenuProps) {
     >
     <ul className={css.burgerNav}>
           <li>
-            <Link href="">Головна</Link>
+            <Link href="/" onClick={onClose}>Головна</Link>
           </li>
           <li>
-            <Link href="">Товари</Link>
+            <Link href="/goods" onClick={onClose}>Товари</Link>
           </li>
           <li>
-            <Link href="">Категорії</Link>
+            <Link href="/categories" onClick={onClose}>Категорії</Link>
           </li>
         </ul>
       <div className={css.BurgerAuth}>
         {!isAuthenticated ? (
-          <><Link href="" className={css.BurgerNavUp}>
+          <><Link href="/sign-in" onClick={onClose} className={css.BurgerNavUp}>
             Вхід
           </Link>
-          <Link href="" className={css.BurgerNavIn}>
+          <Link href="/sign-up" onClick={onClose} className={css.BurgerNavIn}>
             Реєстрація
                 </Link> </>
-        ):  (<Link href="" className={css.BurgerNavUpBasket}>
+        ):  (<Link href="" onClick={onClose} className={css.BurgerNavUpBasket}>
             Кабінет
           </Link> 
           )}    
