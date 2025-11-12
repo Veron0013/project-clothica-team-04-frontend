@@ -21,10 +21,14 @@ export default function Modal({
 	ariaLabel,
 	closeOnBackdropClick = true,
 }: ModalProps) {
-	// Закриваємо по Esc + лочимо скрол body
+	if (typeof document === "undefined") return null
 
-	if (!open || typeof document === "undefined") return
+	if (!open) return null
+
+	// Закриваємо по Esc + лочимо скрол body
 	useEffect(() => {
+		if (!open || typeof document === "undefined") return
+
 		const onEsc = (e: KeyboardEvent) => {
 			if (e.key === "Escape") onClose()
 		}
@@ -37,7 +41,7 @@ export default function Modal({
 			document.removeEventListener("keydown", onEsc)
 			document.body.style.overflow = prevOverflow
 		}
-	}, [open, onClose])
+	}, [onClose, open])
 
 	const content = (
 		<div
