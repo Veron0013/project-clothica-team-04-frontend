@@ -4,7 +4,7 @@ import styles from "./GoodsList.module.css"
 import Image from "next/image"
 import Link from "next/link"
 import { Good } from "@/types/goods"
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 
 type Props = {
 	items: Good[] // что рендерим

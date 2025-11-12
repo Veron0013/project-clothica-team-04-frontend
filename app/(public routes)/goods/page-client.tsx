@@ -4,7 +4,7 @@ import { GoodsList } from "@/components/GoodsList"
 import { getGoods } from "@/lib/api/api"
 import toastMessage, { MyToastType } from "@/lib/messageService"
 import { PER_PAGE } from "@/lib/vars"
-import { Good, GoodsQuery, GoodsResponse } from "@/types/goods"
+import { Good, GoodsQuery } from "@/types/goods"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -83,28 +83,14 @@ const ProductsPageClient = () => {
 					</button>
 				)}
 
-			{/*{!isFetching && displayedGoods?.length === 0 && (*/}
-			<MessageNoInfo
-					buttonText={CLEAR_FILTERS}
+				{/*{!isFetching && displayedGoods?.length === 0 && (*/}
+				<MessageNoInfo
+					buttonText="go home"
 					text="За вашим запитом не знайдено жодних товарів, спробуйте змінити фільтри, або скинути їх"
 					route="/"
 				/>
-				<MessageNoInfo
-					buttonText={LEAVE_REVIEW_MESSAGE}
-					text="У цього товару ще немає відгуків"
-					route="/"
-				/>
-				<MessageNoInfo
-					buttonText={BEFORE_SHOPPING_MESSAGE}
-					text="Ваш кошик порожній, мершій до покупок!"
-					route="/"
-				/>
-				<MessageNoInfo
-					buttonText={GO_TO_SHOPPING}
-					text="У вас ще не було жодних замовлень! Мершій до покупок!"
-					route="/"
-				/>
-			{/*)}*/}
+				{/*)}*/}
+			</div>
 		</div>
 	)
 }

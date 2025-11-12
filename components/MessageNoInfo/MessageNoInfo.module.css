@@ -1,37 +1,42 @@
+.message_wrapper {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .message_container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin: 24px 0 20px 0;
   gap: 16px;
   border-radius: 16px;
-  height: 154px;
   width: 100%;
   background-color: #d6eac0;
+  padding: 24px 16px
 }
 
 .message_text {
   font-size: 18px;
   line-height: 1.5;
   font-weight: 600;
-  width: 303px;
-  height: 54px;
+  text-align: center;
   color: #000;
 }
+
 .message_button {
   font-weight: 500;
   font-size: 16px;
-  background-color: #c5e1a5;
+  border: 1px solid #c5e1a5;
+  background: #c5e1a5;
+  border-radius: 100px;
+  padding: 6px 12px;
   color: #000000;
   transition: background-color 0.2s ease;
   cursor: pointer;
-  border: none;
-  border-radius: 100px;
-  width: 303px;
-  gap: 24px;
-  height: 36px;
+  min-width: 100%;
 }
 
 .message_button:hover,
@@ -41,27 +46,18 @@
 
 /* TABLET */
 @media (min-width: 768px) {
-  .message_container {
-    height: 127px;
-  }
-
-  .message_text {
-    width: 100%;
-    padding: 24px;
-  }
 
   .message_button {
     font-size: 16px;
     font-weight: 600;
-    width: 115px;
-    height: 36px;
+    min-width: 0;
   }
 }
 
 /* DESKTOP */
 @media (min-width: 1440px) {
   .message_container {
-   width: 640px;
+    width: 640px;
   }
 
   .message_text {

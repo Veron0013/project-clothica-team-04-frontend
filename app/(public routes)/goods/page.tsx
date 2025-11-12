@@ -3,7 +3,6 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import ProductsPageClient from "./page-client"
 import { GoodsQuery } from "@/types/goods"
-import FilterPanel from "@/components/Filters/FilterPanel"
 
 interface Props {
 	searchParams: Promise<GoodsQuery>
