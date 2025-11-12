@@ -21,7 +21,7 @@ const SignIn = () => {
 			// Виконуємо запит
 			const res = await login(formValues)
 
-			if (!res.email && (res.error === "" || res.error === undefined)) {
+			if (!res.phone && (res.error === "" || res.error === undefined)) {
 				setError("Server under maintanance")
 			} else if (res) {
 				setUser(res)
