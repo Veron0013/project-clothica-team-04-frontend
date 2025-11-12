@@ -9,6 +9,8 @@
 
   --background: #f3f9ed;
   --foreground: #000;
+  --opacity-transparent: rgba(255, 255, 255, 0);
+  --button-secondary-light: rgba(0, 0, 0, 0.05);
 
   --color-scheme-1-background: var(--color-deco-lightest);
   --color-neutral-darkest: #000;
