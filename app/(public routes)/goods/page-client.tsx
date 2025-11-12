@@ -83,28 +83,14 @@ const ProductsPageClient = () => {
 					</button>
 				)}
 
-			{/*{!isFetching && displayedGoods?.length === 0 && (*/}
-			<MessageNoInfo
-					buttonText={CLEAR_FILTERS}
+				{/*{!isFetching && displayedGoods?.length === 0 && (*/}
+				<MessageNoInfo
+					buttonText="go home"
 					text="За вашим запитом не знайдено жодних товарів, спробуйте змінити фільтри, або скинути їх"
 					route="/"
 				/>
-				<MessageNoInfo
-					buttonText={LEAVE_REVIEW_MESSAGE}
-					text="У цього товару ще немає відгуків"
-					route="/"
-				/>
-				<MessageNoInfo
-					buttonText={BEFORE_SHOPPING_MESSAGE}
-					text="Ваш кошик порожній, мершій до покупок!"
-					route="/"
-				/>
-				<MessageNoInfo
-					buttonText={GO_TO_SHOPPING}
-					text="У вас ще не було жодних замовлень! Мершій до покупок!"
-					route="/"
-				/>
-			{/*)}*/}
+				{/*)}*/}
+			</div>
 		</div>
 	)
 }
