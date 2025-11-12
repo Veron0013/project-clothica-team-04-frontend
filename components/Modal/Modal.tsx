@@ -1,40 +1,61 @@
-import React, { useEffect } from "react";
+"use client";
+
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import style from "./Modal.module.css";
 
 interface ModalProps {
-  children: React.ReactNode;
+  open: boolean;
   onClose: () => void;
+  children: React.ReactNode;
+  ariaLabelledby?: string;
+  ariaLabel?: string;
+  closeOnBackdropClick?: boolean;
 }
 
-export default function Modal({ children, onClose }: ModalProps) {
+export default function Modal({
+  open,
+  onClose,
+  children,
+  ariaLabelledby,
+  ariaLabel,
+  closeOnBackdropClick = true,
+}: ModalProps) {
+  if (typeof document === "undefined") return null;
+  if (!open) return null;
+
+  // Закриваємо по Esc + лочимо скрол body
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
+    const onEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
+    document.addEventListener("keydown", onEsc);
 
-    document.addEventListener("keydown", handleEsc);
+    const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     return () => {
-      document.removeEventListener("keydown", handleEsc);
-      document.body.style.overflow = "unset";
+      document.removeEventListener("keydown", onEsc);
+      document.body.style.overflow = prevOverflow;
     };
   }, [onClose]);
 
-  const handleBackdropClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
-  return createPortal(
+  const content = (
     <div
       className={style.backdrop}
       role="dialog"
       aria-modal="true"
-      onClick={handleBackdropClose}
+      aria-labelledby={ariaLabelledby}
+      aria-label={ariaLabel}
+      onMouseDown={(e) => {
+        if (!closeOnBackdropClick) return;
+
+        if (e.currentTarget === e.target) onClose();
+      }}
     >
-      <div>{children}</div>
-    </div>,
-    document.body
+      <div className={style.content}>{children}</div>
+    </div>
   );
+
+  return createPortal(content, document.body);
 }

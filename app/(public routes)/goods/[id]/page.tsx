@@ -1,17 +1,16 @@
-const GoodIdPage = async () => {
-	//await queryClient.prefetchQuery({
-	//	queryKey: ["GoodsByCategories", page],
-	//	queryFn: () => getGoods({ perPage: 12, page }),
-	//})
+// app/(public routes)/goods/[id]/page.tsx
+import PageClient from "./PageClient";
 
-	//const goods = await getGoods({ perPage: 12, page })
+export default async function ProductPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params; // ⬅️ розпаковуємо Promise
 
-	return (
-		<>ТОВАРИ</>
-		//<HydrationBoundary state={dehydrate(queryClient)}>
-		//<ProductsPageClient />
-		//</HydrationBoundary>
-	)
+  return (
+    <main>
+      <PageClient productId={id} /* category="690c9ce6..." */ />
+    </main>
+  );
 }
-
-export default GoodIdPage
