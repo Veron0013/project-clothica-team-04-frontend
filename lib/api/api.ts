@@ -1,5 +1,6 @@
 import { AllFilters } from "@/types/filters"
 import { GoodsQuery, GoodsResponse } from "@/types/goods"
+import { Order } from "@/types/orders"
 import axios, { AxiosError } from "axios"
 
 export type ApiError = AxiosError<{ error: string }>
@@ -21,5 +22,10 @@ export const getCategories = async (): Promise<GoodsResponse> => {
 
 export const getFilterOptions = async (): Promise<AllFilters> => {
 	const response = await nextServer.get("/goods/all-filters")
+	return response.data
+}
+
+export const getUserOrders = async (): Promise<Order> => {
+	const response = await nextServer.get("/orders")
 	return response.data
 }
