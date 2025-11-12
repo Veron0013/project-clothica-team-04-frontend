@@ -1,8 +1,6 @@
 import { PER_PAGE } from "@/lib/vars";
 import { User } from "@/types/user";
 import { nextServer } from "./api";
-import type { FeedbackPayload } from "@/types/feedback";
-import axios from "axios";
 
 //axios.defaults.baseURL = MAIN_URL
 //axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`
@@ -72,32 +70,6 @@ export const createQueryParams = (
   return { params };
 };
 
-export interface FetchPopularGoodsProps {
-	page: number,
-	limit: number,
-}
-
-export interface FetchPopularGoodsResponse {
-	items: Good[],
-	page: number;
-	limit: number;
-	total: number;
-	totalPages: number;
-}
-
-export interface FetchPopularCategoriesProps {
-	page: number,
-	perPage: number,
-}
-
-export interface FetchPopularCategoriesResponse {
-	categories: GoodCategory[],
-	page: number;
-	perPage: number;
-	total: number;
-	totalPages: number;
-}
-
 ////////////////////////////////////////
 
 export const login = async (data: LoginRequest) => {
@@ -158,67 +130,6 @@ export const passwordSendMail = async (email: ResetPasswordSendmailRequest) => {
 };
 
 export const resetPassword = async (body: RestorePasswordRequest) => {
-	const res = await nextServer.post("/auth/reset-password", body)
-	return res
-}
-
-export const fetchPopularGoods = async ({ page, limit }: FetchPopularGoodsProps): Promise<FetchPopularGoodsResponse> => {
-	const params: {
-		page: number,
-		limit: number
-	} = {
-		page: page,
-		limit: limit,
-	}
-	const response = await nextServer.get<FetchPopularGoodsResponse>('/top-rated', { params });
-	return response.data;
-}
-
-export const fetchPopularCategories = async ({ page, perPage }: FetchPopularCategoriesProps): Promise<FetchPopularCategoriesResponse> => {
-	const params: {
-		page: number,
-		perPage: number
-	} = {
-		page: page,
-		perPage: perPage,
-	}
-	const response = await nextServer.get<FetchPopularCategoriesResponse>('/categories', { params });
-	return response.data;
-}
-
-type CreateFeedbackDto = {
-  productId: string;
-  description: string;
-  author: string;
-  rate: number;
-  category?: string;
-};
-
-const toCreateDto = (f: FeedbackPayload): CreateFeedbackDto => ({
-  productId: f.goodId,
-  description: f.comment,
-  author: f.author,
-  rate: f.rate,
-  category: f.category || undefined,
-});
-
-export const createFeedbackClient = async (feedback: FeedbackPayload) => {
-  try {
-    const dto = toCreateDto(feedback);
-
-    const { data } = await nextServer.post("/feedbacks", dto, {
-      withCredentials: true,
-    });
-
-    return data;
-  } catch (err: unknown) {
-    if (axios.isAxiosError(err)) {
-      const msg =
-        (err.response?.data as any)?.message ??
-        err.message ??
-        "Creating feedback failed";
-      throw new Error(msg);
-    }
-    throw new Error("Creating feedback failed");
-  }
+  const res = await nextServer.post("/auth/reset-password", body);
+  return res;
 };
