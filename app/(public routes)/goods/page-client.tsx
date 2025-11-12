@@ -10,6 +10,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import styles from "@/components/GoodsList/GoodsList.module.css"
 import MessageNoInfo from "@/components/MessageNoInfo/MessageNoInfo"
+import layoutStyle from "./layout.module.css"
+import FilterPanel from "@/components/Filters/FilterPanel"
 
 const ProductsPageClient = () => {
 	const router = useRouter()
@@ -66,26 +68,29 @@ const ProductsPageClient = () => {
 	}
 
 	return (
-		<div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-			{displayedGoods.length > 0 && <GoodsList items={displayedGoods} />}
+		<div className={layoutStyle.layout}>
+			<FilterPanel />
+			<div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
+				{displayedGoods.length > 0 && <GoodsList items={displayedGoods} />}
 
-			{!isFetching && data && data?.perPage < data?.totalGoods && (
-				<button
-					className={`${styles.cardCta} ${isFetching ? "opacity-50" : ""}`}
-					onClick={handleShowMore}
-					disabled={isFetching}
-				>
-					{isFetching ? "Завантаження..." : `Показати ще ${data?.perPage} з ${data?.totalGoods}`}
-				</button>
-			)}
+				{!isFetching && data && data?.perPage < data?.totalGoods && (
+					<button
+						className={`${styles.cardCta} ${isFetching ? "opacity-50" : ""}`}
+						onClick={handleShowMore}
+						disabled={isFetching}
+					>
+						{isFetching ? "Завантаження..." : `Показати ще ${data?.perPage} з ${data?.totalGoods}`}
+					</button>
+				)}
 
-			{/*{!isFetching && displayedGoods?.length === 0 && (*/}
-			<MessageNoInfo
-				buttonText="go home"
-				text="За вашим запитом не знайдено жодних товарів, спробуйте змінити фільтри, або скинути їх"
-				route="/"
-			/>
-			{/*)}*/}
+				{/*{!isFetching && displayedGoods?.length === 0 && (*/}
+				<MessageNoInfo
+					buttonText="go home"
+					text="За вашим запитом не знайдено жодних товарів, спробуйте змінити фільтри, або скинути їх"
+					route="/"
+				/>
+				{/*)}*/}
+			</div>
 		</div>
 	)
 }

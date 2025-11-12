@@ -1,16 +1,37 @@
 // components/FilterPanel/FilterPanel.tsx
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery"
 import Filter from "@/components/Filters/Filter"
 import css from "./FilterPanel.module.css"
 import { BREAKPOINTS } from "@/lib/vars"
 import { AllFilters } from "@/types/filters"
+import { getFilterOptions } from "@/lib/api/api"
 
-export default function FilterPanel({ filters }: { filters: AllFilters }) {
+export default function FilterPanel() {
 	const isMobile = useMediaQuery(`(max-width: ${BREAKPOINTS.mobile})`)
 	const [isOpen, setIsOpen] = useState(false)
+	const [filters, setFilters] = useState<AllFilters | null>({
+		categories: [],
+		colors: [],
+		fromPrice: 0,
+		toPrice: 0,
+		genders: [],
+		sizes: [],
+	})
+
+	useEffect(() => {
+		const fetchFilters = async () => {
+			try {
+				const data = await getFilterOptions()
+				setFilters(data)
+			} catch (error) {
+				console.error("Не вдалося завантажити фільтри:", error)
+			}
+		}
+		fetchFilters()
+	}, [])
 
 	if (!filters) return null
 

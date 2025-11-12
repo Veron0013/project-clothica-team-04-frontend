@@ -7,7 +7,7 @@ const GoodIdPage = async () => {
 	//const goods = await getGoods({ perPage: 12, page })
 
 	return (
-		<></>
+		<>ТОВАРИ</>
 		//<HydrationBoundary state={dehydrate(queryClient)}>
 		//<ProductsPageClient />
 		//</HydrationBoundary>
