@@ -5,8 +5,9 @@ export type Category = {
 };
 
 export type CategoriesResponse = {
-  data: {
-    categories: Category[];
-  };
-  total: number;
+  page: number;
+  perPage: number;
+  totalCategories: number;
+  totalPages: number;
+  categories: Category[];
 };

@@ -17,19 +17,15 @@ export const getGoods = async (
   return response.data;
 };
 
-// export const getCategories = async (): Promise<GoodsResponse> => {
-// 	const response = await nextServer.get("/categories")
-// 	return response.data
-// }
-
 export const getCategories = async (
   page: number,
-  limit: number
+  perPage: number
 ): Promise<CategoriesResponse> => {
   const response = await nextServer.get("/categories", {
-    params: { page, limit },
+    params: { page, perPage },
   });
-  return response.data; // повертає - { data: { categories }, total }
+
+  return response.data;
 };
 
 export const getFilterOptions = async (): Promise<AllFilters> => {

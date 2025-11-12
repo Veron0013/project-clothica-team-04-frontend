@@ -1,7 +1,7 @@
 "use client"
 
 import { GoodsList } from "@/components/GoodsList"
-import { getGoods } from "@/lib/api/api"
+import { getGoods, getUserOrders } from "@/lib/api/api"
 import toastMessage, { MyToastType } from "@/lib/messageService"
 import { PER_PAGE } from "@/lib/vars"
 import { Good, GoodsQuery } from "@/types/goods"
@@ -21,6 +21,8 @@ const ProductsPageClient = () => {
 	const [isAppending, setIsAppending] = useState(false)
 	const [perPage, setPerPage] = useState(PER_PAGE)
 	const [displayedGoods, setDisplayedGoods] = useState<Good[]>([])
+
+	const [dataText, setDataText] = useState("")
 
 	const searchParams: GoodsQuery = {
 		perPage: Number(sp.get("perPage")) || perPage,
@@ -42,6 +44,7 @@ const ProductsPageClient = () => {
 	// коли прийшла нова data
 	useEffect(() => {
 		if (!data) return
+		setIsAppending(true)
 		const fetchDisplayedGoods = () => {
 			if (isAppending) {
 				setDisplayedGoods((prev) => {
@@ -55,7 +58,22 @@ const ProductsPageClient = () => {
 			}
 		}
 		fetchDisplayedGoods()
+		setIsAppending(false)
 	}, [data, isAppending])
+
+	//useEffect(() => {
+	//	const fetchOrders = async () => {
+	//		try {
+	//			const ordersData = await getUserOrders()
+	//			const ordersDataJson = JSON.stringify(ordersData, null, 2)
+	//			setDataText(ordersDataJson)
+	//		} catch (err) {
+	//			console.error(err)
+	//		}
+	//	}
+
+	//	fetchOrders()
+	//}, [])
 
 	//console.log("d=", displayedGoods, data.goods)
 
@@ -84,11 +102,7 @@ const ProductsPageClient = () => {
 				)}
 
 				{/*{!isFetching && displayedGoods?.length === 0 && (*/}
-				<MessageNoInfo
-					buttonText="go home"
-					text="За вашим запитом не знайдено жодних товарів, спробуйте змінити фільтри, або скинути їх"
-					route="/"
-				/>
+				<MessageNoInfo buttonText="go home" text={dataText} route="/" />
 				{/*)}*/}
 			</div>
 		</div>
