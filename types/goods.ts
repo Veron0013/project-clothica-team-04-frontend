@@ -23,6 +23,17 @@ export type Good = {
 	averageRating?: number
 }
 
+export type BasketStoreGood = {
+	_id: string
+	name: string
+	price: number
+	image: string
+	currency: string
+	feedbackCount?: number
+	averageRating?: number
+	quantity: number
+}
+
 export type GoodsResponse = {
 	goods: Good[]
 	page: number

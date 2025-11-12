@@ -13,6 +13,7 @@ export default function BasketModalPage() {
 
 	return (
 		<Modal
+			open={true}
 			onClose={() => {
 				router.back()
 			}}
