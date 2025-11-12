@@ -1,0 +1,119 @@
+.form {
+  padding-top: 24px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: lightblue;
+}
+.text {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #000;
+  padding-top: 48px;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  gap: 8px;
+}
+.labelText{
+display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #000;
+    gap: 8px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background-color: #fff;
+  margin-bottom: 16px;
+}
+.inputTel {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  background-color: #fff;
+  margin-bottom: 16px;
+}
+.input::placeholder,
+.textarea::placeholder {
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.6);
+}
+.textarea {
+  min-height: 100px;
+  resize: none;
+  margin-bottom: 24px;
+}
+
+.button {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+  border: 1px solid #c5e1a5;
+  border-radius: 100px;
+  padding: 6px 12px;
+  width: 100%;
+  height: 100%;
+  background-color: #c5e1a5;
+  margin-bottom: 32px;
+}
+
+@media screen and (min-width: 768px) {
+  .form {
+    padding-top: 48px;
+    padding-bottom: 32px;
+        flex-direction: row;
+            flex-wrap: wrap;
+            column-gap: 32px;
+            row-gap: 24px;
+  }
+
+  .inputTel {
+    width: 704px;
+    height: 40px;
+  }
+
+.labelText{
+    display: none;
+}
+
+.input{
+  width: 336px;
+    height: 40px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 16px;
+      font-size: 16px;
+}
+
+.button{
+  border: 1px solid #c5e1a5;
+    border-radius: 100px;
+    width: 146px;
+    height: 36px;
+padding: 6px 6px;
+margin: 0 auto;
+}
+}
+
+@media screen and (min-width: 1440px) {
+  
+}
