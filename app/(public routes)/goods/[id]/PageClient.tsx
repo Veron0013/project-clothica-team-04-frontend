@@ -35,7 +35,7 @@ export default function PageClient({ productId, category }: Props) {
 				додати товар
 			</button>
 			<button onClick={handleBasketClick} style={{ padding: "14px 20px", borderRadius: 12, fontWeight: 600 }}>
-				Кошик
+				Кошик (інфа в консолі)
 			</button>
 
 			{openBasket && <BasketModalPage /> && <>хЕРА</>}

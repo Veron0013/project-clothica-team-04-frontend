@@ -3,8 +3,9 @@
 import { useRouter } from "next/navigation"
 import { useBasket } from "@/stores/basketStore"
 import Modal from "@/components/Modal/Modal"
-// import { GoodsOrderList } from "@/components/GoodsOrderList";
 import style from "./ModalBasket.module.css"
+import GoodsOrderList from "@/components/GoodsOrderList/GoodsOrderList"
+import MessageNoInfo from "@/components/MessageNoInfo/MessageNoInfo"
 // import MessageNoInfo from "@/components/MessageNoInfo/MessageNoInfo";
 
 export default function BasketModalPage() {
@@ -34,7 +35,7 @@ export default function BasketModalPage() {
 
 				{goods.length > 0 ? (
 					<>
-						{/* <GoodsOrderList goods={goods} /> */}
+						<GoodsOrderList />
 
 						<div className={style.btnForm}>
 							<button onClick={() => router.push("/goods")} className={style.btnGoods}>
@@ -47,10 +48,7 @@ export default function BasketModalPage() {
 					</>
 				) : (
 					<div className={style.basketEmpty}>
-						{/* <MessageNoInfo text="Ваш кошик порожній, мершій до покупок!" /> */}
-						<button onClick={() => router.push("/goods")} className={style.btnBasketEmpty}>
-							До покупок
-						</button>
+						<MessageNoInfo text="Ваш кошик порожній, мершій до покупок!" buttonText="До покупок" route="/goods" />
 					</div>
 				)}
 			</div>

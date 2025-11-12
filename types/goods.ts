@@ -31,7 +31,7 @@ export type BasketStoreGood = {
 	currency: string
 	feedbackCount?: number
 	averageRating?: number
-	quantity: number
+	quantity?: number
 }
 
 export type GoodsResponse = {
