@@ -36,7 +36,7 @@ export default function Header() {
             <Link href="/goods">Товари</Link>
           </li>
           <li>
-            <Link href="/categories">Категорії</Link>
+            <Link href="/cabinet">Категорії</Link>
           </li>
         </ul>
         <div className={css.auth}>
@@ -47,7 +47,7 @@ export default function Header() {
           <Link href="/sign-up" className={css.navIn}>
             Реєстрація
           </Link></>
-          ): (<Link href="" className={css.navUpBasket}>
+          ): (<Link href="/profile" className={css.navUpBasket}>
             Кабінет
           </Link>) }
           <div className={css.navCont}>
