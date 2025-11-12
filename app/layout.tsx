@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast"
 import AuthProvider from "@/components/AuthProvider/AuthProvider"
 import Footer from "@/components/Footer/Footer"
 import Header from "@/components/Header/Header"
+import UserInfoForm from "@/components/UserInfoForm/UserInfoForm"
 
 const interSans = Inter({
 	variable: "--font-inter",
@@ -53,7 +54,7 @@ export default function RootLayout({
 			<body className={`${interSans.variable} ${nunitoSans.variable} antialiased`}>
 				<TanStackProvider>
 					<div className="layout">
-						<AuthProvider>
+						{/* <AuthProvider> */}
 							<Suspense fallback={<Loading />}>
 								<Header />
 							</Suspense>
@@ -61,7 +62,7 @@ export default function RootLayout({
 								<main className="container">{children}</main>
 							</Suspense>
 							<Footer />
-						</AuthProvider>
+						{/* </AuthProvider> */}
 					</div>
 					<Toaster />
 					<ReactQueryDevtools initialIsOpen={false} />

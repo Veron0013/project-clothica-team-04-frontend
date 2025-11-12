@@ -26,14 +26,14 @@ export default function BurgerMenu({ menuOpen, onClose }: BurgerMenuProps) {
           </li>
         </ul>
       <div className={css.BurgerAuth}>
-        {!isAuthenticated ? (
+        {isAuthenticated ? (
           <><Link href="/sign-in" onClick={onClose} className={css.BurgerNavUp}>
             Вхід
           </Link>
           <Link href="/sign-up" onClick={onClose} className={css.BurgerNavIn}>
             Реєстрація
                 </Link> </>
-        ):  (<Link href="" onClick={onClose} className={css.BurgerNavUpBasket}>
+        ):  (<Link href="/profile" onClick={onClose} className={css.BurgerNavUpBasket}>
             Кабінет
           </Link> 
           )}    

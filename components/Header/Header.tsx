@@ -5,20 +5,17 @@ import css from "./Header.module.css";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Link from "next/link";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-    useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [menuOpen]);
-
+  useEffect(() => { if (menuOpen) { document.body.style.overflow = "hidden"; } else { document.body.style.overflow = ""; } }, [menuOpen]);
+  
+  
   return (
     <header className={css.section}>
     <div className="container">
@@ -47,7 +44,7 @@ export default function Header() {
           <Link href="/sign-up" className={css.navIn}>
             Реєстрація
           </Link></>
-          ): (<Link href="" className={css.navUpBasket}>
+          ): (<Link href="/profile" className={css.navUpBasket}>
             Кабінет
           </Link>) }
           <div className={css.navCont}>
@@ -60,12 +57,12 @@ export default function Header() {
                 <use href={`/sprite.svg#${menuOpen ? "close" : "menu"}`} />
               </svg>
             </button>
-            <div className={css.basket}>
+              <button className={css.basket} onClick={() => router.push("/basket")}>
               <svg width="24" height="24">
                 <use href="/sprite.svg#shopping_cart" />
               </svg>
               <span className={css.badge}>1</span>
-            </div>
+            </button>
           </div>
         </div>
       </div>
