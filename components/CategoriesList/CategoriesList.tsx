@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Category } from "@/types/categories";
+import css from "./CategoriesList.module.css";
 
 type Props = {
   categories: Category[];
@@ -9,11 +10,17 @@ type Props = {
 
 export const CategoriesList = ({ categories }: Props) => {
   return (
-    <ul>
-      {categories.map((cat) => (
-        <li key={cat._id}>
-          <Image src={cat.image} alt={cat.name} width={150} height={150} />
-          <p>{cat.name}</p>
+    <ul className={css.categoriesList}>
+      {categories.map((category) => (
+        <li key={category._id} className={css.categoryCard}>
+          <Image
+            src={category.image}
+            alt={category.name}
+            width={250}
+            height={250}
+            className={css.categoryImage}
+          />
+          <p className={css.categoryName}>{category.name}</p>
         </li>
       ))}
     </ul>
