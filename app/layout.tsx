@@ -10,6 +10,7 @@ import AuthProvider from "@/components/AuthProvider/AuthProvider"
 import Footer from "@/components/Footer/Footer"
 import Header from "@/components/Header/Header"
 import UserInfoForm from "@/components/UserInfoForm/UserInfoForm"
+import ProfilePage from "./(private routes)/profile/page"
 
 const interSans = Inter({
 	variable: "--font-inter",
@@ -56,7 +57,8 @@ export default function RootLayout({
 					<div className="layout">
 						{/* <AuthProvider> */}
 							<Suspense fallback={<Loading />}>
-								<Header />
+							<Header />
+							<ProfilePage />
 							</Suspense>
 							<Suspense fallback={<Loading />}>
 								<main className="container">{children}</main>
