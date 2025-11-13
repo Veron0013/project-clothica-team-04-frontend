@@ -1,49 +1,32 @@
-"use client"
+import { getCategories } from "@/lib/api/api";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import CategoriesPage from "./page-client";
+import { headers } from "next/headers";
 
-import React, { useState, useEffect } from "react"
-//import CategoriesList from "@/components/CategoriesList/CategoriesList"
-import { Category } from "@/lib/api/clientApi" // Наш імітований запит
+export default async function Page() {
+  const queryClient = new QueryClient();
 
-const CategoriesPage = () => {
-	const [categories, setCategories] = useState<Category[]>([]) // усі категорії
-	const [totalCategories, setTotalCategories] = useState(0) // кількість категорій
-	const [isLoading, setIsLoading] = useState(false)
+  const initialPage = 1;
 
-	const INITIAL_LIMIT = 6 // початок
-	const ADDITION_LIMIT = 3 // додавання
+  const headersList = await headers();
+  const userAgent = headersList.get("user-agent") || "";
 
-	const handleLoadMore = async () => {
-		setIsLoading(true)
+  const isMobileOrTablet = /Mobi|Android|iPhone|iPad/i.test(userAgent);
 
-		const currentShow = categories.length
+  const limit = isMobileOrTablet ? 4 : 6;
 
-		const response = { data: { categories: [] } }
+  await queryClient.prefetchQuery({
+    queryKey: ["categories", initialPage, limit],
+    queryFn: () => getCategories(initialPage, limit),
+  });
 
-		//  не заміняю старі категорії, а додаю до них нові.
-		setCategories((prevCategories) => [...prevCategories, ...response.data.categories])
-
-		setIsLoading(false)
-	}
-
-	// Кнопку ховати : при загрузці та коли завантажили всі доступні категорії
-	const shouldShowButton = !isLoading && categories.length < totalCategories
-
-	return (
-		<div>
-			<h1>Категорії</h1>
-			<p>поки без стілізаціі - перевірка що все працює</p>
-
-			{/*<CategoriesList categories={categories} />*/}
-
-			{isLoading && <p>Завантаження...</p>}
-
-			{shouldShowButton && (
-				<button type="button" onClick={handleLoadMore}>
-					Показати більше
-				</button>
-			)}
-		</div>
-	)
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <CategoriesPage initialPage={initialPage} limit={limit} />
+    </HydrationBoundary>
+  );
 }
-
-export default CategoriesPage

@@ -1,7 +1,7 @@
 export type GoodCategory = {
 	_id: string
 	name: string
-	img_url?: string
+	image: string
 }
 
 export type Good = {
@@ -23,10 +23,21 @@ export type Good = {
 	averageRating?: number
 }
 
+export type BasketStoreGood = {
+	_id: string
+	name: string
+	price: number
+	image: string
+	currency: string
+	feedbackCount?: number
+	averageRating?: number
+	quantity?: number
+}
+
 export type GoodsResponse = {
 	goods: Good[]
 	page: number
-	perPage: number
+	limit: number
 	totalGoods: number
 	totalPages: number
 }
@@ -36,6 +47,6 @@ export type GoodsQuery = {
 	size?: string[]
 	color?: string[]
 	gender?: string
-	perPage: number
+	limit: number
 	page: number
 }

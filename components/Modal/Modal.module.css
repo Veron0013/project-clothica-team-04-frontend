@@ -7,12 +7,67 @@
   }
 }
 
+
+/* БАЗА: мобільна (≈375px) */
 .backdrop {
   position: fixed;
   inset: 0;
-  z-index: 150;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: flex-end;
-  align-items: stretch;
+  display: grid;
+  place-items: center;
+  padding: max(12px, env(safe-area-inset-top)) 12px
+    max(12px, env(safe-area-inset-bottom));
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+}
+
+.dialog {
+  width: 100%;
+  max-width: 360px;
+  background: var(--header-bg, #fff);
+  color: var(--header-fg, #111);
+  border: 1px solid color-mix(in oklab, currentColor 12%, transparent);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  outline: none;
+  padding: 16px;
+  position: relative;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: 0;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ПЛАНШЕТ: ≥768px */
+@media (min-width: 768px) {
+  .dialog {
+    max-width: 560px;
+    border-radius: 20px;
+    padding: 20px;
+  }
+  .closeBtn {
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+  }
+}
+
+/* ДЕСКТОП: ≥1440px */
+@media (min-width: 1440px) {
+  .dialog {
+    max-width: 640px;
+    border-radius: 24px;
+    padding: 24px;
+  }
+  .closeBtn {
+    top: 14px;
+    right: 14px;
+    font-size: 24px;
+  }
 }

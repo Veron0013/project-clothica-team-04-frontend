@@ -145,7 +145,7 @@ export default function Footer() {
 
         <div className={css.socials}>
           <p className={css.rights}>
-            {new Date().getFullYear()} Clothica. Всі права захищені.
+            © {new Date().getFullYear()} Clothica. Всі права захищені.
           </p>
           <ul className={css.socialContainer}>
             <li>

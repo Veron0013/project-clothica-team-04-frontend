@@ -3,7 +3,7 @@
 "use client"
 
 import { checkSession, getMe } from "@/lib/api/clientApi"
-import { useAuthStore } from "@/lib/store/authStore"
+import { useAuthStore } from "@/stores/authStore"
 import { useEffect } from "react"
 
 type Props = {

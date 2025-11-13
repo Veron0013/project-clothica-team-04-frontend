@@ -1,40 +1,60 @@
-import React, { useEffect } from "react";
-import { createPortal } from "react-dom";
-import style from "./Modal.module.css";
+"use client"
+
+import { useEffect } from "react"
+import { createPortal } from "react-dom"
+import style from "./Modal.module.css"
 
 interface ModalProps {
-  children: React.ReactNode;
-  onClose: () => void;
+	open: boolean
+	onClose: () => void
+	children: React.ReactNode
+	ariaLabelledby?: string
+	ariaLabel?: string
+	closeOnBackdropClick?: boolean
 }
 
-export default function Modal({ children, onClose }: ModalProps) {
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
+export default function Modal({
+	open,
+	onClose,
+	children,
+	ariaLabelledby,
+	ariaLabel,
+	closeOnBackdropClick = true,
+}: ModalProps) {
+	// Закриваємо по Esc + лочимо скрол body
 
-    document.addEventListener("keydown", handleEsc);
-    document.body.style.overflow = "hidden";
+	if (!open || typeof document === "undefined") return
+	useEffect(() => {
+		const onEsc = (e: KeyboardEvent) => {
+			if (e.key === "Escape") onClose()
+		}
+		document.addEventListener("keydown", onEsc)
 
-    return () => {
-      document.removeEventListener("keydown", handleEsc);
-      document.body.style.overflow = "unset";
-    };
-  }, [onClose]);
+		const prevOverflow = document.body.style.overflow
+		document.body.style.overflow = "hidden"
 
-  const handleBackdropClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) onClose();
-  };
+		return () => {
+			document.removeEventListener("keydown", onEsc)
+			document.body.style.overflow = prevOverflow
+		}
+	}, [open, onClose])
 
-  return createPortal(
-    <div
-      className={style.backdrop}
-      role="dialog"
-      aria-modal="true"
-      onClick={handleBackdropClose}
-    >
-      <div>{children}</div>
-    </div>,
-    document.body
-  );
+	const content = (
+		<div
+			className={style.backdrop}
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby={ariaLabelledby}
+			aria-label={ariaLabel}
+			onMouseDown={(e) => {
+				if (!closeOnBackdropClick) return
+
+				if (e.currentTarget === e.target) onClose()
+			}}
+		>
+			<div className={style.content}>{children}</div>
+		</div>
+	)
+
+	return createPortal(content, document.body)
 }

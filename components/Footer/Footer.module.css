@@ -52,14 +52,16 @@
   overflow: visible;
 }
 .input {
-  flex: 0 0 auto;
-  max-width: 160px;
+  width: clamp(160px, calc(61.82vw - 37.82px), 194px);
   height: 40px;
   padding: 8px 12px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 16px;
   background: rgba(255, 255, 255, 0);
   color: #000;
+  flex: 0 1 auto;
+  min-width: 0;
+  transition: width 200ms ease;
 }
 .input::placeholder {
   font-weight: 400;

@@ -5,6 +5,7 @@ export type User = {
 	username: string
 	avatar?: string
 	error?: string
+	_id: string;
 }
 
 export type EditUser = Omit<User, "avatar">
