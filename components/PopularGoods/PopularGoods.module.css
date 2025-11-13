@@ -1,6 +1,7 @@
 .popularGoods {
     padding-top: 48px;
     padding-bottom: 48px;
+    position: relative;
 }
 
 .container {
@@ -64,11 +65,23 @@
     padding: 12px;
     background-color: var(--color-deco);
     cursor: pointer;
+    position: absolute;
+    bottom: 0px;
+    transform: none;
+    margin-top: 0;
     z-index: 2;
-    display: grid;
-    place-items: center;
     transition: background-color .2s ease, border .2s ease;
 
+}
+
+.navNext {
+    right: 0;
+    left: auto;
+}
+
+.navPrev {
+    right: 66px;
+    left: auto;
 }
 
 .navBtn:hover {
@@ -83,17 +96,17 @@
     fill: #fff;
 }
 
-.controls .navBtn+.navBtn {
-    margin-left: 16px;
-}
-
 
 .pagination {
     position: static;
     display: flex;
     gap: 9px;
     justify-content: flex-start;
+    align-items: center;
     margin-right: auto;
+    height: 48px;
+    margin-top: 40px;
+    padding-left: 10px;
 }
 
 .pagination :global(.swiper-pagination-bullet) {
@@ -122,10 +135,36 @@
     .container {
         max-width: 768px;
     }
+    .navBtn {
+        position: absolute;
+        top: 33%;
+        transform: translateY(-50%);
+        z-index: 20;
+        bottom: auto;
+        left: auto;
+        right: auto;
+    }
+    
+        .navPrev {
+            left: -28px;
+        }
+    
+        .navNext {
+            right: -28px;
+        }
+
+        .pagination {
+        justify-content: center;
+        }
 }
 
 @media (min-width: 1440px) {
     .container {
         max-width: 1440px;
+    }
+
+    .popularGoods {
+    padding-top: 80px;
+    padding-bottom: 80px;
     }
 }
