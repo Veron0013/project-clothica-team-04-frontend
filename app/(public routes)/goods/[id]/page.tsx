@@ -71,12 +71,12 @@ export default async function Page({ params, searchParams }: GoodPageProps) {
 			}),
 		])
 
-		const goodState = queryClient.getQueryState(["good", id])
-		if (goodState?.status !== "error") {
-			throw goodState?.error
-		}
+		//const goodState = queryClient.getQueryState(["good", id])
+		//if (goodState?.status !== "error") {
+		//	throw goodState?.error
+		//}
 	} catch (error: Error) {
-		console.error("Error loading product data:", error)
+		console.log("Error loading product data:", error)
 
 		if (error?.response?.status === 404 || error?.status === 404) {
 			notFound()

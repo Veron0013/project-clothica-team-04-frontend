@@ -97,7 +97,7 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
 		const starProps = { width: 20, height: 20 }
 
 		for (let i = 0; i < fullStars; i++) {
-			stars.push(<Image key={`full-${i}`} src="/svg/star_filled.svg" alt="full star" {...starProps} />)
+			stars.push(<Image key={`full-${i}`} src="/svg/star-filled.svg" alt="full star" {...starProps} />)
 		}
 
 		if (hasHalfStar) {

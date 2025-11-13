@@ -21,20 +21,26 @@ export interface GoodsFilter {
 export interface Feedback {
 	_id: string
 	goodId: string
-	userId: string
-	rating: number
+	userId?: string
+	rate: number
 	text: string
+	description: string
+	author: string
 	createdAt: string
 	user: {
 		username: string
 	}
+	productId: {
+		_id: string
+		name: string
+	}
 }
 
 export interface FeedbackResponse {
-	feedbacks: Feedback[]
+	items: Feedback[]
 	page: number
 	limit: number
-	totalFeedbacks: number
+	total: number
 	totalPages: number
 }
 
@@ -55,6 +61,8 @@ export const getFeedbackByGoodIdClient = async (id: string, page: number, limit:
 	const { data } = await nextServer.get<FeedbackResponse>(`/feedbacks`, {
 		params: { productId: id, page, limit },
 	})
+
+	console.log("f-cl", data)
 	return data
 }
 
