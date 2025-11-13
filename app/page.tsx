@@ -1,29 +1,42 @@
-import Hero from "@/components/Hero/Hero"
-import Style from "@/components/Style/Style"
-import PopularCategories from "@/components/PopularCategories/PopularCategories"
-import PopularGoods from "@/components/PopularGoods/PopularGoods"
-import LastReviews from "@/components/LastReviews/LastReviews"
-import { fetchPopularCategories, fetchPopularGoods } from "@/lib/api/mainPageApi"
+import Hero from "@/components/Hero/Hero";
+import Style from "@/components/Style/Style";
+import PopularCategories from "@/components/PopularCategories/PopularCategories";
+import PopularGoods from "@/components/PopularGoods/PopularGoods";
+import LastReviews from "@/components/LastReviews/LastReviews";
+import {
+  fetchPopularGoods,
+  fetchPopularCategories,
+} from "@/lib/api/mainPageApi";
 
 export default async function Home() {
-	const [catsRes, goodsRes] = await Promise.allSettled([
-		fetchPopularCategories({ page: 1, limit: 4 }),
-		fetchPopularGoods({ page: 1, limit: 6 }),
-	])
+  const [catsRes, goodsRes] = await Promise.allSettled([
+    fetchPopularCategories({ page: 1, limit: 4 }),
+    fetchPopularGoods({ page: 1, limit: 6 }),
+  ]);
 
-	const initialCategories =
-		catsRes.status === "fulfilled" ? catsRes.value : { categories: [], page: 1, limit: 4, total: 0, totalPages: 1 }
+  const initialCategories =
+    catsRes.status === "fulfilled"
+      ? catsRes.value
+      : {
+          categories: [],
+          page: 1,
+          perPage: 4,
+          totalCategories: 0,
+          totalPages: 1,
+        };
 
-	const initialPopularGoods =
-		goodsRes.status === "fulfilled" ? goodsRes.value : { items: [], page: 1, limit: 6, total: 0, totalPages: 1 }
+  const initialPopularGoods =
+    goodsRes.status === "fulfilled"
+      ? goodsRes.value
+      : { items: [], page: 1, limit: 6, total: 0, totalPages: 1 };
 
-	return (
-		<>
-			<Hero />
-			<Style />
-			<PopularCategories initialData={initialCategories} />
-			<PopularGoods initialData={initialPopularGoods} />
-			<LastReviews />
-		</>
-	)
+  return (
+    <>
+      <Hero />
+      <Style />
+      <PopularCategories initialData={initialCategories} />
+      <PopularGoods initialData={initialPopularGoods} />
+      <LastReviews />
+    </>
+  );
 }
