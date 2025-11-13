@@ -1,6 +1,7 @@
 .categories {
     padding-top: 48px;
     padding-bottom: 48px;
+    position: reletive;
 }
 
 .container {
@@ -9,9 +10,6 @@
     margin-right: auto;
 }
 
-.sliderWrapper {
-    position: relative;
-}
 
 .swiper {
     overflow: hidden;
@@ -52,12 +50,6 @@
     border: 1px solid var(--opacity-neutral-darkest-50);
 }
 
-.controls {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 40px;
-}
 
 .navBtn {
     border: 1px solid var(--main-background-light);
@@ -65,11 +57,23 @@
     padding: 12px;
     background-color: var(--color-deco);
     cursor: pointer;
+    position: absolute;
+    bottom: -88px;
+    transform: none;
+    margin-top: 0;
     z-index: 2;
-    display: grid;
-    place-items: center;
     transition: background-color .2s ease, border .2s ease;
 
+}
+
+.navNext {
+    right: 0;
+    left: auto;
+}
+
+.navPrev {
+    right: 66px;
+    left: auto;
 }
 
 .navBtn:hover {
@@ -84,29 +88,14 @@
     fill: #fff;
 }
 
-.controls .navBtn+.navBtn {
+.navBtn+.navBtn {
     margin-left: 16px;
 }
 
-
-.pagination {
-    position: static;
-    display: flex;
-    gap: 9px;
-    justify-content: flex-start;
-}
-
-.pagination :global(.swiper-pagination-bullet) {
-    width: 8px;
-    height: 8px;
-    background: #d0d0d0;
-    opacity: 1;
-    transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.pagination :global(.swiper-pagination-bullet-active) {
-    background: #000;
-    transform: scale(1.6);
+.sliderWrapper {
+    position: relative;
+    overflow: visible;
+    margin-bottom: 88px;
 }
 
 .thumb {
@@ -144,10 +133,37 @@
     .container {
         max-width: 768px;
     }
+
+    .navBtn {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    z-index: 20;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    }
+
+    .navPrev {
+     left: -28px;
+    }
+    
+    .navNext {
+     right: -28px;
+    }
+  .sliderWrapper {
+    margin-bottom: 0;
+  }
 }
 
 @media (min-width: 1440px) {
+
+    .categories {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
     .container {
         max-width: 1440px;
     }
+
 }
