@@ -136,7 +136,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="container">
+      <div>
         <button
           type="button"
           className={css.logoutBtn}
