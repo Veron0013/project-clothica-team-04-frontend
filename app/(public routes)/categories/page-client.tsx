@@ -1,53 +1,60 @@
 "use client";
 
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { getCategories } from "@/lib/api/api";
 import { CategoriesList } from "@/components/CategoriesList/CategoriesList";
+import css from "./pageClient.module.css";
 
 type Props = {
-  initialLimit: number; // 6
-  loadMoreStep: number; // 3
+  initialPage: number; // 1
+  perPage: number; // 3 або 6
 };
 
-export default function CategoriesPageClient({
-  initialLimit,
-  loadMoreStep,
-}: Props) {
-  const [perPage, setPerPage] = useState(initialLimit);
-  const page = 1;
+export default function CategoriesPage({ initialPage, perPage }: Props) {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: ["categories"],
+      queryFn: ({ pageParam = initialPage }) =>
+        getCategories(pageParam as number, perPage),
+      placeholderData: keepPreviousData,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.page < lastPage.totalPages) {
+          return lastPage.page + 1;
+        }
+        return undefined;
+      },
+      initialPageParam: initialPage,
+      staleTime: 1000 * 60,
+    });
 
-  const { data, isLoading, isFetching } = useQuery({
-    queryKey: ["categories", perPage],
-    queryFn: () => getCategories(page, perPage),
-  });
-
-  const categories = data?.categories ?? [];
-  const total = data?.totalCategories ?? 0;
-
-  const hasMore = categories.length < total;
+  const allCategories = data?.pages.flatMap((page) => page.categories) ?? [];
 
   const handleLoadMore = () => {
-    if (hasMore) {
-      setPerPage((prev) => prev + loadMoreStep);
-    }
+    fetchNextPage();
   };
 
-  const isInitialLoading = isLoading && perPage === initialLimit;
+  const isInitialLoading = status === "pending" && allCategories.length === 0;
 
   return (
-    <section style={{ padding: "20px" }}>
-      <h1>Категорії</h1>
+    <section className={css.pageContainer}>
+      <h1 className={css.pageTitle}>Категорії</h1>
 
-      {isInitialLoading && <p>Завантаження...</p>}
-
-      {(!isInitialLoading || categories.length > 0) && (
-        <CategoriesList categories={categories} />
+      {isInitialLoading && (
+        <p className={css.loadingText}>Завантаження початкових даних...</p>
       )}
 
-      {hasMore && (
-        <button onClick={handleLoadMore} disabled={isFetching}>
-          {isFetching ? "Завантаження..." : "Показати більше"}
+      {allCategories.length > 0 && (
+        <CategoriesList categories={allCategories} />
+      )}
+
+      {hasNextPage && (
+        <button
+          type="button"
+          onClick={handleLoadMore}
+          disabled={isFetchingNextPage}
+          className={css.loadMoreButton}
+        >
+          {isFetchingNextPage ? "Завантаження..." : "Показати більше"}
         </button>
       )}
     </section>

@@ -1,0 +1,60 @@
+.categoriesList {
+    display: grid;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    /* 
+    За замовчуванням (для мобільних) - 4 колонки.
+    repeat(4, 1fr) означає "повторити 4 рази фракцію 1fr", 
+    тобто 4 однакові колонки.
+  */
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+@media (min-width: 768px) {
+    .categoriesList {
+        /* 4 колонки для планшета */
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Медіа-запит для десктопів.
+  Якщо екран 1200px або ширший...
+*/
+@media (min-width: 1200px) {
+    .categoriesList {
+        /* ...показуємо 6 колонок */
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+
+.categoryCard {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+}
+
+.categoryCard:hover {
+    transform: translateY(-5px);
+}
+
+.categoryImage {
+    /* width: 100%; */
+    width: 416px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.categoryName {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}

@@ -1,0 +1,42 @@
+.pageContainer {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.pageTitle {
+    font-size: 32px;
+    margin-bottom: 24px;
+}
+
+.loadMoreButton {
+    display: block;
+    margin: 40px auto 20px;
+    /* Відступи зверху/авто(центр)/знизу */
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: #007bff;
+    /* Приклад кольору */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.loadMoreButton:hover {
+    background-color: #0056b3;
+}
+
+.loadMoreButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.loadingText {
+    text-align: center;
+    font-size: 18px;
+    padding: 20px;
+}
