@@ -89,7 +89,7 @@ export interface FetchPopularCategoriesResponse {
 	categories: GoodCategory[],
 	page: number;
 	perPage: number;
-	total: number;
+	totalCategories: number;
 	totalPages: number;
 }
 
