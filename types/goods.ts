@@ -37,7 +37,7 @@ export type BasketStoreGood = {
 export type GoodsResponse = {
 	goods: Good[]
 	page: number
-	perPage: number
+	limit: number
 	totalGoods: number
 	totalPages: number
 }
@@ -47,6 +47,6 @@ export type GoodsQuery = {
 	size?: string[]
 	color?: string[]
 	gender?: string
-	perPage: number
+	limit: number
 	page: number
 }

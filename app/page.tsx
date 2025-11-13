@@ -7,15 +7,15 @@ import { fetchPopularCategories, fetchPopularGoods } from "@/lib/api/mainPageApi
 
 export default async function Home() {
 	const [catsRes, goodsRes] = await Promise.allSettled([
-		fetchPopularCategories({ page: 1, perPage: 4 }),
+		fetchPopularCategories({ page: 1, limit: 4 }),
 		fetchPopularGoods({ page: 1, limit: 6 }),
 	])
 
 	const initialCategories =
-		catsRes.status === "fulfilled" ? catsRes.value : { categories: [], page: 1, perPage: 4, total: 0, totalPages: 1 }
+		catsRes.status === "fulfilled" ? catsRes.value : { categories: [], page: 1, limit: 4, total: 0, totalPages: 1 }
 
 	const initialPopularGoods =
-		goodsRes.status === "fulfilled" ? goodsRes.value : { items: [], page: 1, perPage: 6, total: 0, totalPages: 1 }
+		goodsRes.status === "fulfilled" ? goodsRes.value : { items: [], page: 1, limit: 6, total: 0, totalPages: 1 }
 
 	return (
 		<>

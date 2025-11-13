@@ -24,9 +24,9 @@ export const getGoodsFromArray = async (query: BasketGoodsParams): Promise<Baske
 	return response.data
 }
 
-export const getCategories = async (page: number, perPage: number): Promise<CategoriesResponse> => {
+export const getCategories = async (page: number, limit: number): Promise<CategoriesResponse> => {
 	const response = await nextServer.get("/categories", {
-		params: { page, perPage },
+		params: { page, limit },
 	})
 
 	return response.data

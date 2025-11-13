@@ -31,7 +31,7 @@ type CheckSessionRequest = {
 export interface SearchParams {
 	search: string
 	page?: number
-	perPage?: number
+	limit?: number
 }
 
 export interface ApiQueryParams {
@@ -56,7 +56,7 @@ export const createQueryParams = (search = "", page = 1, tag?: string): ApiQuery
 	const params: SearchParams = {
 		search,
 		page,
-		perPage: PER_PAGE,
+		limit: PER_PAGE,
 	}
 	//console.log(tag)
 	//if (tag !== "All") {

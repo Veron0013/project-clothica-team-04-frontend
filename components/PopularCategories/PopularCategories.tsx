@@ -53,7 +53,7 @@ export default function PopularCategories({ initialData }: PopularCategoriesProp
 				const nextPage = page + 1
 				const data = await fetchPopularCategories({
 					page: nextPage,
-					perPage: 3,
+					limit: 3,
 				})
 				setPopularCategories((prev) => [...prev, ...data.categories])
 				setPage(nextPage)

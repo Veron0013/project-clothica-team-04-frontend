@@ -33,7 +33,7 @@ export interface Feedback {
 export interface FeedbackResponse {
 	feedbacks: Feedback[]
 	page: number
-	perPage: number
+	limit: number
 	totalFeedbacks: number
 	totalPages: number
 }
@@ -51,13 +51,9 @@ export const getGoodByIdClient = async (id: string): Promise<Good> => {
 	return data
 }
 
-export const getFeedbackByGoodIdClient = async (
-	id: string,
-	page: number,
-	perPage: number
-): Promise<FeedbackResponse> => {
+export const getFeedbackByGoodIdClient = async (id: string, page: number, limit: number): Promise<FeedbackResponse> => {
 	const { data } = await nextServer.get<FeedbackResponse>(`/feedbacks`, {
-		params: { productId: id, page, perPage },
+		params: { productId: id, page, limit },
 	})
 	return data
 }
