@@ -89,7 +89,7 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
 
 	const renderStars = (rating: number) => {
 		const MAX_STARS = 5
-		const fullStars = Math.floor(rating)
+		const fullStars = Math.floor(rating) || 0
 		const hasHalfStar = rating % 1 >= 0.5
 		const emptyStars = MAX_STARS - fullStars - (hasHalfStar ? 1 : 0)
 

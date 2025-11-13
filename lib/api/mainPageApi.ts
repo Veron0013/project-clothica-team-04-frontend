@@ -16,13 +16,13 @@ export interface FetchPopularGoodsResponse {
 
 export interface FetchPopularCategoriesProps {
 	page: number
-	perPage: number
+	limit: number
 }
 
 export interface FetchPopularCategoriesResponse {
 	categories: GoodCategory[]
 	page: number
-	perPage: number
+	limit: number
 	totalCategories: number
 	totalPages: number
 }
@@ -44,14 +44,14 @@ export const fetchPopularGoods = async ({
 
 export const fetchPopularCategories = async ({
 	page,
-	perPage,
+	limit,
 }: FetchPopularCategoriesProps): Promise<FetchPopularCategoriesResponse> => {
 	const params: {
 		page: number
-		perPage: number
+		limit: number
 	} = {
-		page: page,
-		perPage: perPage,
+		page,
+		limit,
 	}
 	const response = await nextServer.get<FetchPopularCategoriesResponse>("/categories", { params })
 	return response.data

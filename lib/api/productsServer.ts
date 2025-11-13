@@ -20,7 +20,7 @@ export const getGoodByIdServer = async (id: string): Promise<Good> => {
 export const getFeedbackByGoodIdServer = async (
 	productId: string,
 	page: number,
-	perPage: number
+	limit: number
 ): Promise<FeedbackResponse> => {
 	const cookieHeaderValue = await getCookieHeader()
 
@@ -31,7 +31,7 @@ export const getFeedbackByGoodIdServer = async (
 		params: {
 			productId,
 			page,
-			perPage,
+			limit,
 		},
 	})
 	return data

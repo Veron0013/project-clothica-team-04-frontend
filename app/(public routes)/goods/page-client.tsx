@@ -19,19 +19,19 @@ const ProductsPageClient = () => {
 	const pathname = usePathname()
 
 	const [isAppending, setIsAppending] = useState(false)
-	const [perPage, setPerPage] = useState(PER_PAGE)
+	const [limit, setLimit] = useState(PER_PAGE)
 	const [displayedGoods, setDisplayedGoods] = useState<Good[]>([])
 
 	const [dataText, setDataText] = useState("")
 
 	const searchParams: GoodsQuery = {
-		perPage: Number(sp.get("perPage")) || perPage,
+		limit: Number(sp.get("limit")) || limit,
 		page: Number(sp.get("page")) || 1,
 		...Object.fromEntries(sp.entries()),
 	} as GoodsQuery
 
 	const { data, isFetching } = useQuery({
-		queryKey: ["GoodsByCategories", searchParams, perPage],
+		queryKey: ["GoodsByCategories", searchParams, limit],
 		queryFn: async () => {
 			const res = await getGoods(searchParams)
 			if (!res) toastMessage(MyToastType.error, "bad request")
@@ -79,9 +79,9 @@ const ProductsPageClient = () => {
 
 	const handleShowMore = () => {
 		setIsAppending(true)
-		const nextPerPage = Number(searchParams.perPage) + 3
+		const nextLimit = Number(searchParams.limit) + 3
 		const newParams = new URLSearchParams(sp)
-		newParams.set("perPage", String(nextPerPage))
+		newParams.set("limit", String(nextLimit))
 		router.push(`${pathname}?${newParams.toString()}`, { scroll: false })
 	}
 
@@ -91,13 +91,13 @@ const ProductsPageClient = () => {
 			<div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
 				{displayedGoods.length > 0 && <GoodsList items={displayedGoods} />}
 
-				{!isFetching && data && data?.perPage < data?.totalGoods && (
+				{!isFetching && data && data?.limit < data?.totalGoods && (
 					<button
 						className={`${styles.cardCta} ${isFetching ? "opacity-50" : ""}`}
 						onClick={handleShowMore}
 						disabled={isFetching}
 					>
-						{isFetching ? "Завантаження..." : `Показати ще ${data?.perPage} з ${data?.totalGoods}`}
+						{isFetching ? "Завантаження..." : `Показати ще ${data?.limit} з ${data?.totalGoods}`}
 					</button>
 				)}
 
