@@ -1,33 +1,58 @@
 .pageContainer {
     width: 100%;
-    max-width: 1400px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 64px 0px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .pageTitle {
-    font-size: 32px;
+    font-family: var(--second-family);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 120%;
+    letter-spacing: -0.01em;
+    color: var(--color-scheme-4-text);
     margin-bottom: 24px;
 }
 
-.loadMoreButton {
-    display: block;
-    margin: 40px auto 20px;
-    /* Відступи зверху/авто(центр)/знизу */
-    padding: 12px 32px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    background-color: #007bff;
-    /* Приклад кольору */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    transition: background-color 0.2s;
+.loadingText,
+.errorText {
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
 }
 
-.loadMoreButton:hover {
-    background-color: #0056b3;
+.errorText {
+    color: #d23f3f;
+}
+
+.loadMoreButton {
+    margin-top: 32px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.1s ease;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--color-neutral-darkest);
+    border: 1px solid var(--color-deco);
+    border-radius: 100px;
+    padding: 6px 12px;
+    background: var(--color-deco);
+}
+
+.loadMoreButton:hover:not(:disabled) {
+    background: var(--color-deco-dark);
+    border: 1px solid var(--color-deco-darker);
+    transform: scale(1.03);
+}
+
+.loadMoreButton:active:not(:disabled) {
+    background: var(--color-deco-darkest);
+    border: 1px solid var(--color-deco);
+    transform: scale(1.03);
 }
 
 .loadMoreButton:disabled {
@@ -35,8 +60,33 @@
     cursor: not-allowed;
 }
 
-.loadingText {
-    text-align: center;
-    font-size: 18px;
-    padding: 20px;
+
+@media (min-width: 375px) {}
+
+@media (min-width: 768px) {
+    .pageContainer {
+        width: 704px;
+        max-width: 1312px;
+    }
+
+    .loadMoreButton {
+        margin: 0 auto;
+        margin-top: 32px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .pageContainer {
+        padding: 112px 0;
+        width: 1312px;
+    }
+
+    .pageTitle {
+        font-size: 48px;
+        margin-bottom: 40px;
+    }
+
+    .loadMoreButton {
+        margin-top: 40px;
+    }
 }
