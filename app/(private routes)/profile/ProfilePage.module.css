@@ -1,0 +1,114 @@
+.title {
+  padding-top: 64px;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #000;
+}
+
+.text {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #000;
+  padding-bottom: 16px;
+}
+
+.orderColSt {
+  display: none;
+}
+
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+width: 100%;
+}
+.orderItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.orderDate {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.orderNumber {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+}
+.orderLabel {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.orderValue {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.logoutBtn {
+  margin-top: 48px;
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  min-width: 100%;
+  padding: 6px 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .logoutBtn {
+    display: block;
+    min-width: 0;
+    margin: 0 auto;
+    width: 156px;
+    height: 36px;
+    margin-top: 48px;
+  }
+
+  .orderColSt {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1440px){
+.profCont{
+display: flex;
+flex-direction: row-reverse;
+gap:32px ;
+justify-content: space-between;
+    align-items: flex-start;
+}
+
+.title{
+  margin-bottom: 48px;  
+}
+
+.information{
+    width: 640px;
+}
+
+.order{
+width: 640px;
+}
+
+
+}

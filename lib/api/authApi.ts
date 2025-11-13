@@ -24,3 +24,16 @@ export async function getMe() {
   if (res.ok) return res.json();
   return null;
 }
+
+
+export async function logout() {
+  const res = await fetch(`${API}/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.message || `HTTP ${res.status}`);
+  }
+}

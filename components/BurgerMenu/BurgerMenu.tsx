@@ -31,7 +31,7 @@ export default function BurgerMenu({ menuOpen, onClose }: BurgerMenuProps) {
 				</li>
 			</ul>
 			<div className={css.BurgerAuth}>
-				{isAuthenticated ? (
+				{!isAuthenticated ? (
 					<>
 						<Link href="/sign-in" onClick={onClose} className={css.BurgerNavUp}>
 							Вхід

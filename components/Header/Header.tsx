@@ -74,7 +74,7 @@ export default function Header() {
           </ul>
 
           <div className={css.auth}>
-            {!ready ? null : !isAuthenticated ? (
+            {!ready ? null : isAuthenticated ? (
               <>
                 <Link href="/sign-in" className={css.navUp}>
                   Вхід

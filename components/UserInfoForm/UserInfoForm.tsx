@@ -11,10 +11,10 @@ export default function UserInfoForm() {
     console.log(text);
   };
   return (
-    <div className="container">
+    <>
       <h3 className={css.text}>Особиста інформація</h3>
       <form className={css.form} action={handleSubmit}>
-        <label className={css.label} htmlFor="">
+        <label className={css.label}>
           Імʼя*
           <input
             className={css.input}
@@ -24,7 +24,7 @@ export default function UserInfoForm() {
             required
           />
         </label>
-        <label className={css.label} htmlFor="">
+        <label className={css.label}>
           Прізвище*
           <input
             className={css.input}
@@ -34,7 +34,7 @@ export default function UserInfoForm() {
             required
           />
         </label>
-        <label className={css.label} htmlFor="">
+        <label className={css.label} >
           Номер телефону*
           <input
             className={css.inputTel}
@@ -44,7 +44,7 @@ export default function UserInfoForm() {
             required
           />
         </label>
-        <label className={css.label} htmlFor="">
+        <label className={css.label}>
           Місто доставки*
           <input
             className={css.input}
@@ -54,18 +54,11 @@ export default function UserInfoForm() {
             required
           />
         </label>
-        <label className={css.label} htmlFor="">
+        <label className={css.label}>
           Номер відділення Нової Пошти*
           <input className={css.input} type="number" name="novaBranch" placeholder="1" required />
         </label>
-        <label className={css.labelText}>
-          Коментар
-          <textarea
-            className={css.textarea}
-            name="comment"
-            placeholder="Введіть ваш коментар"
-          />
-        </label>
+  
         <button
           className={css.button}
           type="button"
@@ -74,6 +67,6 @@ export default function UserInfoForm() {
          Зберегти зміни
         </button>
       </form>
-    </div>
+      </>
   );
 }
