@@ -62,7 +62,7 @@ export const getFeedbackByGoodIdClient = async (id: string, page: number, limit:
 		params: { productId: id, page, limit },
 	})
 
-	console.log("f-cl", data)
+	//console.log("f-cl", data)
 	return data
 }
 

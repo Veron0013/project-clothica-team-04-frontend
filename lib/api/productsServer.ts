@@ -13,7 +13,7 @@ const getCookieHeader = async () => {
 
 export const getGoodByIdServer = async (id: string): Promise<Good> => {
 	const { data } = await nextServer.get<Good>(`/goods/${id}`)
-	console.log("goods", data)
+	//console.log("goods", data)
 	return data
 }
 
@@ -35,6 +35,6 @@ export const getFeedbackByGoodIdServer = async (
 		},
 	})
 
-	console.log("feedback", data)
+	//console.log("feedback", data)
 	return data
 }
