@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import css from "./Header.module.css";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import { useAuthStore } from "@/stores/authStore";
+import { useBasket } from "@/stores/basketStore";
 
 const API = process.env.NEXT_PUBLIC_API_URL ?? "";
 
@@ -14,11 +15,12 @@ export default function Header() {
   const [authChecked, setAuthChecked] = useState(false);
 
   const router = useRouter();
-  const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const setUser = useAuthStore((s) => s.setUser);
   const clearIsAuthenticated = useAuthStore((s) => s.clearIsAuthenticated);
 
+  const { goods } = useBasket();
+  const basketCount = goods.reduce((sum, item) => sum + item.quantity, 0);
   // ✅ якщо стор уже каже, що логін виконано — вважаємо, що можна рендерити одразу
   const ready = authChecked || isAuthenticated;
 
@@ -107,7 +109,7 @@ export default function Header() {
                 <svg width="24" height="24">
                   <use href="/sprite.svg#shopping_cart" />
                 </svg>
-                <span className={css.badge}>1</span>
+                {basketCount > 0 && (<span className={css.badge}>{basketCount}</span>)}
               </button>
             </div>
           </div>

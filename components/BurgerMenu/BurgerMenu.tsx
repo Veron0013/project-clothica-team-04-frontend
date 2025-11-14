@@ -8,7 +8,6 @@ interface BurgerMenuProps {
 }
 
 export default function BurgerMenu({ menuOpen, onClose }: BurgerMenuProps) {
-  const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   return (

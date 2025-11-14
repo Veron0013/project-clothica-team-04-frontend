@@ -13,6 +13,7 @@ import { Order } from "@/types/orders"
 import { getUserOrders } from "@/lib/api/api"
 import MessageNoInfo from "@/components/MessageNoInfo/MessageNoInfo"
 
+
 export default function ProfilePage() {
 	const router = useRouter()
 	const clearIsAuthenticated = useAuthStore((state) => state.clearIsAuthenticated)
