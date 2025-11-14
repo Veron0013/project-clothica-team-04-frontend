@@ -7,15 +7,18 @@
   }
 }
 
-
 /* БАЗА: мобільна (≈375px) */
 .backdrop {
   position: fixed;
   inset: 0;
-  display: grid;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  /* display: grid;
   place-items: center;
   padding: max(12px, env(safe-area-inset-top)) 12px
     max(12px, env(safe-area-inset-bottom));
+  padding: 0; */
   background: rgba(0, 0, 0, 0.45);
   z-index: 1000;
 }
@@ -23,6 +26,8 @@
 .dialog {
   width: 100%;
   max-width: 360px;
+  min-width: 100%;
+  height: 100vh;
   background: var(--header-bg, #fff);
   color: var(--header-fg, #111);
   border: 1px solid color-mix(in oklab, currentColor 12%, transparent);

@@ -3,20 +3,23 @@
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { getCategories } from "@/lib/api/api";
 import { CategoriesList } from "@/components/CategoriesList/CategoriesList";
+
 import css from "./pageClient.module.css";
+import { useIsDesktop } from "@/lib/hooks/useIsDesktop";
 
 type Props = {
-  initialPage: number; // 1
-  limit: number; // 3 або 6
+  initialPage: number;
 };
 
-export default function CategoriesPage({ initialPage, limit }: Props) {
+export default function CategoriesPage({ initialPage }: Props) {
+  const limit = useIsDesktop();
+  const isLimitDefined = limit > 0;
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
       queryKey: ["categories", limit],
       queryFn: ({ pageParam = initialPage }) =>
         getCategories(pageParam as number, limit),
-      placeholderData: keepPreviousData,
       getNextPageParam: (lastPage) => {
         if (lastPage.page < lastPage.totalPages) {
           return lastPage.page + 1;
@@ -24,7 +27,9 @@ export default function CategoriesPage({ initialPage, limit }: Props) {
         return undefined;
       },
       initialPageParam: initialPage,
+      placeholderData: keepPreviousData,
       staleTime: 1000 * 60,
+      enabled: isLimitDefined,
     });
 
   const allCategories = data?.pages.flatMap((page) => page.categories) ?? [];
@@ -33,7 +38,8 @@ export default function CategoriesPage({ initialPage, limit }: Props) {
     fetchNextPage();
   };
 
-  const isInitialLoading = status === "pending" && allCategories.length === 0;
+  const isInitialLoading =
+    (status === "pending" && allCategories.length === 0) || !isLimitDefined;
 
   return (
     <section className={css.pageContainer}>
