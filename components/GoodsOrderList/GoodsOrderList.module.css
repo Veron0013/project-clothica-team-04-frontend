@@ -4,17 +4,6 @@
   gap: 16px;
 }
 
-.basketCard {
-  flex-direction: column;
-}
-
-@media screen and (min-width: 768px) {
-  .basketCard {
-    display: flex;
-    flex-direction: row;
-  }
-}
-
 .basketItem {
   display: flex;
   align-items: center;
@@ -26,9 +15,8 @@
 
 @media screen and (min-width: 768px) {
   .basketItem {
-    display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    gap: 0;
   }
 }
 
@@ -39,9 +27,25 @@
   border-radius: 6px;
 }
 
+.basketCard {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 768px) {
+  .basketCard {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-left: 24px;
+  }
+}
+
 .basketItemInfo {
   flex: 1;
   display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
 }
 
 @media screen and (min-width: 768px) {
@@ -139,4 +143,55 @@
   padding: 16px;
   text-align: center;
   color: #555;
+}
+/* блок з сумарними цінами */
+.basketSummaryRow {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 12px 0px 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.basketSumTitle {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.basketSumCost {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.basketDelivery {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0px;
+}
+
+.basketSummaryTotal {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0px;
+}
+
+.basketTotalTitle {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.basketTotalPrice {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #000;
 }

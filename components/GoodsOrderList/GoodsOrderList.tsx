@@ -110,18 +110,18 @@ export default function GoodsOrderList() {
         </div>
       ))}
 
-      <div className={css.basketSummary}>
+      <div className={css.basketSummaryItem}>
         <div className={css.basketSummaryRow}>
-          <span>Проміжний підсумок:</span>
-          <span>{subtotal.toFixed(2)} грн</span>
+          <div className={css.basketSumTitle}>Проміжний підсумок:</div>
+          <div className={css.basketSumCost}>{subtotal.toFixed(2)} грн</div>
         </div>
-        <div className={css.basketSummaryRow}>
-          <span>Доставка:</span>
-          <span>{deliveryCost.toFixed(2)} грн</span>
+        <div className={css.basketDelivery}>
+          <div className={css.basketSumTitle}>Доставка:</div>
+          <div className={css.basketSumCost}>{deliveryCost.toFixed(2)} грн</div>
         </div>
-        <div className={`${css.basketSummaryRow} ${css.basketSummaryTotal}`}>
-          <span>Всього:</span>
-          <span>{total.toFixed(2)} грн</span>
+        <div className={css.basketSummaryTotal}>
+          <div className={css.basketTotalTitle}>Всього:</div>
+          <div className={css.basketTotalPrice}>{total.toFixed(2)} грн</div>
         </div>
       </div>
     </div>
