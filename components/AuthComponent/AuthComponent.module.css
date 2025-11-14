@@ -1,17 +1,44 @@
-.wrapper {
+body {
+  background: var(--main-background-light);
+}
+
+/* Хедер та футер */
+
+.header {
+  text-align: start;
+  padding: 18px 0;
+}
+
+.footer {
+  padding: 25.5px 0;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 14px;
+  color: var(--color-scheme-6-text);
+}
+
+/* Блок головного контенту */
+
+.content {
   padding: 79px 0;
 }
 
 @media screen and (min-width: 768px) {
-  .wrapper {
-    padding: 178px 0;
-  }
-
   .content {
+    padding: 126px 0;
     max-width: 480px;
     margin: 0 auto;
   }
 }
+
+@media screen and (min-width: 1440px) {
+  .content {
+    padding: 118.5px 0;
+  }
+}
+
 /* Кнопки реєстрації та входу  */
 
 .buttonsBlock {

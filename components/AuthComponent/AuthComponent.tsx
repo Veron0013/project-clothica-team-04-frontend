@@ -98,6 +98,13 @@ export default function AuthComponent({ login = false }: { login?: boolean }) {
 
   return (
     <div className={css.wrapper}>
+      <header className={css.header}>
+        <Link href="/" className={css.logo} aria-label="Clothica logo">
+          <svg width="84" height="36" aria-hidden="true">
+            <use href="/sprite.svg#icon-company-logo" />
+          </svg>
+        </Link>
+      </header>
       <div className={css.content}>
         <div className={css.buttonsBlock}>
           <div className={`${css.authBtn} ${!login ? css.active : ""}`}>
@@ -107,7 +114,6 @@ export default function AuthComponent({ login = false }: { login?: boolean }) {
             <Link href="/sign-in">Вхід</Link>
           </div>
         </div>
-
         <Formik
           initialValues={login ? initLoginValues : initRegValues}
           validationSchema={login ? SignInSchema : SignUpSchema}
@@ -196,6 +202,9 @@ export default function AuthComponent({ login = false }: { login?: boolean }) {
           )}
         </Formik>
       </div>
+      <footer className={css.footer}>
+        <p>&copy; {new Date().getFullYear()} Clothica. Всі права захищені.</p>
+      </footer>
     </div>
   );
 }
