@@ -13,6 +13,7 @@ import { Order } from "@/types/orders"
 import { getUserOrders } from "@/lib/api/api"
 import MessageNoInfo from "@/components/MessageNoInfo/MessageNoInfo"
 
+
 export default function ProfilePage() {
 	const router = useRouter()
 	const clearIsAuthenticated = useAuthStore((state) => state.clearIsAuthenticated)
@@ -49,7 +50,6 @@ export default function ProfilePage() {
 				setOrdersError(null)
 
 				const data = await getUserOrders(userId)
-				//console.log(data)
 				setOrders(data)
 			} catch (error) {
 				console.error(error)
@@ -127,7 +127,7 @@ export default function ProfilePage() {
 				</div>
 			</div>
 
-			<div className="container">
+			<div>
 				<button type="button" className={css.logoutBtn} onClick={handleLogout} disabled={isLoggingOut}>
 					{isLoggingOut ? "Виходжу..." : "Вийти з кабінету"}
 				</button>
