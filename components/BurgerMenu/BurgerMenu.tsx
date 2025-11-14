@@ -31,8 +31,15 @@ export default function BurgerMenu({ menuOpen, onClose }: BurgerMenuProps) {
       </ul>
 
       <div className={css.BurgerAuth}>
-        {/* 👇 Та сама логіка, що й у Header */}
-        {!isAuthenticated ? (
+        {isAuthenticated ? ( // ✅ якщо залогінений
+          <Link
+            href="/profile"
+            onClick={onClose}
+            className={css.BurgerNavUpBasket}
+          >
+            Кабінет
+          </Link>
+        ) : (
           <>
             <Link href="/sign-in" onClick={onClose} className={css.BurgerNavUp}>
               Вхід
@@ -41,14 +48,6 @@ export default function BurgerMenu({ menuOpen, onClose }: BurgerMenuProps) {
               Реєстрація
             </Link>
           </>
-        ) : (
-          <Link
-            href="/profile"
-            onClick={onClose}
-            className={css.BurgerNavUpBasket}
-          >
-            Кабінет
-          </Link>
         )}
       </div>
     </div>
