@@ -49,7 +49,7 @@ export default function ProfilePage() {
 				setIsLoadingOrders(true)
 				setOrdersError(null)
 
-				const data = await getUserOrders(userId)
+				const data = await getUserOrders()
 				setOrders(data)
 			} catch (error) {
 				console.error(error)
