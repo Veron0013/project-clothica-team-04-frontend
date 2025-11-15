@@ -1,8 +1,5 @@
-import { PER_PAGE } from "@/lib/vars"
 import { User } from "@/types/user"
-import { nextServer } from "./api"
-import type { FeedbackPayload } from "@/types/feedback"
-import axios from "axios"
+import { nextAuthServer } from "./api"
 
 //axios.defaults.baseURL = MAIN_URL
 //axios.defaults.headers.common["Authorization"] = `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`
@@ -51,48 +48,48 @@ export type Category = {
 
 export type UpdateUserRequest = {
 	username?: string
+	city?: string
+	warehouse?: string
+	fullname?: string
+	phone?: string
 	avatar?: File | null
 }
 
-export const createQueryParams = (search = "", page = 1, tag?: string): ApiQueryParams => {
-	const params: SearchParams = {
-		search,
-		page,
-		limit: PER_PAGE,
-	}
-	//console.log(tag)
-	//if (tag !== "All") {
-	//	params.tag = tag as Tag
-	//}
-
-	return { params }
+export type AuthValues = {
+	username?: string
+	phone: string
+	password: string
 }
 
 ////////////////////////////////////////
 
-export const login = async (data: LoginRequest) => {
-	const res = await nextServer.post<User>("/auth/login", data)
+export async function callAuth(isLogin: boolean, values: AuthValues) {
+	return isLogin ? await login(values) : await register(values)
+}
+
+export const register = async (data: AuthValues) => {
+	const res = await nextAuthServer.post<User>("/auth/register", data)
+	return res.data
+}
+
+export const login = async (data: AuthValues) => {
+	const res = await nextAuthServer.post<User>("/auth/login", data)
 	return res.data
 }
 
 export const logout = async (): Promise<void> => {
-	await nextServer.post("/auth/logout")
-}
-
-export const register = async (data: RegisterRequest) => {
-	const res = await nextServer.post<User>("/auth/register", data)
-	return res.data
+	await nextAuthServer.post("/auth/logout")
 }
 
 export const checkSession = async () => {
-	const res = await nextServer.get<CheckSessionRequest>("/auth/me")
+	const res = await nextAuthServer.get<CheckSessionRequest>("/auth/me")
 	return res.data.success
 }
 
 export const getMe = async () => {
 	const refreshSession = await checkSession()
 	if (refreshSession) {
-		const { data } = await nextServer.get<User>("/users/me")
+		const { data } = await nextAuthServer.get<User>("/users/me")
 		return data
 	} else {
 		throw new Error(JSON.stringify({ message: "Session expired", code: 401 }))
@@ -108,7 +105,7 @@ export const updateMe = async (payload: UpdateUserRequest) => {
 		if (payload.username) formData.append("username", payload.username)
 		if (payload.avatar) formData.append("avatar", payload.avatar)
 
-		const res = await nextServer.patch<User>("/users/me", formData)
+		const res = await nextAuthServer.patch<User>("/users/me", formData)
 		return res.data
 	} else {
 		throw new Error(JSON.stringify({ message: "Session expired", code: 401 }))
@@ -118,16 +115,16 @@ export const updateMe = async (payload: UpdateUserRequest) => {
 export const uploadImage = async (file: File): Promise<string> => {
 	const formData = new FormData()
 	formData.append("file", file)
-	const { data } = await nextServer.post("/upload", formData)
+	const { data } = await nextAuthServer.post("/upload", formData)
 	return data.url
 }
 
 export const passwordSendMail = async (email: ResetPasswordSendmailRequest) => {
-	const res = await nextServer.post("/auth/request-reset-email", email)
+	const res = await nextAuthServer.post("/auth/request-reset-email", email)
 	return res
 }
 
 export const resetPassword = async (body: RestorePasswordRequest) => {
-	const res = await nextServer.post("/auth/reset-password", body)
+	const res = await nextAuthServer.post("/auth/reset-password", body)
 	return res
 }

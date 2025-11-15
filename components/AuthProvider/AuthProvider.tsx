@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useAuthStore } from "@/stores/authStore"
-import { nextServer } from "@/lib/api/api"
+import { nextAuthServer } from "@/lib/api/api"
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
 	const setUser = useAuthStore((s) => s.setUser)
@@ -11,7 +11,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 	useEffect(() => {
 		const checkSession = async () => {
 			try {
-				const { data } = await nextServer.get("/auth/refresh")
+				const { data } = await nextAuthServer.get("/auth/refresh")
 				if (data?.user) {
 					setUser(data.user)
 				} else {

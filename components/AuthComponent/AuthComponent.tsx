@@ -7,9 +7,10 @@ import css from "./AuthComponent.module.css"
 import { ErrorMessage, Field, Form, Formik } from "formik"
 import * as Yup from "yup"
 
-import { callAuth, type AuthValues } from "@/lib/api/authApi"
 import toastMessage, { MyToastType } from "@/lib/messageService"
 import { useAuthStore } from "@/stores/authStore"
+import { callAuth } from "@/lib/api/clientApi"
+import { AuthValues } from "@/lib/api/authApi"
 
 interface AuthComponentProps {
 	login?: boolean
@@ -34,13 +35,14 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
 
 	const setUser = useAuthStore((s) => s.setUser)
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const handleSubmit = async (values: AuthValues, { setSubmitting, setFieldError, setStatus, resetForm }: any) => {
 		setStatus(null)
 		const loadingId = toastMessage(MyToastType.loading, login ? "Вхід..." : "Реєстрація...")
 
 		try {
-			const data = await callAuth(login, values)
-			const userObj = login ? data?.user : data
+			const userObj = await callAuth(login, values)
+			//const userObj = login ? data : data
 			if (!userObj) {
 				setStatus("Невідома помилка: користувача не отримано")
 				toastMessage(MyToastType.error, "Сталася помилка. Спробуйте ще раз.")
@@ -55,6 +57,7 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
 
 			toastMessage(MyToastType.success, login ? "Ви успішно увійшли!" : "Ви успішно зареєструвалися!")
 			router.push("/")
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (e: any) {
 			const msg = e?.message || "Oops... some error"
 			if (msg.includes("Phone and password required")) {
