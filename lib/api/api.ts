@@ -7,6 +7,7 @@ import {
   GoodsResponse,
 } from "@/types/goods";
 import { Order } from "@/types/orders";
+import { UpdateMeRequest, User } from "@/types/user";
 import axios, { AxiosError } from "axios";
 
 export type ApiError = AxiosError<{ error: string }>;
@@ -52,15 +53,11 @@ export const getFilterOptions = async (): Promise<AllFilters> => {
 };
 
 export const getUserOrders = async (userId: string): Promise<Order[]> => {
-<<<<<<< HEAD
 	const response = await nextServer.get<Order[]>(`/orders/${userId}`)
 	return response.data
 }
 
-
-
-=======
-  const response = await nextServer.get<Order[]>(`/orders/${userId}`);
-  return response.data;
+export const updateMe = async (data: UpdateMeRequest): Promise<User> => {
+  const res = await nextServer.patch<User>("/users/me", data);
+  return res.data;
 };
->>>>>>> bb1b82ff14e0bcefe029726a8b38b0d29f185dda

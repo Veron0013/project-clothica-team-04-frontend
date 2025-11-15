@@ -9,3 +9,11 @@ export type User = {
 }
 
 export type EditUser = Omit<User, "avatar">
+
+export type UpdateMeRequest = {
+  name?: string;
+  lastname?: string;
+  phone?: string;
+  city?: string;
+  warehoseNumber?: number;
+};
