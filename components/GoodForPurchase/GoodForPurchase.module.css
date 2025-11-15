@@ -382,11 +382,11 @@
 }
 
 .descriptionParagraph {
-    margin-bottom: 1.5em; 
-    line-height: 1.6; 
+    margin-bottom: 20px;
 }
 
-
-.descriptionParagraph:last-child {
-    margin-bottom: 0;
+.characteristicsList {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
 }

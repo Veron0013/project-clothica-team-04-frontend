@@ -17,8 +17,14 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
   const { addGood } = useBasket();
   const router = useRouter();
 
-  const [selectedSize, setSelectedSize] = useState<string>("");
-  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>(
+    good.size && good.size.length > 0 ? good.size[0] : ""
+  );
+
+  const [selectedColor, setSelectedColor] = useState<string>(
+    good.color && good.color.length > 0 ? good.color[0] : ""
+  );
+
   const [quantity, setQuantity] = useState(1);
   const [images, setImages] = useState<string[]>([]);
   const [mainImage, setMainImage] = useState<string>("");
@@ -111,7 +117,7 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [good._id, isSizeDropdownOpen, isColorDropdownOpen]);
+  }, [good._id]);
 
   const renderStars = (rating: number) => {
     const MAX_STARS = 5;
@@ -215,7 +221,7 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
             <Link href="/goods">Всі товари</Link> &#62;{" "}
             {good.category?.name ? (
               <>
-                <Link href={`goods?category=${good.category.name}`}>
+                <Link href={`/goods?category=${good.category._id}`}>
                   {good.category.name}
                 </Link>{" "}
                 &#62;{" "}
@@ -244,7 +250,7 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
           {good.prevDescription && (
             <p className={styles.shortDescription}>{good.prevDescription}</p>
           )}
-
+          {/* // Cелектор кольору // */}
           <div className={styles.selectorsStyles}>
             {good.color && good.color.length > 0 && (
               <div className={styles.selectorBlock}>
@@ -292,9 +298,12 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
                 )}
               </div>
             )}
-
+            {/* Селектор розміру */}
             {good.size && good.size.length > 0 && (
-              <div className={styles.selectorBlock}>
+              <div
+                className={styles.selectorBlock}
+                id={`size-selector-${good._id}`}
+              >
                 <p className={styles.selectorTitle}>Розмір</p>
 
                 <div
@@ -402,11 +411,11 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
                   {good.characteristics && good.characteristics.length > 0 && (
                     <>
                       <p className={styles.characteristicsTitle}>
-                        Основні характеристики:
+                        Основні характеристики
                       </p>
                       <ul className={styles.characteristicsList}>
                         {good.characteristics.map((char, index) => (
-                          <li key={index}>{char}</li>
+                          <li className={styles.characteristicsList} key={index}>{char}</li>
                         ))}
                       </ul>
                     </>
