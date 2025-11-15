@@ -43,7 +43,7 @@ export const getFilterOptions = async (): Promise<AllFilters> => {
 	return response.data
 }
 
-export const getUserOrders = async (userId: string): Promise<Order[]> => {
-	const response = await nextServer.get<Order[]>(`/orders/${userId}`)
+export const getUserOrders = async (): Promise<Order[]> => {
+	const response = await nextAuthServer.get<Order[]>(`/orders`)
 	return response.data
 }
