@@ -110,7 +110,7 @@ export default function ProfilePage() {
 										<p className={css.orderNumber}>№ {order.orderNumber}</p>
 									</div>
 									<div className={css.orderCol}>
-										<p className={css.orderLabel}>Сума: </p>
+										<p className={css.orderLabel}>Сума: {order.totalAmount}</p>
 										<p className={css.orderValue}>
 											{order.totalPrice} {order.currency}
 										</p>
