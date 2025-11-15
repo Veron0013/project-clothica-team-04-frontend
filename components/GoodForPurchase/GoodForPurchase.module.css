@@ -8,47 +8,45 @@
   grid-template-columns: 1fr;
   gap: 40px;
   margin: 0 auto;
-  min-width: 320px;
-  max-width: 1440px; 
-  padding: 0 20px;
-}
+  }
 
 @media screen and (min-width: 768px) {
-    .container {
-        grid-template-columns: 1fr 1fr; /* Дві колонки */
-        gap: 60px;
-        align-items: start;
-        padding: 0 32px;
-    }
-}
-
-@media screen and (min-width: 1440px) {
-    .container {
-        padding: 0 64px;
-    }
+  .container {
+    grid-template-columns: 1fr 1fr; /* Дві колонки */
+    align-items: start;
+     }
 }
 
 /* --- ГАЛЕРЕЯ (ЛІВА ЧАСТИНА) --- */
-.gallery {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: sticky;
-  top: 20px;
-}
 
 .mainImageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4; 
-  background-color: var(--color-deco-lighter); 
+  aspect-ratio: 3 / 4;
+  background-color: var(--color-deco-lighter);
   border-radius: 8px;
   overflow: hidden;
+  padding: 0 0 16px;
 }
 
 .mainImage {
   object-fit: cover;
-}
+  width: 335px;
+  height: 373px;}
+
+  @media screen and (min-width: 768px) {
+    .mainImage {
+      width: 336px;
+      height: 358px;
+    }
+  }
+
+  @media screen and (min-width: 1440px) {
+    .mainImage {
+      width: 640px;
+      height: 682px;
+    }
+  }
 
 .thumbnails {
   display: flex;
@@ -65,207 +63,264 @@
   height: 100px;
   flex-shrink: 0;
   cursor: pointer;
-  border: 1px solid var(--opacity-neutral-darkest-15); 
+  border: 1px solid var(--opacity-neutral-darkest-15);
   border-radius: 4px;
   overflow: hidden;
   transition: border-color 0.2s;
 }
 
 .thumbnailItem.activeThumb {
-  border-color: var(--color-neutral-darkest); 
+  border-color: var(--color-neutral-darkest);
 }
 
 /* --- ІНФОРМАЦІЯ (ПРАВА ЧАСТИНА) --- */
 .info {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .categoryPath {
+  font-family: var(--font-family);
+  font-weight: 400;
   font-size: 14px;
-  color: var(--color-neutral); 
-  margin: 0;
+  line-height: 150%;
+  text-align: center;
+  color: var(--color-scheme-1-text);
+  text-align: justify;
+}
+
+.span {
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--color-scheme-1-text);
 }
 
 .title {
+  font-family: var(--second-family);
+  font-weight: 400;
   font-size: 32px;
-  font-weight: 600;
-  line-height: 1.2;
-  margin: 0;
-  color: var(--color-neutral-darkest);
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  color: var(--color-scheme-1-text);
 }
 
 .meta {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: center;  
+  gap: 8px;
   border-bottom: 1px solid var(--opacity-neutral-darkest-15);
   padding-bottom: 16px;
 }
 
 .price {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--color-neutral-darkest);
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: -0.01em;
+  color: var(--color-scheme-1-text);
+  border-right: 1px solid var(--opacity-neutral-darkest-15);
+  padding-right: 16px;
 }
 
 .rating {
   display: flex;
   align-items: center;
-  gap: 4px; 
   font-size: 16px;
-  color: var(--color-neutral);
+  gap: 4px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--color-scheme-1-text);
+ 
 }
 
 .reviewsCount {
+  font-family: var(--font-family);
+  font-weight: 400;
   font-size: 14px;
-  color: var(--color-neutral);
+  line-height: 150%;
+  text-align: center;
+  color: var(--color-scheme-1-text);
 }
 
 .shortDescription {
+  font-family: var(--font-family);
+  font-weight: 400;
   font-size: 16px;
-  line-height: 1.5;
-  color: var(--color-neutral-dark); 
-  margin: 0;
+  line-height: 150%;
+  color: var(--color-scheme-1-text);
 }
 
 /* --- СЕЛЕКТОРИ (ВИПАДАЮЧИЙ СПИСОК / БЕКДРОП) --- */
+.selectorsStyles {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .selectorBlock {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .selectorTitle {
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--color-neutral-darkest);
-  margin: 0;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-scheme-1-text);
 }
 
 .selectDropdown {
-    width: 100%;
-    height: 48px;
-    padding: 0 16px;
-    
-    /* СТИЛЬ БЕКДРОПУ: Білий фон + Сіра межа */
-    background: var(--color-white);
-    border: 1px solid var(--opacity-neutral-darkest-20);
-    
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--color-neutral-darkest);
-    
-    /* Приховуємо стандартну стрілку та додаємо кастомну */
-    appearance: none; 
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%234c4c4c" d="M7 10l5 5 5-5z"/></svg>'); 
-    background-repeat: no-repeat;
-    background-position: right 10px center;
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+
+  background: var(--opasity-transparent);
+  border: 1px solid var(--opacity-neutral-darkest-20);
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-neutral-darkest);
+
+   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%234c4c4c" d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
 }
 
 .selectDropdown:focus {
-    outline: none;
-    border-color: var(--color-neutral-darkest);
+  outline: none;
+  border-color: var(--color-neutral-darkest);
 }
 
 .selectDropdown option {
-    color: var(--color-neutral-darkest);
-    background: var(--color-white);
+  color: var(--color-neutral-darkest);
+  background-color: var(--opacity-transparent);
 }
 
 .selectDropdown option:disabled {
-    color: var(--color-neutral); 
+  color: var(--color-neutral);
 }
 
 .selectedValueDisplay {
-    font-size: 14px;
-    color: var(--color-neutral);
-    margin: 0;
-    margin-top: -5px; 
+  font-size: 14px;
+  color: var(--color-neutral);
+  margin: 0;
+  margin-top: -5px;
+}
+.sizeDropdown {
+  background-color: var(--opasity-transparent);
+  border-radius: 16px;
 }
 
-
-/* --- КНОПКИ ДІЙ (КІЛЬКІСТЬ + 2 КНОПКИ) --- */
-.purchaseActions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-top: 10px;
+.btnSection {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
-
-.quantitySelector {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 110px;
-    height: 56px;
-    border: 1px solid var(--opacity-neutral-darkest-20);
-    border-radius: 4px;
-    background: var(--color-white); /* Бекдроп для вікна кількості */
-    flex-shrink: 0; 
-}
-
-.quantityBtn {
-    width: 35px;
-    height: 100%;
-    background: transparent;
-    border: none;
-    font-size: 22px;
-    font-weight: 400;
-    color: var(--color-neutral-darkest);
-    cursor: pointer;
-}
-
-.quantityBtn:disabled {
-    color: var(--color-neutral-light);
-    cursor: not-allowed;
-}
-
-.quantityDisplay {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-neutral-darkest);
-    user-select: none;
-}
-
-/* Кнопки додавання/купівлі */
-.addToCartBtn, .buyNowBtn {
-  flex-grow: 1; 
-  height: 56px;
+/* Кнопка Додати в кошик (основна) */
+.addToCartBtn,
+.buyNowBtn {
+  flex-grow: 1;
+  height: 100%;
   border-radius: 4px;
+  line-height: 150%;
   font-size: 16px;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-/* Кнопка Додати в кошик (основна) */
 .addToCartBtn {
-    background-color: var(--color-neutral-darkest);
-    color: var(--color-white);
-    border: 1px solid var(--color-neutral-darkest);
+  border: 1px solid var(--color-deco);
+  border-radius: 100px;
+  padding: 6px 12px;
+  height: 36px;
+  background-color: var(--color-deco);
 }
 
-.addToCartBtn:hover {
-    background-color: var(--color-neutral-darker);
+@media screen and (min-width: 1440px) {
+  
+.addToCartBtn:hover,
+.addToCartBtn:focus {
+  background-color: var(--color-deco-dark);
+}
+.addToCartBtn:active {
+  background-color: var(--color-deco-darker);
+  color: var(--color-white);
+}
 }
 
+.purchaseActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+   border: 1px solid var(--opacity-neutral-darkest-20);
+  border-radius: 16px;}
+
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 110px;
+  height: 100%;
+ }
+
+.quantityBtn {
+  width: 35px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--color-neutral-darkest);
+  cursor: pointer;
+}
+
+.quantityBtn:disabled {
+  color: var(--color-neutral-light);
+  cursor: not-allowed;
+}
+
+.quantityDisplay {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-neutral-darkest);
+  user-select: none;
+}
 /* Кнопка Купити зараз (вторинна) */
 .buyNowBtn {
-    background-color: var(--color-white); 
-    color: var(--color-neutral-darkest);
-    border: 1px solid var(--color-neutral-darkest);
+  border: 1px solid var(--opacity-transparent);
+  border-radius: 100px;
+  padding: 6px 12px;
+  width: 100%;
+  height: 100%;
+  background: var(--opacity-neutral-darkest-5);
 }
 
-.buyNowBtn:hover {
-    background-color: var(--color-neutral-lightest);
+
+
+@media screen and (min-width: 1440px) {
+.buyNowBtn:hover, .buyNowBtn:focus {
+background: var(--opacity-neutral-darkest-15);
+
+}.buyNowBtn:active {
+  background: var(--opacity-neutral-darkest-50);
+color: var(--color-white);
+}
 }
 
 .error {
@@ -274,54 +329,34 @@
   margin: 0;
 }
 
-/* --- АКОРДЕОН (ОПИС) --- */
-.details {
-  margin-top: 20px;
-  border-top: 1px solid var(--opacity-neutral-darkest-15);
-}
-
-.detailItem {
-  border-bottom: 1px solid var(--opacity-neutral-darkest-15);
+.detailContentDelivery {
+  text-align: center;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--color-scheme-1-text);
 }
 
 .detailSummary {
-  padding: 18px 0;
-  cursor: pointer;
-  font-weight: 600;
+  padding: 8px 0px 0px;
+  width: 40px;
+  height: 40px;
+  font-family: var(--font-family);
+  font-weight: 400;
   font-size: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none;
-  color: var(--color-neutral-darkest);
-}
-
-.detailSummary::after {
-    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%23000" d="M7 10l5 5 5-5z"/></svg>');
-    transition: transform 0.2s;
-}
-
-.detailItem[open] > .detailSummary::after {
-    transform: rotate(180deg);
-}
-
-.detailSummary::-webkit-details-marker {
-  display: none;
+  line-height: 150%;
+  color: var(--color-scheme-1-text);
+  border-bottom: 1px solid var(--color-scheme-1-accent);
+  margin-bottom: 24px;
 }
 
 .detailContent {
-    padding-bottom: 20px;
-    margin: 0;
-}
-
-.characteristicsList {
-    list-style: disc; 
-    padding-left: 20px;
-    margin: 0;
-    color: var(--color-neutral-dark);
-}
-
-.characteristicsList li {
-    padding-bottom: 5px;
-    line-height: 1.5;
+  font-family: var(--font-family);
+  text-align: start;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-scheme-1-text);
 }

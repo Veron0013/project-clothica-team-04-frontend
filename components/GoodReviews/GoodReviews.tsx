@@ -66,7 +66,8 @@ export default function GoodReviews({
     <section className={styles.reviewsSection} id="reviews">
       <div className={styles.header}>
         <h2 className={styles.title}>
-          Відгуки <span className={styles.count}>({totalFeedbacks})</span>
+           Відгуки клієнтів
+           <span className={styles.count}>({totalFeedbacks})</span>
         </h2>
 
         <button
@@ -74,7 +75,7 @@ export default function GoodReviews({
           type="button"
           onClick={handleOpenModal}
         >
-          Написати відгук
+          Залишити відгук
         </button>
       </div>
 
@@ -112,8 +113,16 @@ export default function GoodReviews({
             )}
           </>
         ) : (
-          <div className={styles.noReviews}>
-            <p>Ще немає відгуків про цей товар. Будьте першим!</p>
+            <div className={styles.noReviews}>
+              <p>Ще немає відгуків про цей товар. Будьте першим!</p>
+              
+        <button
+          className={styles.writeBtnNoReviews}
+          type="button"
+          onClick={handleOpenModal}
+        >
+          Залишити відгук
+        </button>
           </div>
         )}
       </div>
