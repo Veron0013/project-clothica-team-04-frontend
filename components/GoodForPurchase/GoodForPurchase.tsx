@@ -7,22 +7,24 @@ import styles from "./GoodForPurchase.module.css";
 import { useBasket } from "@/stores/basketStore";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface GoodForPurchaseProps {
   good: Good;
 }
 
 export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
-	const { addGood } = useBasket();
-	const router = useRouter()
+  const { addGood } = useBasket();
+  const router = useRouter();
 
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [quantity, setQuantity] = useState(1);
-
-  // Логіка ініціалізації зображень
   const [images, setImages] = useState<string[]>([]);
   const [mainImage, setMainImage] = useState<string>("");
+
+  const [isSizeDropdownOpen, setIsSizeDropdownOpen] = useState(false);
+  const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
 
   useEffect(() => {
     const ts_setImages = async () => {
@@ -88,9 +90,28 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
     prepareForCheckout();
     toast("Товар додано. Перенаправляємо на оформлення замовлення!", {
       icon: "🛒",
-	})
-		router.push("/order");
+    });
+    router.push("/order");
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const sizeBlock = document.getElementById(`size-selector-${good._id}`);
+      const colorBlock = document.getElementById(`color-selector-${good._id}`);
+
+      if (sizeBlock && !sizeBlock.contains(event.target as Node)) {
+        setIsSizeDropdownOpen(false);
+      }
+      if (colorBlock && !colorBlock.contains(event.target as Node)) {
+        setIsColorDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [good._id, isSizeDropdownOpen, isColorDropdownOpen]);
 
   const renderStars = (rating: number) => {
     const MAX_STARS = 5;
@@ -191,7 +212,17 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
         {/* --- ПРАВА КОЛОНКА: ІНФОРМАЦІЯ --- */}
         <div className={styles.info}>
           <p className={styles.categoryPath}>
-            Всі товари &#62; {good.category?.name || "Каталог"} &#62;{" "}
+            <Link href="/goods">Всі товари</Link> &#62;{" "}
+            {good.category?.name ? (
+              <>
+                <Link href={`goods?category=${good.category.name}`}>
+                  {good.category.name}
+                </Link>{" "}
+                &#62;{" "}
+              </>
+            ) : (
+              "Каталог"
+            )}
             <span className={styles.span}>{good.name}</span>
           </p>
 
@@ -209,53 +240,103 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
               </span>
             </div>
           </div>
+
           {good.prevDescription && (
             <p className={styles.shortDescription}>{good.prevDescription}</p>
           )}
+
           <div className={styles.selectorsStyles}>
             {good.color && good.color.length > 0 && (
               <div className={styles.selectorBlock}>
                 <p className={styles.selectorTitle}>Колір</p>
-                <select
-                  className={`${styles.selectDropdown} ${styles.colorDropdown}`}
-                  value={selectedColor || ""}
-                  onChange={(e) => {
-                    setSelectedColor(e.target.value);
-                    setErrorMsg(null);
+
+                <div
+                  className={`${styles.selectDropdown} ${
+                    styles.colorDropdown
+                  } ${isColorDropdownOpen ? styles.arrowUp : ""}`}
+                  onClick={() => {
+                    setIsColorDropdownOpen(!isColorDropdownOpen);
+                    if (isSizeDropdownOpen) setIsSizeDropdownOpen(false);
                   }}
                 >
-                  <option value="" disabled>
-                    {good.color[0]}
-                  </option>
-                  {good.color.map((color) => (
-                    <option key={color} value={color}>
-                      {color}
-                    </option>
-                  ))}
-                </select>
+                  <p className={styles.selectedValueDisplay}>
+                    {selectedColor || good.color[0]}
+                  </p>
+                  <Image
+                    src="/svg/keyboard_arrow_down.svg"
+                    alt="Select arrow"
+                    width={24}
+                    height={24}
+                    className={`${styles.dropdownArrow} ${
+                      isColorDropdownOpen ? styles.arrowUp : ""
+                    }`}
+                  />
+                </div>
+
+                {isColorDropdownOpen && (
+                  <ul className={styles.customOptionsList}>
+                    {good.color.map((color) => (
+                      <li
+                        key={color}
+                        className={styles.customOptionItem}
+                        onClick={() => {
+                          setSelectedColor(color);
+                          setIsColorDropdownOpen(false);
+                          setErrorMsg(null);
+                        }}
+                      >
+                        {color}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
 
             {good.size && good.size.length > 0 && (
               <div className={styles.selectorBlock}>
                 <p className={styles.selectorTitle}>Розмір</p>
-                <select
-                  className={`${styles.selectDropdown} ${styles.sizeDropdown}`}
-                  value={selectedSize || ""}
-                  onChange={(e) => {
-                    setSelectedSize(e.target.value);
-                    setErrorMsg(null);
+
+                <div
+                  className={`${styles.selectDropdown} ${styles.sizeDropdown} ${
+                    isSizeDropdownOpen ? styles.openDropdown : ""
+                  }`}
+                  onClick={() => {
+                    setIsSizeDropdownOpen(!isSizeDropdownOpen);
+                    if (isColorDropdownOpen) setIsColorDropdownOpen(false);
                   }}
                 >
-                  <option value="" disabled>
-                    {good.size[0]}
-                  </option>
-                  {good.size.map((size) => (
-                    <option key={size} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
+                  <p className={styles.selectedValueDisplay}>
+                    {selectedSize || good.size[0]}
+                  </p>
+                  <Image
+                    src="/svg/keyboard_arrow_down.svg"
+                    alt="Select arrow"
+                    width={24}
+                    height={24}
+                    className={`${styles.dropdownArrow} ${
+                      isSizeDropdownOpen ? styles.arrowUp : ""
+                    }`}
+                  />
+                </div>
+
+                {isSizeDropdownOpen && (
+                  <ul className={styles.customOptionsList}>
+                    {good.size.map((size) => (
+                      <li
+                        key={size}
+                        className={styles.customOptionItem}
+                        onClick={() => {
+                          setSelectedSize(size);
+                          setIsSizeDropdownOpen(false);
+                          setErrorMsg(null);
+                        }}
+                      >
+                        {size}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             )}
 
@@ -283,25 +364,60 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
             </div>
             <button className={styles.buyNowBtn} onClick={handleBuyNow}>
               Купити зараз
-					  </button>
-					  <p className={styles.detailContentDelivery}>
+            </button>
+            <p className={styles.detailContentDelivery}>
               Безкоштовна доставка від 1000 грн.
             </p>
           </div>
+
           <div className={styles.details}>
-            
-            <div className={styles.detailSummary}>Опис</div>
-            <div className={styles.detailContent}>
-              {good.characteristics && good.characteristics.length > 0 ? (
-                <ul className={styles.characteristicsList}>
-                  {good.characteristics.map((char, index) => (
-                    <li key={index}>{char}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>Детальні характеристики відсутні.</p>
-              )}
-            </div>
+            {(good.description?.trim().length > 0 ||
+              good.characteristics?.length > 0) && (
+              <>
+                <div className={styles.detailSummary}>Опис</div>
+
+                <div className={styles.detailContent}>
+                  {good.description && good.description.trim().length > 0 && (
+                    <div className={styles.descriptionText}>
+                      {good.description
+                        .split("\n\n")
+                        .map((paragraph, index) => (
+                          <p
+                            key={index}
+                            className={styles.descriptionParagraph}
+                          >
+                            {paragraph.split("\n").map((line, lineIndex) => (
+                              <React.Fragment key={lineIndex}>
+                                {line}
+                                {lineIndex <
+                                  paragraph.split("\n").length - 1 && <br />}
+                              </React.Fragment>
+                            ))}
+                          </p>
+                        ))}
+                      {good.description}
+                    </div>
+                  )}
+
+                  {good.characteristics && good.characteristics.length > 0 && (
+                    <>
+                      <p className={styles.characteristicsTitle}>
+                        Основні характеристики:
+                      </p>
+                      <ul className={styles.characteristicsList}>
+                        {good.characteristics.map((char, index) => (
+                          <li key={index}>{char}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  {!good.description && !good.characteristics?.length && (
+                    <p>Детальний опис відсутній.</p>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
