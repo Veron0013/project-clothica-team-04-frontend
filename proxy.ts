@@ -6,7 +6,6 @@ import { checkServerSession } from "./lib/api/serverApi"
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies"
 
 const privateRoutes = ["/profile"]
-//const privateRoutes = [""]
 const publicRoutes = ["/sign-in", "/sign-up"]
 
 export async function proxy(request: NextRequest) {
@@ -92,5 +91,5 @@ const goHome = (cookieStore: ReadonlyRequestCookies, request: NextRequest) => {
 	cookieStore.delete("accessToken")
 	cookieStore.delete("refreshToken")
 	cookieStore.delete("sessionId")
-	return NextResponse.redirect(new URL("/sign-up", request.url))
+	//return NextResponse.redirect(new URL("/sign-up", request.url))
 }

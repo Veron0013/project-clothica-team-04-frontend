@@ -5,7 +5,7 @@ import { User } from "@/types/user"
 export const checkServerSession = async () => {
 	// Дістаємо поточні cookie
 	const cookieStore = await cookies()
-	const res = await nextServer.get("/auth/session", {
+	const res = await nextServer.get("/auth/me", {
 		headers: {
 			// передаємо кукі далі
 			Cookie: cookieStore.toString(),
@@ -17,9 +17,9 @@ export const checkServerSession = async () => {
 export const getServerMe = async (): Promise<User> => {
 	const cookieStore = await cookies()
 	const { data } = await nextServer.get("/users/me", {
-		headers: {
-			Cookie: cookieStore.toString(),
-		},
+		//headers: {
+		//	Cookie: cookieStore.toString(),
+		//},
 	})
 	return data
 }

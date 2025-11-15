@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
 			},
 		],
 	},
+	async rewrites() {
+		return [
+			{
+				source: "/api/:path*",
+				destination: "https://clothica-team-04-backend.onrender.com/:path*", // твій бекенд
+			},
+		]
+	},
 }
 
 export default nextConfig
