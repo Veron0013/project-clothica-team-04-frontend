@@ -1,53 +1,64 @@
-"use client";
+"use client"
 
-export const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+import { nextAuthServer } from "./api"
+
+export const API = process.env.NEXT_PUBLIC_API_URL ?? ""
 
 export type AuthValues = {
-  name?: string;
-  phone: string;
-  password: string;
-};
-
-export async function callAuth(login: boolean, values: AuthValues) {
-  const endpoint = login ? "/auth/login" : "/auth/register";
-
-  const res = await fetch(`${API}${endpoint}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify(values),
-  });
-
-  if (res.ok) {
-    return res.json();
-  }
-
-  const err = await res.json().catch(() => ({}));
-  throw new Error(err?.message || `HTTP ${res.status}`);
+	name?: string
+	phone: string
+	password: string
 }
+
+type CheckSessionRequest = {
+	success: boolean
+}
+
+//export async function callAuth(login: boolean, values: AuthValues) {
+//	const endpoint = login ? "/auth/login" : "/auth/register"
+
+//	const res = await fetch(`${API}${endpoint}`, {
+//		method: "POST",
+//		headers: { "Content-Type": "application/json" },
+//		credentials: "include",
+//		body: JSON.stringify(values),
+//	})
+
+//	if (res.ok) {
+//		return res.json()
+//	}
+
+//	const err = await res.json().catch(() => ({}))
+//	throw new Error(err?.message || `HTTP ${res.status}`)
+//}
 
 // Перевірка поточного користувача по сесії (через куки)
 export async function getMe() {
-  const res = await fetch(`${API}/auth/me`, {
-    credentials: "include",
-  });
+	const res = await fetch(`${API}/auth/me`, {
+		credentials: "include",
+	})
 
-  if (res.ok) {
-    return res.json();
-  }
+	if (res.ok) {
+		return res.json()
+	}
 
-  return null;
+	return null
 }
 
 // Логаут
 export async function logout() {
-  const res = await fetch(`${API}/auth/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
+	const res = await fetch(`${API}/auth/logout`, {
+		method: "POST",
+		credentials: "include",
+	})
 
-  if (res.ok || res.status === 204) return;
+	if (res.ok || res.status === 204) return
 
-  const err = await res.json().catch(() => ({}));
-  throw new Error(err?.message || `HTTP ${res.status}`);
+	const err = await res.json().catch(() => ({}))
+	throw new Error(err?.message || `HTTP ${res.status}`)
+}
+
+export const checkSession = async () => {
+	const res = await nextAuthServer.get<CheckSessionRequest>("/auth/me")
+	return res.data.success
 }

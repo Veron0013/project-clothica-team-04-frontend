@@ -12,11 +12,13 @@ import AuthPagesLayout from "@/components/AuthPagesLayout/AuthPagesLayout";
 const interSans = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const nunitoSans = Nunito_Sans({
   variable: "--font-nunito-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {

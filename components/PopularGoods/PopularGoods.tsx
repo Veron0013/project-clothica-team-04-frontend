@@ -24,12 +24,9 @@ type PopularGoodsProps = {
 };
 
 export default function PopularGoods({ initialData }: PopularGoodsProps) {
-  const limit = initialData.limit ?? 4;
+  const limit = initialData.limit ?? 6;
 
-  const total =
-    typeof initialData.total === "number"
-      ? initialData.total
-      : (initialData.totalPages - 1) * limit + initialData.items.length;
+  const total = initialData.total;
 
   const seed = {
     ...initialData,
@@ -117,6 +114,8 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
             pagination={{
               clickable: true,
               el: ".popularPagination",
+              dynamicBullets: true,
+              dynamicMainBullets: 1,
             }}
             className={css.swiper}
           >

@@ -75,10 +75,17 @@
 
 .controls {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 9px;
-  margin-top: 32px;
+
 }
+
+@media (min-width: 768px) {
+  .controls {
+    justify-content: flex-end;
+  }
+}
+
 
 .btnPrev,
 .btnNext {
@@ -107,11 +114,11 @@
 
 .btnPrev:disabled,
 .btnNext:disabled {
-  background: var(--color-deco-darkest);
-  border: 1px solid var(--color-deco);
+  background: var(--color-scheme-5-foreground);
+  border: 1px solid var(--color-scheme-1-background);
   cursor: default;
   opacity: 1;
-  color: var(--main-background-light);
+  color: var(--color-scheme-1-text);
 }
 
 .btnPrev:disabled svg,

@@ -4,6 +4,7 @@
   flex-direction: column;
   width: 100%;
 }
+
 .text {
   font-weight: 400;
   font-size: 20px;
@@ -12,6 +13,7 @@
   text-align: center;
   color: #000;
   padding-top: 48px;
+
 }
 
 .label {
@@ -20,10 +22,10 @@
   font-size: 16px;
   line-height: 1.5;
   color: #000;
-  gap: 8px;
+  gap: 10px;
 }
 
-.input{
+.input {
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 12px;
@@ -31,7 +33,9 @@
   font-size: 14px;
   background-color: #fff;
   margin-bottom: 16px;
+
 }
+
 .inputTel {
   width: 100%;
   border: 1px solid #ccc;
@@ -40,7 +44,9 @@
   font-size: 14px;
   background-color: #fff;
   margin-bottom: 16px;
+
 }
+
 .input::placeholder {
   font-size: 16px;
   line-height: 1.5;
@@ -59,16 +65,17 @@
   height: 100%;
   background-color: #c5e1a5;
   margin-bottom: 32px;
+  margin-top: 8px;
 }
 
 @media screen and (min-width: 768px) {
   .form {
     padding-top: 48px;
     padding-bottom: 32px;
-        flex-direction: row;
-            flex-wrap: wrap;
-            column-gap: 32px;
-            row-gap: 24px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    column-gap: 32px;
+    row-gap: 8px;
   }
 
   .inputTel {
@@ -77,37 +84,40 @@
   }
 
 
-.input{
-  width: 336px;
+  .input {
+    width: 336px;
     height: 40px;
     border: 1px solid rgba(0, 0, 0, 0.15);
-      border-radius: 16px;
-      font-size: 16px;
-}
+    border-radius: 16px;
+    font-size: 16px;
+  }
 
-.button{
-  border: 1px solid #c5e1a5;
+  .button {
+    border: 1px solid #c5e1a5;
     border-radius: 100px;
     width: 146px;
     height: 36px;
-padding: 6px 6px;
-margin: 0 auto;
-}
+    padding: 6px 6px;
+    margin: 0 auto;
+  }
 }
 
 @media screen and (min-width: 1440px) {
-  .text{
+  .text {
     padding-top: 0;
   }
+
   .inputTel {
     width: 640px;
-}
-.input {
-  width: 304px;
+  }
 
-}
-.form{
-  padding-bottom: 16px;
-}
+  .input {
+    width: 304px;
+
+  }
+
+  .form {
+    padding-bottom: 16px;
+  }
 
 }

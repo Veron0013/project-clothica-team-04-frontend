@@ -6,7 +6,6 @@ import { checkServerSession } from "./lib/api/serverApi"
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies"
 
 const privateRoutes = ["/profile"]
-//const privateRoutes = [""]
 const publicRoutes = ["/sign-in", "/sign-up"]
 
 export async function proxy(request: NextRequest) {
@@ -21,7 +20,7 @@ export async function proxy(request: NextRequest) {
 	const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route))
 	const isPrivateRoute = privateRoutes.some((route) => pathname.startsWith(route))
 
-	console.log("IP:", ip, isPublicRoute, isPrivateRoute, accessToken)
+	console.log("IP:", ip, isPublicRoute, isPrivateRoute, accessToken, refreshToken, sessionId)
 
 	if (!accessToken) {
 		if (refreshToken && sessionId) {
@@ -29,17 +28,16 @@ export async function proxy(request: NextRequest) {
 			try {
 				data = await checkServerSession()
 			} catch (error) {
-				return NextResponse.redirect(new URL("/", request.url))
+				console.log("go home data", data, error)
+				goHome(cookieStore)
 			}
 
-			console.log("==middleware==", data)
-
-			if (!data.data.success) {
-				console.log("go home data")
-				goHome(cookieStore, request)
+			if (!data?.data.user) {
+				console.log("go home no user", data?.data)
+				goHome(cookieStore)
 			}
 
-			const setCookie = data.headers["set-cookie"]
+			const setCookie = data?.headers["set-cookie"]
 
 			const response = isPrivateRoute ? NextResponse.next() : NextResponse.redirect(new URL("/", request.url))
 
@@ -50,9 +48,6 @@ export async function proxy(request: NextRequest) {
 				}
 			}
 			return response
-		} else {
-			console.log("go home", sessionId, refreshToken)
-			goHome(cookieStore, request)
 		}
 		// Якщо refreshToken або сесії немає:
 		// публічний маршрут — дозволяємо доступ
@@ -88,9 +83,9 @@ export const config = {
 	//matcher: ["/sign-in", "/sign-up"],
 }
 
-const goHome = (cookieStore: ReadonlyRequestCookies, request: NextRequest) => {
+const goHome = (cookieStore: ReadonlyRequestCookies) => {
 	cookieStore.delete("accessToken")
 	cookieStore.delete("refreshToken")
 	cookieStore.delete("sessionId")
-	return NextResponse.redirect(new URL("/sign-up", request.url))
+	//return NextResponse.redirect(new URL("/sign-up", request.url))
 }

@@ -1,34 +1,64 @@
-.filterContainerSidebar {
+.filterContainer {
   width: 100%;
-  max-width: 243px;
   margin-inline: auto;
+}
+
+.filterContainerSidebar {
+  max-width: 243px;
   margin-top: 8px;
   max-height: 320px;
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .filterContainerDropdown {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 8px 0;
-  margin: 0;
-  border: none;
-  border-radius: 0;
+  padding: 12px 12px 16px;
+  margin: 0 0 24px;
+
+  border-radius: 0 0 16px 16px;
+  border: 1px solid var(--color-scheme-1-border);
+  border-top: none;
   background: var(--color-scheme-4-background);
-  box-shadow: none;
+
   max-height: 60vh;
   overflow-y: auto;
   overflow-x: hidden;
-  margin-bottom: 24px;
+  transition: max-height 0.35s ease-out;
+
+  animation: dropdownOpen 0.25s ease-out;
+  transform-origin: top;
+}
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.filterContainerDropdownClosed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(-4px);
+  overflow: hidden;
 }
 
+/* 🧷 Кастомний скрол ТІЛЬКИ для дропдауна */
 .filterContainerDropdown::-webkit-scrollbar {
   width: 14px;
 }
 
 .filterContainerDropdown::-webkit-scrollbar-track {
-  background-color: var(--color-deco);
+  background-color: var(--color-deco-lightest);
   border-radius: 999px;
   border: 3px solid var(--color-deco-lightest);
   background-clip: content-box;
@@ -37,7 +67,7 @@
 .filterContainerDropdown::-webkit-scrollbar-thumb {
   background-color: var(--color-deco-darker);
   border-radius: 999px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   background-clip: padding-box;
 }
 
@@ -46,5 +76,10 @@
     max-height: none;
     overflow-y: visible;
     margin-inline: 0;
+  }
+
+  .filterContainerDropdown,
+  .filterContainerDropdownClosed {
+    display: none;
   }
 }
