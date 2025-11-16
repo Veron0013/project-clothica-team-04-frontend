@@ -33,7 +33,7 @@ export async function proxy(request: NextRequest) {
 			}
 
 			if (!data?.data.user) {
-				//console.log("go home data")
+				console.log("go home no user", data?.data)
 				goHome(cookieStore)
 			}
 
