@@ -3,7 +3,7 @@
 import { GoodsList } from "@/components/GoodsList"
 import { getGoods } from "@/lib/api/api"
 import toastMessage, { MyToastType } from "@/lib/messageService"
-import { PER_PAGE } from "@/lib/vars"
+import { CLEAR_FILTERS, PER_PAGE } from "@/lib/vars"
 import { Good, GoodsQuery } from "@/types/goods"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
@@ -103,6 +103,10 @@ const ProductsPageClient = () => {
 							<button className={css.cardCta} onClick={handleShowMore} disabled={isFetching}>
 								{isFetching ? "Завантаження..." : `Показати ще `}
 							</button>
+						)}
+
+						{data && data?.totalGoods === 0 && (
+							<MessageNoInfo buttonText="Скинути фільтри" text={CLEAR_FILTERS} route="/goods" />
 						)}
 					</div>
 				</div>
