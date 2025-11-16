@@ -52,6 +52,7 @@ export async function proxy(request: NextRequest) {
 		// Якщо refreshToken або сесії немає:
 		// публічний маршрут — дозволяємо доступ
 
+		console.log("no tokens", isPublicRoute, isPrivateRoute)
 		if (isPublicRoute) {
 			return NextResponse.next()
 		}
@@ -66,6 +67,7 @@ export async function proxy(request: NextRequest) {
 
 	// Якщо accessToken існує:
 	// публічний маршрут — виконуємо редірект на головну
+
 	if (isPublicRoute) {
 		return NextResponse.redirect(new URL("/", request.url))
 	}
