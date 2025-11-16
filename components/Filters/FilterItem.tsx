@@ -4,72 +4,97 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { startTransition, useState } from "react";
 import css from "./FilterItem.module.css";
-import Link from "next/link";
+
+type FilterItemProps = {
+  name: string;
+  value: string;
+  label: string;
+  onClose?: () => void;
+  multi?: boolean;
+  hideInput?: boolean;
+  variant?: "default" | "pill"; // 👈 додали
+};
 
 export default function FilterItem({
   name,
   value,
   label,
   onClose,
-}: {
-  name: string;
-  value: string;
-  label: string;
-  onClose?: () => void;
-}) {
+  multi = false,
+  hideInput = false,
+  variant = "default",
+}: FilterItemProps) {
   const pathname = usePathname();
   const router = useRouter();
   const sp = useSearchParams();
   const [pending, setPending] = useState(false);
 
-  // Поточне значення (припускаємо single-select для простоти)
-  const current = sp.get(name);
-  const isActive = current === value;
+  const currentValues = multi ? sp.getAll(name) : [sp.get(name) ?? ""];
+  const isActive = multi
+    ? currentValues.includes(value)
+    : sp.get(name) === value;
 
-  const handleClick = async (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handleChange = () => {
     if (pending) return;
 
-    // Скопіюємо searchParams
     const next = new URLSearchParams(sp.toString());
 
-    if (isActive) {
-      next.delete(name); // зняти фільтр
+    if (multi) {
+      const current = next.getAll(name);
+      if (isActive) {
+        const updated = current.filter((v) => v !== value);
+        next.delete(name);
+        updated.forEach((v) => next.append(name, v));
+      } else {
+        next.append(name, value);
+      }
     } else {
-      next.set(name, value); // встановити фільтр (single)
+      if (isActive) {
+        next.delete(name);
+      } else {
+        next.set(name, value);
+      }
     }
 
-    // Якщо потрібно - можна видаляти page/offset при зміні фільтра:
     next.delete("page");
 
     const href = `${pathname}${next.toString() ? "?" + next.toString() : ""}`;
 
-    // client-side navigation + pending indicator
     setPending(true);
     startTransition(() => {
-      // router.push повертає проміс, але startTransition достатній для ререндеру
       router.push(href);
     });
-    // optional: reset pending shortly after navigation started
     setTimeout(() => setPending(false), 1500);
 
-    // закриваємо модалку на мобільних (якщо потрібно)
-    if (onClose) onClose();
+    onClose?.();
   };
+
+  const inputClass = hideInput ? css.filterInputHidden : css.filterInput;
+
+  const linkClassName = [
+    css.filterLink,
+    variant === "pill" && css.filterLink_pill,
+    isActive && css.filterLink_active,
+    isActive && variant === "pill" && css.filterLink_pill_active,
+    pending && css.filterLink_disabled,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <li className={css.filterItem}>
-      <Link
-        href="#"
-        onClick={handleClick}
-        className={`${css.filterLink} ${
-          isActive ? css.filterLink_active : ""
-        } ${pending ? css.filterLink_disabled : ""}`}
-        aria-pressed={isActive}
-        aria-disabled={pending}
-      >
-        {label}
-      </Link>
+      <label className={css.filterLabel}>
+        <input
+          type={multi ? "checkbox" : "radio"}
+          name={name}
+          value={value}
+          checked={isActive}
+          onChange={handleChange}
+          disabled={pending}
+          className={inputClass}
+        />
+        <span className={linkClassName}>{label}</span>
+      </label>
     </li>
   );
 }

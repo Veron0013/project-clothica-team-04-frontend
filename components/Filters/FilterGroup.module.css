@@ -1,8 +1,12 @@
 .filterGroup {
   display: flex;
   flex-direction: column;
-  gap: 25 px;
-  border-bottom: 1px solid #eee;
+  gap: 16px;
+}
+.titleBtnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .filterTitle {
@@ -10,12 +14,34 @@
   font-size: 18px;
   line-height: 150%;
   color: var(--color-scheme-1-text);
-  margin-bottom: 8px;
+}
+.clear {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-neutral-darkest);
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+.clear:hover {
+  opacity: 0.7;
 }
 
 .filterList {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   list-style: none;
+}
+.filterDivider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-scheme-1-border);
+  border: none;
+  margin: 8px 0;
+  opacity: 0.7;
+}
+.filterList_wrap {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
 }

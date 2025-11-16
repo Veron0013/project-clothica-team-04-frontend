@@ -1,103 +1,113 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { useSearchParams, useRouter, usePathname } from "next/navigation"
-import css from "./FilterGroupPrice.module.css"
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import css from "./FilterGroupPrice.module.css";
 
-export default function FilterGroupPrice() {
-	const searchParams = useSearchParams()
-	const router = useRouter()
-	const pathname = usePathname()
+type FilterGroupPriceProps = {
+  className?: string;
+};
 
-	const initialMin = Number(searchParams.get("fromPrice")) || 1
-	const initialMax = Number(searchParams.get("toPrice")) || 50000
+const MIN = 0;
+const MAX = 50000;
 
-	const [minPrice, setMinPrice] = useState(initialMin)
-	const [maxPrice, setMaxPrice] = useState(initialMax)
+export default function FilterGroupPrice({ className }: FilterGroupPriceProps) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
-	useEffect(() => {
-		const fetchPrice = () => {
-			setMinPrice(initialMin)
-			setMaxPrice(initialMax)
-		}
+  const initialMin = Number(searchParams.get("fromPrice")) || MIN;
+  const initialMax = Number(searchParams.get("toPrice")) || MAX;
 
-		fetchPrice()
-	}, [initialMin, initialMax])
+  const [minPrice, setMinPrice] = useState(initialMin);
+  const [maxPrice, setMaxPrice] = useState(initialMax);
 
-	const handleChange = (key: "fromPrice" | "toPrice", value: number) => {
-		const params = new URLSearchParams(searchParams.toString())
-		params.set(key, String(value))
-		router.push(`${pathname}?${params.toString()}`, { scroll: false })
-	}
+  useEffect(() => {
+    setMinPrice(initialMin);
+    setMaxPrice(initialMax);
+  }, [initialMin, initialMax]);
 
-	return (
-		<div className={css.filterPrice}>
-			<h4 className={css.filterPrice__title}>Ціна, ₴</h4>
+  const updateUrl = (from: number, to: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("fromPrice", String(from));
+    params.set("toPrice", String(to));
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
-			<div className={css.filterPrice__inputs}>
-				<label className={css.filterPrice__label}>
-					від
-					<input
-						type="number"
-						className={css.filterPrice__input}
-						value={minPrice}
-						min={0}
-						max={maxPrice - 1}
-						onChange={(e) => {
-							const val = Number(e.target.value)
-							setMinPrice(val)
-							handleChange("fromPrice", val)
-						}}
-					/>
-				</label>
+  const handleMinChange = (value: number) => {
+    const safe = Math.min(Math.max(value, MIN), maxPrice - 1);
+    setMinPrice(safe);
+    updateUrl(safe, maxPrice);
+  };
 
-				<label className={css.filterPrice__label}>
-					до
-					<input
-						type="number"
-						className={css.filterPrice__input}
-						value={maxPrice}
-						min={minPrice + 1}
-						onChange={(e) => {
-							const val = Number(e.target.value)
-							setMaxPrice(val)
-							handleChange("toPrice", val)
-						}}
-					/>
-				</label>
-			</div>
+  const handleMaxChange = (value: number) => {
+    const safe = Math.max(Math.min(value, MAX), minPrice + 1);
+    setMaxPrice(safe);
+    updateUrl(minPrice, safe);
+  };
 
-			<div className={css.filterPrice__slider}>
-				<input
-					type="range"
-					min={0}
-					max={1000}
-					value={minPrice}
-					onChange={(e) => {
-						const val = Math.min(Number(e.target.value), maxPrice - 1)
-						setMinPrice(val)
-						handleChange("fromPrice", val)
-					}}
-					className={css.filterPrice__range}
-				/>
+  const handleClear = () => {
+    setMinPrice(MIN);
+    setMaxPrice(MAX);
 
-				<input
-					type="range"
-					min={0}
-					max={1000}
-					value={maxPrice}
-					onChange={(e) => {
-						const val = Math.max(Number(e.target.value), minPrice + 1)
-						setMaxPrice(val)
-						handleChange("toPrice", val)
-					}}
-					className={css.filterPrice__range}
-				/>
-			</div>
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("fromPrice");
+    params.delete("toPrice");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
-			<div className={css.filterPrice__values}>
-				<span>{minPrice}</span> – <span>{maxPrice}</span> ₴
-			</div>
-		</div>
-	)
+  const minPercent = ((minPrice - MIN) / (MAX - MIN)) * 100;
+  const maxPercent = ((maxPrice - MIN) / (MAX - MIN)) * 100;
+
+  const rootClassName = className
+    ? `${css.filterPrice} ${className}`
+    : css.filterPrice;
+
+  return (
+    <section className={rootClassName} aria-label="Фільтр за ціною">
+      <div className={css.headerRow}>
+        <h4 className={css.title}>Ціна</h4>
+        <button type="button" className={css.clearBtn} onClick={handleClear}>
+          Очистити
+        </button>
+      </div>
+
+      <div className={css.sliderWrapper}>
+        {/* фонова лінія + активний відрізок */}
+        <div
+          className={css.sliderTrack}
+          style={
+            {
+              "--start": `${minPercent}%`,
+              "--end": `${maxPercent}%`,
+            } as React.CSSProperties
+          }
+        />
+
+        {/* два range поверх однієї лінії */}
+        <input
+          type="range"
+          min={MIN}
+          max={MAX}
+          value={minPrice}
+          onChange={(e) => handleMinChange(Number(e.target.value))}
+          className={css.range}
+        />
+
+        <input
+          type="range"
+          min={MIN}
+          max={MAX}
+          value={maxPrice}
+          onChange={(e) => handleMaxChange(Number(e.target.value))}
+          className={css.range}
+        />
+      </div>
+
+      <div className={css.valuesRow}>
+        <span>{MIN}</span>
+        <span>{MAX}</span>
+      </div>
+    </section>
+  );
 }

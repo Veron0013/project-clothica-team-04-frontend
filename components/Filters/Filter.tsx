@@ -28,10 +28,12 @@ export default function Filter({
   return (
     <div className={containerClass}>
       <FilterGroup
-        title="Категорії"
+        title="Усі"
         name="category"
         options={categories.map((c) => ({ value: c._id, label: c.name }))}
         onClose={onClose}
+        className={css.groupAll}
+        hideInput
       />
 
       <FilterGroup
@@ -39,22 +41,29 @@ export default function Filter({
         name="size"
         options={sizes.map((s) => ({ value: s, label: s }))}
         onClose={onClose}
+        className={css.groupSizes}
+        multi
       />
 
       <FilterGroupPrice />
-
-      <FilterGroup
-        title="Стать"
-        name="gender"
-        options={genders.map((g) => ({ value: g, label: g }))}
-        onClose={onClose}
-      />
 
       <FilterGroup
         title="Колір"
         name="color"
         options={colors.map((c) => ({ value: c, label: c }))}
         onClose={onClose}
+        className={css.groupColor}
+        hideInput
+        variant="pill"
+        wrap
+      />
+
+      <FilterGroup
+        title="Стать"
+        name="gender"
+        options={genders.map((g) => ({ value: g, label: g }))}
+        onClose={onClose}
+        className={css.groupGender}
       />
     </div>
   );
