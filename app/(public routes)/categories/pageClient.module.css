@@ -43,7 +43,8 @@
     background: var(--color-deco);
 }
 
-.loadMoreButton:hover:not(:disabled) {
+.loadMoreButton:hover:not(:disabled),
+.loadMoreButton:focus:not(:disabled) {
     background: var(--color-deco-dark);
     border: 1px solid var(--color-deco-darker);
     transform: scale(1.03);
@@ -52,6 +53,7 @@
 .loadMoreButton:active:not(:disabled) {
     background: var(--color-deco-darkest);
     border: 1px solid var(--color-deco);
+    color: white;
     transform: scale(1.03);
 }
 

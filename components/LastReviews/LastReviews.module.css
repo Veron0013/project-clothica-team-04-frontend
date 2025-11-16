@@ -92,8 +92,10 @@
   width: 50px;
   height: 50px;
   border-radius: 100px;
-  background: var(--color-deco);
-  border: 1px solid var(--main-background-light);
+  /* background: var(--color-deco); */
+  background-color: var(--color-scheme-5-foreground);
+  /* border: 1px solid var(--main-background-light); */
+  border: 1px solid var(--color-scheme-1-background);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,37 +103,47 @@
   transition: background-color 0.2s ease, border 0.2s ease, color 0.2s ease;
 }
 
-.btnPrev:hover,
-.btnNext:hover {
-  background: var(--color-deco-dark);
+.btnPrev:hover:not(:disabled),
+.btnNext:hover:not(:disabled),
+.btnPrev:focus:not(:disabled),
+.btnNext:focus:not(:disabled) {
+  background-color: var(--color-deco-dark);
   border: 1px solid var(--color-deco-darker);
 }
 
-.btnPrev svg,
-.btnNext svg {
-  fill: var(--color-deco-arrow); 
+.btnPrev:active:not(:disabled),
+.btnNext:active:not(:disabled) {
+  border: 1px solid var(--color-deco);
+  background: var(--color-deco-darkest);
+  fill: white;
 }
+
+
+/* .btnPrev svg,
+.btnNext svg {
+  fill: var(--color-deco-arrow);
+} */
 
 .btnPrev:disabled,
 .btnNext:disabled {
-  background: var(--color-scheme-5-foreground);
+  background-color: var(--color-scheme-5-foreground);
   border: 1px solid var(--color-scheme-1-background);
   cursor: default;
-  opacity: 1;
-  color: var(--color-scheme-1-text);
+  opacity: 0.3;
+  /* color: var(--color-scheme-1-text); */
 }
 
-.btnPrev:disabled svg,
+/* .btnPrev:disabled svg,
 .btnNext:disabled svg {
-  fill: currentColor; 
-}
+  fill: currentColor;
+} */
 
-.btnPrev:disabled:hover,
+/* .btnPrev:disabled:hover,
 .btnNext:disabled:hover {
   background: var(--color-deco-dark);
   border: 1px solid var(--color-deco-darker);
-  color: var(--main-background-light); 
-}
+  color: var(--main-background-light);
+} */
 
 .swiper {
   width: 100%;

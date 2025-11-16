@@ -17,6 +17,7 @@
 .swiper {
     overflow: hidden;
 }
+
 .nav {
     display: flex;
     align-items: flex-end;
@@ -63,10 +64,10 @@
 }
 
 .navBtn {
-    border: 1px solid var(--main-background-light);
+    border: 1px solid var(--color-scheme-1-background);
     border-radius: 100px;
     padding: 12px;
-    background-color: var(--color-deco);
+    background-color: var(--color-scheme-5-foreground);
     cursor: pointer;
     position: absolute;
     bottom: 0px;
@@ -88,16 +89,25 @@
     left: auto;
 }
 
-.navBtn:not(.navBtnDisabled) {
+/* .navBtn:not(.navBtnDisabled) {} */
+
+.navBtn:hover:not(:disabled),
+.navBtn:focus:not(:disabled) {
     background-color: var(--color-deco-dark);
     border: 1px solid var(--color-deco-darker);
-
 }
 
-.navBtnDisabled {
-    background-color: var(--color-deco-darkest);
+.navBtn:active:not(:disabled) {
     border: 1px solid var(--color-deco);
-    fill: #fff;
+    background-color: var(--color-deco-darkest);
+    fill: white;
+}
+
+.navBtnDisabled:disabled {
+    border: 1px solid var(--color-scheme-1-background);
+    background-color: var(--color-scheme-5-foreground);
+    opacity: 0.3;
+    cursor: default;
 }
 
 
@@ -167,6 +177,7 @@
     .container {
         max-width: 375px;
     }
+
     .allGoodsBtn {
         width: 108px;
     }
@@ -176,6 +187,7 @@
     .container {
         max-width: 768px;
     }
+
     .navBtn {
         position: absolute;
         top: 33%;
@@ -185,32 +197,33 @@
         left: auto;
         right: auto;
     }
-    
-        .navPrev {
-            left: -28px;
-        }
-    
-        .navNext {
-            right: -28px;
-        }
 
-        .pagination {
+    .navPrev {
+        left: -28px;
+    }
+
+    .navNext {
+        right: -28px;
+    }
+
+    .pagination {
         justify-content: center;
         margin: 40px auto;
-        }
+    }
 }
 
 @media (min-width: 1440px) {
     .container {
         max-width: 1440px;
     }
+
     .title {
         font-size: 48px;
     }
 
     .popularGoods {
-    padding-top: 80px;
-    padding-bottom: 80px;
+        padding-top: 80px;
+        padding-bottom: 80px;
     }
 
 }
