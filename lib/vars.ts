@@ -1,9 +1,8 @@
 export const PER_PAGE: number = 12
 
 export const ERROR_MAIN_MESSAGE: string = "Oops. Seems like error. Try again later"
-export const LOADING_MAIN_MESSAGE: string = "Please, wait. Loading..."
-export const UPDATING_MAIN_MESSAGE: string = "Updating user info. Please, wait..."
-export const CONFIRM_DELETE_MESSAGE: string = "Shure you want to delete this note?"
+export const LOADING_MAIN_MESSAGE: string = "Зачекайте, будь ласка. Завантаження даних..."
+export const UPDATING_MAIN_MESSAGE: string = "Оновлення даних користувача. Зачекайте, будь ласка..."
 
 // MessageNoInfo
 export const CLEAR_FILTERS: string =

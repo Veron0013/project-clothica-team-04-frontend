@@ -12,13 +12,17 @@ import { getMe } from "@/lib/api/clientApi"
 export default function Header() {
 	const router = useRouter()
 	const [menuOpen, setMenuOpen] = useState(false)
-	const { isAuthenticated, setUser, clearIsAuthenticated } = useAuthStore()
-	const [authChecked, setAuthChecked] = useState(isAuthenticated)
 
-	const { goods } = useBasket()
+	const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+	const setUser = useAuthStore((state) => state.setUser)
+	const clearIsAuthenticated = useAuthStore((state) => state.clearIsAuthenticated)
+
+	//const [authChecked, setAuthChecked] = useState(false)
+
+	const goods = useBasket((state) => state.goods)
 	const basketCount = goods.reduce((sum, item) => sum + item.quantity, 0)
 	// ✅ якщо стор уже каже, що логін виконано — вважаємо, що можна рендерити одразу
-	const ready = authChecked || isAuthenticated
+	//const ready = authChecked || isAuthenticated
 
 	useEffect(() => {
 		//if (isAuthenticated) return setAuthChecked(true)
@@ -32,18 +36,19 @@ export default function Header() {
 			} catch (e) {
 				//console.log("header-error", e)
 				if (!isAuthenticated) clearIsAuthenticated()
-			} finally {
-				if (!isAuthenticated) setAuthChecked(true)
 			}
+			//} finally {
+			//	setAuthChecked(true)
+			//}
 		}
 		fetchCurrentUser()
 	}, [isAuthenticated, setUser, clearIsAuthenticated])
 
 	// невеликий QoL: якщо стан вже став isAuthenticated=true (з форми) — не чекай fetch
-	useEffect(() => {
-		//console.log("header-user-effect", isAuthenticated, user)
-		if (isAuthenticated) setAuthChecked(true)
-	}, [isAuthenticated])
+	//useEffect(() => {
+	//	//console.log("header-user-effect", isAuthenticated, user)
+	//	if (isAuthenticated) setAuthChecked(true)
+	//}, [isAuthenticated])
 
 	useEffect(() => {
 		document.body.style.overflow = menuOpen ? "hidden" : ""
@@ -72,7 +77,7 @@ export default function Header() {
 					</ul>
 
 					<div className={css.auth}>
-						{!ready ? null : isAuthenticated ? (
+						{isAuthenticated ? (
 							<>
 								<Link href="/profile" className={css.navUpBasket}>
 									Кабінет

@@ -5,6 +5,7 @@ import { api } from "../../api"
 import { cookies } from "next/headers"
 import { logErrorResponse } from "../../_utils/utils"
 import { isAxiosError } from "axios"
+import { parse } from "cookie"
 
 export async function GET() {
 	try {
@@ -15,6 +16,24 @@ export async function GET() {
 				Cookie: cookieStore.toString(),
 			},
 		})
+
+		const setCookie = res.headers["set-cookie"]
+
+		if (setCookie) {
+			const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie]
+			for (const cookieStr of cookieArray) {
+				const parsed = parse(cookieStr)
+				const options = {
+					expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
+					path: parsed.Path,
+					maxAge: Number(parsed["Max-Age"]),
+				}
+				if (parsed.accessToken) cookieStore.set("accessToken", parsed.accessToken, options)
+				if (parsed.refreshToken) cookieStore.set("refreshToken", parsed.refreshToken, options)
+				if (parsed.sessionId) cookieStore.set("sessionId", parsed.sessionId, options)
+			}
+		}
+
 		return NextResponse.json(res.data, { status: res.status })
 	} catch (error) {
 		if (isAxiosError(error)) {

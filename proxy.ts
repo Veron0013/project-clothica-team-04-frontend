@@ -27,18 +27,17 @@ export async function proxy(request: NextRequest) {
 			let data = null
 			try {
 				data = await checkServerSession()
-			} catch (error) {
-				return NextResponse.redirect(new URL("/", request.url))
-			}
-
-			console.log("==middleware==", data)
-
-			if (!data.data.success) {
-				console.log("go home data")
+			} catch {
+				//console.log("go home data")
 				goHome(cookieStore, request)
 			}
 
-			const setCookie = data.headers["set-cookie"]
+			if (!data?.data.user) {
+				//console.log("go home data")
+				goHome(cookieStore, request)
+			}
+
+			const setCookie = data?.headers["set-cookie"]
 
 			const response = isPrivateRoute ? NextResponse.next() : NextResponse.redirect(new URL("/", request.url))
 
@@ -50,7 +49,7 @@ export async function proxy(request: NextRequest) {
 			}
 			return response
 		} else {
-			console.log("go home", sessionId, refreshToken)
+			console.log("go home no token", sessionId, refreshToken)
 			goHome(cookieStore, request)
 		}
 		// Якщо refreshToken або сесії немає:
