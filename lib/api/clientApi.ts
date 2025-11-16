@@ -92,9 +92,9 @@ export const checkSession = async () => {
 
 export const getMe = async () => {
 	const refreshSession = await checkSession()
-	//console.log("getMe", refreshSession)
 	if (refreshSession) {
 		const { data } = await nextAuthServer.get<User>("/users/me")
+		console.log("getMe", data)
 		return data
 	} else {
 		throw new Error(JSON.stringify({ message: "Session expired", code: 401 }))
