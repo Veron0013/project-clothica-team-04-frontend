@@ -107,16 +107,15 @@
 
 .range::-webkit-slider-thumb {
   appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #fff;
-  border: 2px solid #000;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.18);
+  width: 20px;
+  height: 20px;
+  border-radius: 50px;
+  background: var(--color-white);
+  border: 2px solid var(--color-scheme-1-border);
+  box-shadow: 0 0 10px 0 var(--opacity-neutral-darkest-15);
   cursor: pointer;
-  margin-top: -7px;
+  margin-top: -8px;
 }
-
 .range::-moz-range-thumb {
   width: 18px;
   height: 18px;

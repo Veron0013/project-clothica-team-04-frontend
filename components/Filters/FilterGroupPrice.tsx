@@ -1,3 +1,4 @@
+// components/Filters/FilterGroupPrice.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -22,6 +23,7 @@ export default function FilterGroupPrice({ className }: FilterGroupPriceProps) {
   const [minPrice, setMinPrice] = useState(initialMin);
   const [maxPrice, setMaxPrice] = useState(initialMax);
 
+  // якщо змінюється URL (наприклад, при переході по лінку) — оновлюємо стейт
   useEffect(() => {
     setMinPrice(initialMin);
     setMaxPrice(initialMax);
@@ -63,6 +65,9 @@ export default function FilterGroupPrice({ className }: FilterGroupPriceProps) {
     ? `${css.filterPrice} ${className}`
     : css.filterPrice;
 
+  const formatPrice = (v: number) =>
+    v.toLocaleString("uk-UA", { maximumFractionDigits: 0 });
+
   return (
     <section className={rootClassName} aria-label="Фільтр за ціною">
       <div className={css.headerRow}>
@@ -73,7 +78,6 @@ export default function FilterGroupPrice({ className }: FilterGroupPriceProps) {
       </div>
 
       <div className={css.sliderWrapper}>
-        {/* фонова лінія + активний відрізок */}
         <div
           className={css.sliderTrack}
           style={
@@ -84,7 +88,6 @@ export default function FilterGroupPrice({ className }: FilterGroupPriceProps) {
           }
         />
 
-        {/* два range поверх однієї лінії */}
         <input
           type="range"
           min={MIN}
@@ -105,8 +108,8 @@ export default function FilterGroupPrice({ className }: FilterGroupPriceProps) {
       </div>
 
       <div className={css.valuesRow}>
-        <span>{MIN}</span>
-        <span>{MAX}</span>
+        <span>{formatPrice(minPrice)}</span>
+        <span>{formatPrice(maxPrice)}</span>
       </div>
     </section>
   );
