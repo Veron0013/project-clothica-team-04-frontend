@@ -19,7 +19,6 @@ interface Props {
 export default function FilterPanel({ total, vieved }: Props) {
   const isClient = useIsClient();
 
-  // ОТУТ МИ ОГОЛОШУЄМО isSidebarLayout
   // true, якщо ширина екрана >= 768px (tablet + desktop)
   const isSidebarLayout = useMediaQuery(`(min-width: ${BREAKPOINTS.tablet})`);
 
@@ -71,36 +70,42 @@ export default function FilterPanel({ total, vieved }: Props) {
             </p>
           </aside>
 
-          <div className={css.filterWrapper}>
-            <button
-              type="button"
-              className={`${css.filterPanelButton} ${
-                isOpen ? css.filterPanelButtonOpen : ""
-              }`}
-              onClick={() => setIsOpen((s) => !s)}
-              aria-expanded={isOpen}
+          <button
+            type="button"
+            className={`${css.filterPanelButton} ${
+              isOpen ? css.filterPanelButtonOpen : ""
+            }`}
+            onClick={() => setIsOpen((s) => !s)}
+            aria-expanded={isOpen}
+          >
+            <span>Фільтри</span>
+            <svg
+              className={css.filterPanelButtonIcon}
+              width={16}
+              height={16}
+              aria-hidden="true"
+              focusable="false"
             >
-              <span>Фільтри</span>
-              <svg
-                className={css.filterPanelButtonIcon}
-                width={16}
-                height={16}
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="/sprite.svg#keyboard_arrow_down" />
-              </svg>
-            </button>
+              <use
+                href={
+                  isOpen
+                    ? "/sprite.svg#keyboard_arrow_up"
+                    : "/sprite.svg#keyboard_arrow_down"
+                }
+              />
+            </svg>
+          </button>
 
-            {isOpen && (
-              <div className={css.filterContainer}>
-                <Filter
-                  options={filters}
-                  onClose={() => setIsOpen(false)}
-                  variant="dropdown"
-                />
-              </div>
-            )}
+          <div
+            className={`${css.filterContainer} ${
+              isOpen ? css.filterContainerOpen : css.filterContainerClosed
+            }`}
+          >
+            <Filter
+              options={filters}
+              onClose={() => setIsOpen(false)}
+              variant="dropdown"
+            />
           </div>
         </>
       )}
