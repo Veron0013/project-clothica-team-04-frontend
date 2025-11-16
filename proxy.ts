@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest) {
 	const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route))
 	const isPrivateRoute = privateRoutes.some((route) => pathname.startsWith(route))
 
-	console.log("IP:", ip, isPublicRoute, isPrivateRoute, accessToken)
+	console.log("IP:", ip, isPublicRoute, isPrivateRoute, accessToken, refreshToken, sessionId)
 
 	if (!accessToken) {
 		if (refreshToken && sessionId) {
@@ -48,9 +48,6 @@ export async function proxy(request: NextRequest) {
 				}
 			}
 			return response
-		} else {
-			console.log("go home no token", accessToken, refreshToken)
-			goHome(cookieStore)
 		}
 		// Якщо refreshToken або сесії немає:
 		// публічний маршрут — дозволяємо доступ
