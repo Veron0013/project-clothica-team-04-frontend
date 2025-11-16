@@ -5,6 +5,12 @@
   margin-top: 32px;
 }
 
+.list li {
+  transform: translateY(10px);
+  opacity: 0;
+  animation: fadeUp 0.4s ease-out forwards;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -102,6 +108,18 @@
   background-color: var(--opacity-neutral-darkest-15);
 }
 
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (min-width: 768px) {
   .list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -109,6 +127,7 @@
     row-gap: 32px;
     margin-top: 0;
   }
+
   .cardCta {
     margin-bottom: 0;
   }
@@ -139,23 +158,28 @@
   .card:hover .cardImg {
     transform: scale(1.02);
   }
+
   .cardTitle {
     font-size: 18px;
     max-width: 200px;
     margin-bottom: 0;
   }
+
   .cardPrice {
     font-size: 20px;
   }
+
   .itemPrice {
     display: flex;
     align-items: start;
     justify-content: space-between;
     height: 54px;
   }
+
   .metaRowInner {
     margin-bottom: 16px;
   }
+
   .cardCta {
     margin-bottom: 0px;
   }
