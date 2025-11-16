@@ -35,17 +35,23 @@ export function GoodsList({ items }: Props) {
                 role="article"
                 aria-label={item.name}
               >
-                {/* 1. Верхній блок з картинкою */}
-                <div className={css.cardImgWrap}>
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    sizes="25vw"
-                    className={css.cardImg}
-                    loading="lazy"
-                  />
-                </div>
+                {/* 1. Верхній блок з картинкою (клікабельний) */}
+                <Link
+                  href={`/goods/${item._id}`}
+                  className={css.cardImgLink}
+                  aria-label={item.name}
+                >
+                  <div className={css.cardImgWrap}>
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      sizes="25vw"
+                      className={css.cardImg}
+                      loading="lazy"
+                    />
+                  </div>
+                </Link>
 
                 {/* 2. Низ картки: текст + ціна + кнопка */}
                 <div className={css.cardBottom}>
@@ -57,6 +63,7 @@ export function GoodsList({ items }: Props) {
                       </div>
                     </div>
                   </div>
+
                   <div className={css.metaRow} aria-label="рейтинг та відгуки">
                     <div className={css.metaRowInner}>
                       <svg width="13" height="12">
@@ -82,23 +89,29 @@ export function GoodsList({ items }: Props) {
                 </div>
               </article>
             ) : (
-              // 🔹 МОБІЛКА / ТАБЛЕТ – твоя поточна розмітка
+              // 🔹 МОБІЛКА / ТАБЛЕТ
               <article
                 className={css.card}
                 role="article"
                 aria-label={item.name}
               >
-                {/* 1. Верхній блок з картинкою */}
-                <div className={css.cardImgWrap}>
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    sizes="(min-width:1440px) 25vw, (min-width:768px) 25vw, 50vw"
-                    className={css.cardImg}
-                    loading="lazy"
-                  />
-                </div>
+                {/* 1. Верхній блок з картинкою (клікабельний) */}
+                <Link
+                  href={`/goods/${item._id}`}
+                  className={css.cardImgLink}
+                  aria-label={item.name}
+                >
+                  <div className={css.cardImgWrap}>
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      sizes="(min-width:1440px) 25vw, (min-width:768px) 25vw, 50vw"
+                      className={css.cardImg}
+                      loading="lazy"
+                    />
+                  </div>
+                </Link>
 
                 {/* 2. Низ картки: текст + ціна */}
                 <div className={css.cardBody}>

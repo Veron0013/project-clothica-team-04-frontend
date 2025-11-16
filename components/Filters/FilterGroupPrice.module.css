@@ -34,32 +34,13 @@
   opacity: 0.7;
 }
 
-.inputsRow {
-  display: flex;
-  gap: 8px;
-}
-
-.input {
-  flex: 1;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid #d5dbcf;
-  background: #f6f8f1;
-  font-size: 14px;
-  line-height: 1.4;
-  outline: none;
-}
-
-.input:focus-visible {
-  border-color: #000;
-}
-
 .sliderWrapper {
   position: relative;
   height: 32px;
   margin-top: 4px;
 }
 
+/* трек під бігунками */
 .sliderTrack {
   position: absolute;
   left: 0;
@@ -71,6 +52,7 @@
   background: #f1f2ec;
 }
 
+/* активна частина між бігунками */
 .sliderTrack::before {
   content: "";
   position: absolute;
@@ -82,6 +64,7 @@
   background: #000;
 }
 
+/* два range-інпути один над одним */
 .range {
   position: absolute;
   left: 0;
@@ -93,18 +76,23 @@
   appearance: none;
   background: transparent;
   outline: none;
-  pointer-events: auto;
+
+  /* важливо: сам трек не ловить події, лише thumb */
+  pointer-events: none;
 }
 
+/* щоб обидва треки не заважали */
 .range::-webkit-slider-runnable-track {
   height: 4px;
   background: transparent;
 }
+
 .range::-moz-range-track {
   height: 4px;
   background: transparent;
 }
 
+/* стилізація бігунка (WebKit) */
 .range::-webkit-slider-thumb {
   appearance: none;
   width: 20px;
@@ -115,7 +103,12 @@
   box-shadow: 0 0 10px 0 var(--opacity-neutral-darkest-15);
   cursor: pointer;
   margin-top: -8px;
+
+  /* тепер клікабельний тільки кружечок */
+  pointer-events: auto;
 }
+
+/* стилізація бігунка (Firefox) */
 .range::-moz-range-thumb {
   width: 18px;
   height: 18px;
@@ -124,6 +117,18 @@
   border: 2px solid #000;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.18);
   cursor: pointer;
+
+  pointer-events: auto;
+}
+
+/* щоб один бігунок гарантовано був над іншим */
+
+.sliderWrapper input[type="range"]:first-of-type {
+  z-index: 2;
+}
+
+.sliderWrapper input[type="range"]:last-of-type {
+  z-index: 3;
 }
 
 .valuesRow {
