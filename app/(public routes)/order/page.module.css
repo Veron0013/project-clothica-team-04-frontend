@@ -1,0 +1,23 @@
+.wrapper {
+  margin-top: 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper h2 {
+  font-size: 25px;
+}
+
+.flexbox {
+  display: flex;
+  align-items: center;
+  /*flex-wrap: wrap;*/
+  /*min-width: 100%;*/
+  gap: 32px;
+}
+
+.flexbox_item {
+  min-width: 40%;
+}
