@@ -20,7 +20,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 				} else {
 					clearIsAuthenticated()
 				}
-			} catch (e) {
+			} catch (e: unknown) {
+				console.log("auth-error", e?.message)
 				clearIsAuthenticated()
 			}
 		}
