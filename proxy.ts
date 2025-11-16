@@ -49,7 +49,7 @@ export async function proxy(request: NextRequest) {
 			}
 			return response
 		} else {
-			console.log("go home no token", sessionId, refreshToken)
+			console.log("go home no token", accessToken, refreshToken)
 			goHome(cookieStore)
 		}
 		// Якщо refreshToken або сесії немає:
