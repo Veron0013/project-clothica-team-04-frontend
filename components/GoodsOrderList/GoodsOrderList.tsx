@@ -8,7 +8,10 @@ import { getGoodsFromArray } from "@/lib/api/api"
 import css from "./GoodsOrderList.module.css"
 
 export default function GoodsOrderList() {
-	const { goods: basketGoods, updateGoodQuantity, removeGood } = useBasket()
+	const basketGoods = useBasket((state) => state.goods)
+	const updateGoodQuantity = useBasket((state) => state.updateGoodQuantity)
+	const removeGood = useBasket((state) => state.removeGood)
+
 	const [goodsData, setGoodsData] = useState<BasketStoreOrder[]>([])
 	const [loading, setLoading] = useState(true)
 

@@ -1,0 +1,64 @@
+.title {
+  margin-top: 64px;
+  margin-bottom: 24px;
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  color: var(--color-scheme-1-text);
+}
+
+.layout {
+  display: block;
+}
+.cardCta {
+  display: block;
+  width: 158px;
+  height: 36px;
+  border: 1px solid var(--color-deco);
+  border-radius: 100px;
+  padding: 6px 12px;
+  background: var(--color-deco);
+  margin: 0 auto;
+  margin-bottom: 64px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--color-neutral-darkest);
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardCta:hover {
+  color: var(--color-neutral-darkest);
+  background: var(--color-deco-dark);
+  border: 1px solid var(--color-deco-darker);
+}
+
+.cardCta:active {
+  color: var(--color-white);
+  background: var(--color-deco-darkest);
+}
+.cardCta:disabled {
+  background: var(--color-deco);
+  opacity: 0.4;
+  color: var(--color-neutral-darkest);
+}
+@media (min-width: 768px) {
+  .layout {
+    display: grid;
+    grid-template-columns: 243px minmax(0, 1fr);
+    column-gap: 32px;
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 48px;
+  }
+  .cardCta {
+    margin-bottom: 112px;
+  }
+}

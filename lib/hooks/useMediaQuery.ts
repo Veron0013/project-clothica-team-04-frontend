@@ -1,20 +1,24 @@
-import { useState, useEffect } from "react"
+// lib/hooks/useMediaQuery.ts
+import { useEffect, useState } from "react";
 
 export function useMediaQuery(query: string) {
-	const [matches, setMatches] = useState(false)
+  const [matches, setMatches] = useState(false);
 
-	useEffect(() => {
-		const fetchQuery = async () => {
-			if (typeof window === "undefined") return // SSR-safe
-			const media = window.matchMedia(query)
-			setMatches(media.matches)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-			const listener = () => setMatches(media.matches)
-			media.addEventListener("change", listener)
-			return () => media.removeEventListener("change", listener)
-		}
-		fetchQuery()
-	}, [query])
+    const media = window.matchMedia(query);
 
-	return matches
+    const updateMatch = (event: MediaQueryListEvent) => {
+      setMatches(event.matches);
+    };
+
+    // виставляємо початкове значення
+    setMatches(media.matches);
+
+    media.addEventListener("change", updateMatch);
+    return () => media.removeEventListener("change", updateMatch);
+  }, [query]);
+
+  return matches;
 }

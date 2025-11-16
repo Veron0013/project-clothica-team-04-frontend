@@ -1,0 +1,62 @@
+.NotFoundContainer {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    /* border: solid 1px black */
+    border-radius: 12px;
+    background: #f3f9ed;
+    box-shadow: inset 17px 17px 48px #c2c7be,
+        inset -17px -17px 48px #ffffff;
+}
+
+.NotFoundTitle {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.NotFoundImage {
+    width: 250px;
+    border-radius: 8px;
+}
+
+.NotFoundDescr {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.NotFoundText {
+    font-size: 18px;
+}
+
+.NotFoundLink {
+
+    margin-top: 32px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.1s ease;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--color-neutral-darkest);
+    border: 1px solid var(--color-deco);
+    border-radius: 100px;
+    padding: 6px 12px;
+    background: var(--color-deco);
+}
+
+.NotFoundLink:hover {
+    background: var(--color-deco-dark);
+    border: 1px solid var(--color-deco-darker);
+    transform: scale(1.03);
+}
+
+.NotFoundLink:active {
+    background: var(--color-deco-darkest);
+    border: 1px solid var(--color-deco);
+    transform: scale(1.03);
+}

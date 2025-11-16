@@ -1,36 +1,70 @@
-"use client"
+"use client";
 
-import { AllFilters } from "@/types/filters"
-import css from "./Filter.module.css"
-import FilterGroup from "./FilterGroup"
-import FilterGroupPrice from "./FilterGroupPrice"
+import { AllFilters } from "@/types/filters";
+import FilterGroup from "./FilterGroup";
+import FilterGroupPrice from "./FilterGroupPrice";
+import css from "./Filter.module.css";
 
-export default function Filter({ options, onClose }: { options: AllFilters; onClose?: () => void }) {
-	if (!options) return null
+type FilterProps = {
+  options: AllFilters;
+  onClose?: () => void;
+  variant?: "sidebar" | "dropdown";
+};
 
-	const { categories = [], genders = [], sizes = [], colors = [] } = options
+export default function Filter({
+  options,
+  onClose,
+  variant = "sidebar",
+}: FilterProps) {
+  if (!options) return null;
 
-	return (
-		<div className={css.filter}>
-			<FilterGroup
-				title="Категорії"
-				name="category"
-				options={categories.map((c) => ({ value: c._id, label: c.name }))}
-				onClose={onClose}
-			/>
+  const { categories = [], genders = [], sizes = [], colors = [] } = options;
 
-			<FilterGroup title="Розміри" name="size" options={sizes.map((s) => ({ value: s, label: s }))} onClose={onClose} />
+  const containerClass =
+    variant === "sidebar"
+      ? css.filterContainerSidebar
+      : css.filterContainerDropdown;
 
-			<FilterGroupPrice />
+  return (
+    <div className={containerClass}>
+      <FilterGroup
+        title="Усі"
+        name="category"
+        options={categories.map((c) => ({ value: c._id, label: c.name }))}
+        onClose={onClose}
+        className={css.groupAll}
+        hideInput
+      />
 
-			<FilterGroup
-				title="Стать"
-				name="gender"
-				options={genders.map((g) => ({ value: g, label: g }))}
-				onClose={onClose}
-			/>
+      <FilterGroup
+        title="Розміри"
+        name="size"
+        options={sizes.map((s) => ({ value: s, label: s }))}
+        onClose={onClose}
+        className={css.groupSizes}
+        multi
+      />
 
-			<FilterGroup title="Колір" name="color" options={colors.map((c) => ({ value: c, label: c }))} onClose={onClose} />
-		</div>
-	)
+      <FilterGroupPrice />
+
+      <FilterGroup
+        title="Колір"
+        name="color"
+        options={colors.map((c) => ({ value: c, label: c }))}
+        onClose={onClose}
+        className={css.groupColor}
+        hideInput
+        variant="pill"
+        wrap
+      />
+
+      <FilterGroup
+        title="Стать"
+        name="gender"
+        options={genders.map((g) => ({ value: g, label: g }))}
+        onClose={onClose}
+        className={css.groupGender}
+      />
+    </div>
+  );
 }

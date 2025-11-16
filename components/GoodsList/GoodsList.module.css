@@ -1,212 +1,160 @@
-/* ===== GoodsList — mobile‑first, tuned to mockups ===== */
-
-/* Grid */
 .list {
   display: grid;
-  grid-template-columns: repeat(1, minmax(260px, 1fr));
-  justify-content: center;
-  max-width: 1440px;
-  margin: 0 auto;
-  gap: 32px;
-  list-style: none;
-  background-color: var(--background);
+  grid-template-columns: 1fr;
+  row-gap: 32px;
 }
 
-@media (min-width: 768px) {
-  .list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (min-width: 1440px) {
-  .list {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    /* desktop: 4 columns */
-    gap: 24px;
-  }
-}
-
-.list li {
-  background-color: var(--background);
-  transform: translateY(10px);
-  opacity: 0;
-  animation: fadeUp 0.4s ease-out forwards;
-}
-
-.item {
-  list-style: none;
-}
-
-/* ===== Card (fallback while GoodInfo WIP) ===== */
 .card {
-  background: var(--background);
-  /* pillish corners per mock */
-  overflow: hidden;
-  display: block;
-  text-decoration: none;
-  transition: box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease;
-}
-
-.card:hover {
-  cursor: pointer;
-}
-
-.card:hover,
-.card:focus {
-  box-shadow: 0 8px 24px var(--opacity-neutral-darkest-10);
-  /*transform: translateY(-5px);*/
-  outline: none;
-  border-radius: 16px;
-  /*border: 2px solid white;*/
-  /*border-color: var(--color-scheme-4-border);*/
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 335px;
+  gap: 16px;
+  margin: 0 auto;
+  position: relative;
+  overflow: visible;
 }
 
 .cardImgWrap {
-  aspect-ratio: 3 / 4;
-  background: var(--color-neutral-lightest);
-  overflow: hidden;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 335 / 412;
   border-radius: 16px;
-  margin-bottom: 16px;
+  overflow: hidden;
+  z-index: 1;
 }
 
 .cardImg {
   object-fit: cover;
 }
 
+.cardBody {
+  display: flex;
+  flex-direction: column;
+}
+
 .cardTitle {
   font-weight: 600;
   font-size: 16px;
   line-height: 150%;
-  color: var(--main-color-light);
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--color-scheme-1-text);
+  margin-bottom: 24px;
 }
 
-@media (min-width: 1440px) {
-  .cardTitle {
-    font-size: 18px;
-  }
-}
-
-.cardBody {
+.metaRow {
   display: flex;
-  flex-direction: column;
-  align-items: start;
-  margin-bottom: 16px;
-
-}
-
-.cardBottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metaRowInner {
+  display: flex;
+  gap: 2.5px;
+  align-items: center;
+}
+
+.metaStat {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 150%;
+  color: var(--color-scheme-1-text);
 }
 
 .cardPrice {
   font-weight: 400;
   font-size: 14px;
   line-height: 150%;
-  color: var(--main-color-light);
+  color: var(--color-scheme-1-text);
 }
 
-.cardRating {
-  font-size: 14px;
-  color: var(--main-color-light);
-}
-
-.cardTop {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: start;
-  gap: 12px;
-  margin-bottom: 32px;
-}
-
-/* Meta row: rating • reviews */
-.metaRow {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--color-neutral-dark);
-  margin-bottom: 16px;
-}
-
-.metaRowInner {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.metaStat {
-  white-space: nowrap;
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 150%;
-
-}
-
-/* CTA button */
 .cardCta {
   display: flex;
-  align-items: center;
   justify-content: center;
-  min-width: 100%;
-  border: 1px solid var(--opacity-transparent);
-  border-radius: 100px;
-  padding: 4px 10px;
-  background: var(--button-secondary-light);
+  align-items: center;
+  width: 100%;
+  max-width: 335px;
+  margin: 0 auto 32px;
+  padding: 9.5px 16px;
+  height: 40px;
+
   font-weight: 500;
   font-size: 14px;
   line-height: 150%;
-  text-decoration: none;
-  transition: background-color .16s ease, transform .08s ease, box-shadow .16s ease;
+  color: var(--color-neutral-darkest);
+
+  background-color: var(--opacity-neutral-darkest-5);
+  border: 1px solid var(--opacity-transparent);
+  border-radius: 100px;
+
+  transition: background-color 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease, transform 0.2s ease;
 }
 
 .cardCta:hover {
-  background: var(--color-deco);
+  background-color: var(--opacity-neutral-darkest-10);
+  border-color: var(--opacity-neutral-darkest-20);
+  transform: translateY(-2px);
 }
 
 .cardCta:active {
-  transform: translateY(1px);
+  transform: translateY(0);
+  background-color: var(--opacity-neutral-darkest-15);
 }
 
-.cardCta:focus-visible {
-  outline: 2px solid var(--color-deco-dark);
-  outline-offset: 2px;
-}
-
-@media (min-width:768px) {
+@media (min-width: 768px) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+    row-gap: 32px;
+  }
   .cardCta {
-    height: 38px;
+    margin-bottom: 0;
   }
 }
 
-@media (min-width:1440px) {
+@media (min-width: 1440px) {
+  .list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 32px;
+  }
+
+  .cardImgWrap {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  .cardImg {
+    transition: transform 0.35s ease;
+    transform-origin: center center;
+  }
+
+  .card:hover .cardImgWrap {
+    transform: translateY(-18px) scale(1.06);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
+    z-index: 5;
+    cursor: pointer;
+  }
+
+  .card:hover .cardImg {
+    transform: scale(1.02);
+  }
+  .cardTitle {
+    font-size: 18px;
+    max-width: 200px;
+    margin-bottom: 0;
+  }
+  .cardPrice {
+    font-size: 20px;
+  }
+  .itemPrice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+  }
+  .metaRowInner {
+    margin-bottom: 16px;
+  }
   .cardCta {
-    height: 40px;
-  }
-}
-
-/* Improve focus for accessibility */
-.card:focus-visible {
-  outline: 2px solid var(--color-deco-dark);
-  outline-offset: 2px;
-  box-shadow: none;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    margin-bottom: 0px;
   }
 }

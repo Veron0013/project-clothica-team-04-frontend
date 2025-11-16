@@ -1,210 +1,165 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
-import css from "./AuthComponent.module.css";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import * as Yup from "yup";
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import css from "./AuthComponent.module.css"
+import { ErrorMessage, Field, Form, Formik } from "formik"
+import * as Yup from "yup"
 
-import { callAuth, type AuthValues } from "@/lib/api/authApi";
-import toastMessage, { MyToastType } from "@/lib/messageService";
-import { useAuthStore } from "@/stores/authStore";
+import toastMessage, { MyToastType } from "@/lib/messageService"
+import { useAuthStore } from "@/stores/authStore"
+import { callAuth } from "@/lib/api/clientApi"
+import { AuthValues } from "@/lib/api/authApi"
+import { PHONE_REGEXP } from "@/lib/vars"
 
 interface AuthComponentProps {
-  login?: boolean;
+	login?: boolean
 }
 
-const phoneRegExp = /^\+?3?8?(0\d{9})$/;
-
 const SignUpSchema = Yup.object().shape({
-  name: Yup.string().min(2).max(20).required("Це поле обовʼязкове!"),
-  phone: Yup.string()
-    .matches(phoneRegExp, "Введіть коректний номер телефону")
-    .required("Це поле обовʼязкове!"),
-  password: Yup.string().min(8).max(40).required("Це поле обовʼязкове!"),
-});
+	name: Yup.string().min(2).max(20).required("Це поле обовʼязкове!"),
+	phone: Yup.string().matches(PHONE_REGEXP, "Введіть коректний номер телефону").required("Це поле обовʼязкове!"),
+	password: Yup.string().min(8).max(40).required("Це поле обовʼязкове!"),
+})
 
 const SignInSchema = Yup.object().shape({
-  phone: Yup.string()
-    .matches(phoneRegExp, "Введіть коректний номер телефону!")
-    .required("Це поле обовʼязкове!"),
-  password: Yup.string().min(8).max(40).required("Це поле обовʼязкове!"),
-});
+	phone: Yup.string().matches(PHONE_REGEXP, "Введіть коректний номер телефону!").required("Це поле обовʼязкове!"),
+	password: Yup.string().min(8).max(40).required("Це поле обовʼязкове!"),
+})
 
-export default function AuthComponent({ login = false }: { login?: boolean }) {
-  const router = useRouter();
-  const queryClient = useQueryClient();
+export default function AuthComponent({ login = false }: AuthComponentProps) {
+	const router = useRouter()
 
-  const setUser = useAuthStore((s) => s.setUser);
+	const setUser = useAuthStore((s) => s.setUser)
 
-  const handleSubmit = async (
-    values: AuthValues,
-    { setSubmitting, setFieldError, setStatus, resetForm }: any
-  ) => {
-    setStatus(null);
-    const loadingId = toastMessage(
-      MyToastType.loading,
-      login ? "Вхід..." : "Реєстрація..."
-    );
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const handleSubmit = async (values: AuthValues, { setSubmitting, setFieldError, setStatus, resetForm }: any) => {
+		setStatus(null)
+		const loadingId = toastMessage(MyToastType.loading, login ? "Вхід..." : "Реєстрація...")
 
-    try {
-      const data = await callAuth(login, values);
-      const userObj = login ? data?.user : data;
-      if (!userObj) {
-        setStatus("Невідома помилка: користувача не отримано");
-        toastMessage(MyToastType.error, "Сталася помилка. Спробуйте ще раз.");
-        return;
-      }
+		try {
+			const userObj = await callAuth(login, values)
+			//const userObj = login ? data : data
+			if (!userObj) {
+				//setStatus("Невідома помилка: користувача не отримано")
+				toastMessage(MyToastType.error, "Сталася помилка. Спробуйте ще раз.")
+				throw new Error("")
+			}
 
-      setUser(userObj);
+			setUser(userObj)
+			resetForm()
 
-      resetForm();
+			toastMessage(MyToastType.success, login ? "Ви успішно увійшли!" : "Ви успішно зареєструвалися!")
+			router.push("/")
+		} catch (e: unknown) {
+			const msg = e instanceof Error ? e.message : "Unknown error"
+			if (msg.includes("Phone and password required")) {
+				setFieldError("phone", "Вкажіть телефон")
+				setFieldError("password", "Вкажіть пароль")
+			} else if (msg.includes("Invalid phone number")) {
+				setFieldError("phone", "Некоректний номер телефону")
+			} else if (msg.includes("Phone already in use")) {
+				setFieldError("phone", "Цей номер вже використовується")
+			} else if (msg.includes("Invalid phone or password")) {
+				setFieldError("phone", "Невірний телефон або пароль")
+				setFieldError("password", "Невірний телефон або пароль")
+			} else {
+				setStatus(msg)
+			}
+			toastMessage(MyToastType.error, msg)
+		} finally {
+			try {
+				const { toast } = await import("react-hot-toast")
+				toast.dismiss(loadingId)
+			} catch {}
+			setSubmitting(false)
+		}
+	}
 
-      queryClient.invalidateQueries({ queryKey: ["me"] });
+	const initLoginValues: AuthValues = { phone: "", password: "" }
+	const initRegValues: AuthValues = { name: "", phone: "", password: "" }
 
-      toastMessage(
-        MyToastType.success,
-        login ? "Ви успішно увійшли!" : "Ви успішно зареєструвалися!"
-      );
-      router.push("/");
-    } catch (e: any) {
-      const msg = e?.message || "Oops... some error";
-      if (msg.includes("Phone and password required")) {
-        setFieldError("phone", "Вкажіть телефон");
-        setFieldError("password", "Вкажіть пароль");
-      } else if (msg.includes("Invalid phone number")) {
-        setFieldError("phone", "Некоректний номер телефону");
-      } else if (msg.includes("Phone already in use")) {
-        setFieldError("phone", "Цей номер вже використовується");
-      } else if (msg.includes("Invalid phone or password")) {
-        setFieldError("phone", "Невірний телефон або пароль");
-        setFieldError("password", "Невірний телефон або пароль");
-      } else {
-        setStatus(msg);
-      }
-      toastMessage(MyToastType.error, msg);
-    } finally {
-      try {
-        const { toast } = await import("react-hot-toast");
-        toast.dismiss(loadingId);
-      } catch {}
-      setSubmitting(false);
-    }
-  };
+	return (
+		<div className={css.wrapper}>
+			<header className={css.header}>
+				<Link href="/" className={css.logo} aria-label="Clothica logo">
+					<svg width="84" height="36" aria-hidden="true">
+						<use href="/sprite.svg#icon-company-logo" />
+					</svg>
+				</Link>
+			</header>
+			<div className={css.content}>
+				<div className={css.buttonsBlock}>
+					<div className={`${css.authBtn} ${!login ? css.active : ""}`}>
+						<Link href="/sign-up">Реєстрація</Link>
+					</div>
+					<div className={`${css.authBtn} ${login ? css.active : ""}`}>
+						<Link href="/sign-in">Вхід</Link>
+					</div>
+				</div>
+				<Formik
+					initialValues={login ? initLoginValues : initRegValues}
+					validationSchema={login ? SignInSchema : SignUpSchema}
+					onSubmit={handleSubmit}
+				>
+					{({ isSubmitting, errors, touched, status }) => (
+						<Form>
+							<h2 className={css.title}>{login ? "Вхід" : "Реєстрація"}</h2>
 
-  const initLoginValues: AuthValues = { phone: "", password: "" };
-  const initRegValues: AuthValues = { name: "", phone: "", password: "" };
+							{!login && (
+								<div className={css.formGroup}>
+									<label htmlFor="name">Імʼя*</label>
+									<Field
+										id="name"
+										name="name"
+										type="text"
+										className={`${css.input} ${errors.name && touched.name ? css.inputError : ""}`}
+										placeholder="Ваше імʼя"
+										autoComplete="name"
+									/>
+									<ErrorMessage name="name" component="p" className={css.error} />
+								</div>
+							)}
 
-  return (
-    <div className={css.wrapper}>
-      <header className={css.header}>
-        <Link href="/" className={css.logo} aria-label="Clothica logo">
-          <svg width="84" height="36" aria-hidden="true">
-            <use href="/sprite.svg#icon-company-logo" />
-          </svg>
-        </Link>
-      </header>
-      <div className={css.content}>
-        <div className={css.buttonsBlock}>
-          <div className={`${css.authBtn} ${!login ? css.active : ""}`}>
-            <Link href="/sign-up">Реєстрація</Link>
-          </div>
-          <div className={`${css.authBtn} ${login ? css.active : ""}`}>
-            <Link href="/sign-in">Вхід</Link>
-          </div>
-        </div>
-        <Formik
-          initialValues={login ? initLoginValues : initRegValues}
-          validationSchema={login ? SignInSchema : SignUpSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ isSubmitting, errors, touched, status }) => (
-            <Form>
-              <h2 className={css.title}>{login ? "Вхід" : "Реєстрація"}</h2>
+							<div className={css.formGroup}>
+								<label htmlFor="phone">Номер телефону*</label>
+								<Field
+									id="phone"
+									name="phone"
+									type="tel"
+									inputMode="tel"
+									className={`${css.input} ${errors.phone && touched.phone ? css.inputError : ""}`}
+									placeholder="+38 (0__) ___-__-__"
+									autoComplete="tel"
+								/>
+								<ErrorMessage name="phone" component="p" className={css.error} />
+							</div>
 
-              {!login && (
-                <div className={css.formGroup}>
-                  <label htmlFor="name">Імʼя*</label>
-                  <Field
-                    id="name"
-                    name="name"
-                    type="text"
-                    className={`${css.input} ${
-                      errors.name && touched.name ? css.inputError : ""
-                    }`}
-                    placeholder="Ваше імʼя"
-                    autoComplete="name"
-                  />
-                  <ErrorMessage
-                    name="name"
-                    component="p"
-                    className={css.error}
-                  />
-                </div>
-              )}
+							<div className={css.formGroup}>
+								<label htmlFor="password">Пароль*</label>
+								<Field
+									id="password"
+									name="password"
+									type="password"
+									className={`${css.input} ${errors.password && touched.password ? css.inputError : ""}`}
+									placeholder="********"
+									autoComplete={login ? "current-password" : "new-password"}
+								/>
+								<ErrorMessage name="password" component="p" className={css.error} />
+							</div>
 
-              <div className={css.formGroup}>
-                <label htmlFor="phone">Номер телефону*</label>
-                <Field
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  inputMode="tel"
-                  className={`${css.input} ${
-                    errors.phone && touched.phone ? css.inputError : ""
-                  }`}
-                  placeholder="+38 (0__) ___-__-__"
-                  autoComplete="tel"
-                />
-                <ErrorMessage
-                  name="phone"
-                  component="p"
-                  className={css.error}
-                />
-              </div>
+							{status && <p className={css.error}>{status}</p>}
 
-              <div className={css.formGroup}>
-                <label htmlFor="password">Пароль*</label>
-                <Field
-                  id="password"
-                  name="password"
-                  type="password"
-                  className={`${css.input} ${
-                    errors.password && touched.password ? css.inputError : ""
-                  }`}
-                  placeholder="********"
-                  autoComplete={login ? "current-password" : "new-password"}
-                />
-                <ErrorMessage
-                  name="password"
-                  component="p"
-                  className={css.error}
-                />
-              </div>
-
-              {status && <p className={css.error}>{status}</p>}
-
-              <button
-                className={css.submitBtn}
-                type="submit"
-                disabled={isSubmitting}
-              >
-                {login
-                  ? isSubmitting
-                    ? "Вхід..."
-                    : "Увійти"
-                  : isSubmitting
-                  ? "Реєстрація..."
-                  : "Зареєструватися"}
-              </button>
-            </Form>
-          )}
-        </Formik>
-      </div>
-      <footer className={css.footer}>
-        <p>&copy; {new Date().getFullYear()} Clothica. Всі права захищені.</p>
-      </footer>
-    </div>
-  );
+							<button className={css.submitBtn} type="submit" disabled={isSubmitting}>
+								{login ? (isSubmitting ? "Вхід..." : "Увійти") : isSubmitting ? "Реєстрація..." : "Зареєструватися"}
+							</button>
+						</Form>
+					)}
+				</Formik>
+			</div>
+			<footer className={css.footer}>
+				<p>&copy; {new Date().getFullYear()} Clothica. Всі права захищені.</p>
+			</footer>
+		</div>
+	)
 }

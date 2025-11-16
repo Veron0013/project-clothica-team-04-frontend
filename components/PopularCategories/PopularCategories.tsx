@@ -119,7 +119,7 @@ export default function PopularCategories({
             className={css.swiper}
           >
             {categories.map((cat) => (
-              <SwiperSlide key={cat._id}>
+              <SwiperSlide key={cat._id} className={css.slideCard}>
                 <Link href={`/goods?category=${cat._id}`}>
                   <div className={css.thumb}>
                     <Image
@@ -162,12 +162,6 @@ export default function PopularCategories({
               <use href="/sprite.svg/#arrow_forward" />
             </svg>
           </button>
-
-          {isFetchingNextPage && (
-            <div className={css.loadingOverlay} aria-live="polite">
-              Завантаження...
-            </div>
-          )}
         </div>
       </div>
     </section>

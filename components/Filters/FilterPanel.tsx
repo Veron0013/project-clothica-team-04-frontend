@@ -1,80 +1,109 @@
 // components/FilterPanel/FilterPanel.tsx
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useMediaQuery } from "@/lib/hooks/useMediaQuery"
-import Filter from "@/components/Filters/Filter"
-import css from "./FilterPanel.module.css"
-import { BREAKPOINTS } from "@/lib/vars"
-import { AllFilters } from "@/types/filters"
-import { getFilterOptions } from "@/lib/api/api"
-import Link from "next/link"
+import { useEffect, useState } from "react";
+import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
+import Filter from "@/components/Filters/Filter";
+import css from "./FilterPanel.module.css";
+import { BREAKPOINTS } from "@/lib/vars";
+import { AllFilters } from "@/types/filters";
+import { getFilterOptions } from "@/lib/api/api";
+import Link from "next/link";
+import { useIsClient } from "@/lib/hooks/useIsClient";
 
 interface Props {
-	vieved: number
-	total: number
+  vieved: number;
+  total: number;
 }
 
 export default function FilterPanel({ total, vieved }: Props) {
-	const isMobile = useMediaQuery(`(max-width: ${BREAKPOINTS.mobile})`)
-	const [isOpen, setIsOpen] = useState(false)
-	const [filters, setFilters] = useState<AllFilters | null>({
-		categories: [],
-		colors: [],
-		fromPrice: 0,
-		toPrice: 0,
-		genders: [],
-		sizes: [],
-	})
+  const isClient = useIsClient();
 
-	useEffect(() => {
-		const fetchFilters = async () => {
-			try {
-				const data = await getFilterOptions()
-				setFilters(data)
-			} catch (error) {
-				console.error("Не вдалося завантажити фільтри:", error)
-			}
-		}
-		fetchFilters()
-	}, [])
+  // ОТУТ МИ ОГОЛОШУЄМО isSidebarLayout
+  // true, якщо ширина екрана >= 768px (tablet + desktop)
+  const isSidebarLayout = useMediaQuery(`(min-width: ${BREAKPOINTS.tablet})`);
 
-	if (!filters) return null
+  const [isOpen, setIsOpen] = useState(false);
+  const [filters, setFilters] = useState<AllFilters | null>(null);
 
-	return (
-		<>
-			{!isMobile ? (
-				<aside className={css.filterPanel__aside}>
-					<h3>Фільтри</h3>
-					<Link href="/goods">Скинути всі</Link>
-					<p>
-						Показано {vieved} із {total}
-					</p>
-					<Filter options={filters} />
-				</aside>
-			) : (
-				<>
-					<button
-						type="button"
-						className={css.filterPanel__button}
-						onClick={() => setIsOpen((s) => !s)}
-						aria-expanded={isOpen}
-					>
-						Фільтри
-					</button>
+  useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        const data = await getFilterOptions();
+        setFilters(data);
+      } catch (error) {
+        console.error("Не вдалося завантажити фільтри:", error);
+      }
+    };
 
-					{isOpen && (
-						<div className={css.filterPanel__modal} role="dialog" aria-modal="true">
-							<div className={css.filterPanel__modalInner}>
-								<Filter options={filters} onClose={() => setIsOpen(false)} />
-								<button className={css.filterPanel__close} onClick={() => setIsOpen(false)}>
-									Закрити
-								</button>
-							</div>
-						</div>
-					)}
-				</>
-			)}
-		</>
-	)
+    fetchFilters();
+  }, []);
+
+  if (!isClient || !filters) return null;
+
+  return (
+    <>
+      {isSidebarLayout ? (
+        <aside className={css.filterPanelAside}>
+          <div className={css.panelContainer}>
+            <h3 className={css.title}>Фільтри</h3>
+            <Link className={css.clear} href="/goods">
+              Очистити всі
+            </Link>
+          </div>
+          <p className={css.text}>
+            Показано {vieved} із {total}
+          </p>
+
+          <Filter options={filters} variant="sidebar" />
+        </aside>
+      ) : (
+        <>
+          <aside className={css.filterPanelAside}>
+            <div className={css.onlyMobile}>
+              <h3 className={css.title}>Фільтри</h3>
+              <Link className={css.clear} href="/goods">
+                Очистити всі
+              </Link>
+            </div>
+            <p className={css.text}>
+              Показано {vieved} із {total}
+            </p>
+          </aside>
+
+          <div className={css.filterWrapper}>
+            <button
+              type="button"
+              className={`${css.filterPanelButton} ${
+                isOpen ? css.filterPanelButtonOpen : ""
+              }`}
+              onClick={() => setIsOpen((s) => !s)}
+              aria-expanded={isOpen}
+            >
+              <span>Фільтри</span>
+              <svg
+                className={css.filterPanelButtonIcon}
+                width={16}
+                height={16}
+                aria-hidden="true"
+                focusable="false"
+              >
+                <use href="/sprite.svg#keyboard_arrow_down" />
+              </svg>
+            </button>
+
+            {isOpen && (
+              <div className={css.filterContainer}>
+                <Filter
+                  options={filters}
+                  onClose={() => setIsOpen(false)}
+                  variant="dropdown"
+                />
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </>
+  );
 }

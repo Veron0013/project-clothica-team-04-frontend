@@ -3,38 +3,49 @@ import { QueryClient, dehydrate, HydrationBoundary } from "@tanstack/react-query
 import { getGoodByIdServer, getFeedbackByGoodIdServer } from "@/lib/api/productsServer"
 import GoodPageClient from "@/components/GoodPage/GoodPage"
 import { REVIEWS_PER_LOAD } from "@/lib/vars"
+import { Good } from "@/types/goods"
+import { Metadata } from "next"
 
 type GoodPageProps = {
 	params: Promise<{ id: string }>
 	searchParams: Promise<{ reviewsPage?: string }>
 }
+export async function generateMetadata({ params }: GoodPageProps): Promise<Metadata> {
+  const {id: goodId} = await params;
+  try {
+		const good: Good = await getGoodByIdServer(goodId)
 
-//export async function generateMetadata({ params }: GoodPageProps): Promise<Metadata> {
-//	const { id: goodId } = await params
+		const price = `${good.price} ${good.currency || '₴'}`
+		
+		// Обробка зображень для OpenGraph
+		const imageUrls = Array.isArray(good.image)
+			? good.image.map(img => (typeof img === "object" && 'url' in img ? img.url : img))
+			: (good.image ? [good.image] : [])
+		
+		// Створення короткого опису (якщо він є)
+		const descriptionText = good.prevDescription || "Опис товару"
 
-//	try {
-//		const good: Good = await getGoodById(goodId)
-
-//		return {
-//			title: good?.name ? `${good.name} | Clothica` : "Товар | Clothica",
-//			description:
-//				good?.characteristics ||
-//				(typeof good?.characteristics === "string" ? good.characteristics.slice(0, 150) : "Опис товару") ||
-//				"Опис товару",
-//			openGraph: {
-//				title: good?.name || "Товар",
-//				description: good?.characteristics || "Опис товару",
-//				images: good?.image?.length ? [good.image[0]] : [],
-//			},
-//		}
-//	} catch (error) {
-//		console.error("Error generating metadata:", error)
-//		return {
-//			title: "Товар не знайдено | Clothica",
-//			description: "Товар не знайдено в каталозі",
-//		}
-//	}
-//}
+		return {
+			title: good?.name ? `${good.name} за ціною ${price} | Clothica` : "Товар | Clothica",
+			description: descriptionText,
+			
+			openGraph: {
+				title: good?.name || "Товар",
+				description: descriptionText,
+				// Використовуємо перше зображення, якщо воно є
+				images: imageUrls.length > 0 ? [{ url: imageUrls[0], width: 800, height: 600, alt: good.name }] : [],
+			},
+		}
+	} catch (error) {
+		console.error("Error generating metadata (API failed with 400/404):", error)
+		
+		// При помилці API (400, 404, 500) повертаємо стандартні метадані
+		return {
+			title: "Товар не знайдено | Clothica",
+			description: "Товар не знайдено в каталозі",
+		}
+	}
+}
 
 export default async function Page({ params, searchParams }: GoodPageProps) {
 	const { id } = await params
