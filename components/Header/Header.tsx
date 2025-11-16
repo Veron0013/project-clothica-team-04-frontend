@@ -25,32 +25,32 @@ export default function Header() {
 	// ✅ якщо стор уже каже, що логін виконано — вважаємо, що можна рендерити одразу
 	const ready = authChecked || isAuthenticated
 
-	useEffect(() => {
-		//console.log("fetch", user, isAuthenticated)
-		//if (isAuthenticated) return setAuthChecked(true)
+	//useEffect(() => {
+	//	//console.log("fetch", user, isAuthenticated)
+	//	//if (isAuthenticated) return setAuthChecked(true)
 
-		const fetchCurrentUser = async () => {
-			try {
-				const userData = await getMe()
-				console.log("header-user", userData)
-				if (!userData) throw new Error()
-				setUser(userData)
-			} catch (e) {
-				console.log("header-error", e)
-				if (isAuthenticated) clearIsAuthenticated()
-			} finally {
-				setAuthChecked(true)
-			}
-		}
-		fetchCurrentUser()
-	}, [isAuthenticated])
+	//	const fetchCurrentUser = async () => {
+	//		try {
+	//			const userData = await getMe()
+	//			console.log("header-user", userData)
+	//			if (!userData) throw new Error()
+	//			setUser(userData)
+	//		} catch (e) {
+	//			console.log("header-error", e)
+	//			if (isAuthenticated) clearIsAuthenticated()
+	//		} finally {
+	//			setAuthChecked(true)
+	//		}
+	//	}
+	//	fetchCurrentUser()
+	//}, [isAuthenticated])
 
-	console.log("after fetch", user, isAuthenticated)
-	// невеликий QoL: якщо стан вже став isAuthenticated=true (з форми) — не чекай fetch
-	useEffect(() => {
-		//console.log("header-user-effect", isAuthenticated, user)
-		if (isAuthenticated) setAuthChecked(true)
-	}, [isAuthenticated])
+	//console.log("after fetch", user, isAuthenticated)
+	//// невеликий QoL: якщо стан вже став isAuthenticated=true (з форми) — не чекай fetch
+	//useEffect(() => {
+	//	//console.log("header-user-effect", isAuthenticated, user)
+	//	if (isAuthenticated) setAuthChecked(true)
+	//}, [isAuthenticated])
 
 	useEffect(() => {
 		document.body.style.overflow = menuOpen ? "hidden" : ""
@@ -79,25 +79,21 @@ export default function Header() {
 					</ul>
 
 					<div className={css.auth}>
-						{ready ? (
-							isAuthenticated ? (
-								<>
-									<Link href="/profile" className={css.navUpBasket}>
-										Кабінет
-									</Link>
-								</>
-							) : (
-								<>
-									<Link href="/sign-in" className={css.navUp}>
-										Вхід
-									</Link>
-									<Link href="/sign-up" className={css.navIn}>
-										Реєстрація
-									</Link>
-								</>
-							)
+						{isAuthenticated ? (
+							<>
+								<Link href="/profile" className={css.navUpBasket}>
+									Кабінет
+								</Link>
+							</>
 						) : (
-							""
+							<>
+								<Link href="/sign-in" className={css.navUp}>
+									Вхід
+								</Link>
+								<Link href="/sign-up" className={css.navIn}>
+									Реєстрація
+								</Link>
+							</>
 						)}
 
 						<div className={css.navCont}>

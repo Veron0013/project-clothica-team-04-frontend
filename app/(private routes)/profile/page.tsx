@@ -107,18 +107,32 @@ export default function ProfilePage() {
 								<li key={order._id} className={css.orderItem}>
 									<div className={css.orderCol}>
 										<p className={css.orderDate}>{new Date(order.createdAt).toLocaleDateString("uk-UA")}</p>
-										<p className={css.orderNumber}>№ {order.orderNumber}</p>
+										<p className={css.orderNumber}>№ 12334455{order.orderNumber}</p>
+										<p className={css.orderNumber}>№ 12334455{order.orderNumber}</p>
+										<p className={css.orderNumber}>№ 12334455{order.orderNumber}</p>
 									</div>
 									<div className={css.orderCol}>
-										<p className={css.orderLabel}>Сума: {order.totalAmount}</p>
-										<p className={css.orderValue}>
-											{order.totalPrice} {order.currency}
+										<p className={css.orderLabel}>Сума: </p>
+										<p className={css.orderValue}> 23456
+											{order.totalAmount} {order.currency}
+										</p>
+										<p className={css.orderLabel}>Сума: </p>
+										<p className={css.orderValue}> 23456
+											{order.totalAmount} {order.currency}
+										</p>
+										<p className={css.orderLabel}>Сума: </p>
+										<p className={css.orderValue}> 23456
+											{order.totalAmount} {order.currency}
 										</p>
 									</div>
 
 									<div className={css.orderColSt}>
 										<p className={css.orderLabel}>Статус: </p>
-										<p className={css.orderValue}>{formatStatus(order.status)}</p>
+										<p className={css.orderValue}>{formatStatus(order.status)} Виконано</p>
+										<p className={css.orderLabel}>Статус: </p>
+										<p className={css.orderValue}>{formatStatus(order.status)} Виконано</p>
+										<p className={css.orderLabel}>Статус: </p>
+										<p className={css.orderValue}>{formatStatus(order.status)} Виконано</p>
 									</div>
 								</li>
 							))}
@@ -146,35 +160,34 @@ export default function ProfilePage() {
 //       <h2 className={css.title}>Кабінет</h2>
 //       <div className={css.profCont}>
 //         <div className={css.information}>
-//           <UserInfoForm />
+//           <UserInfoForm isOrder={false} />
 //         </div>
 //         <div className={css.order}>
-//           <h3 className={css.text}>Мої замовлення</h3>
-//           <ul className={css.orderList}>
-//             <li className={css.orderItem}>
-//               <div className={css.orderCol}>
-//                 <p className={css.orderDate}> 01.10.2025</p>
-//                 <p className={css.orderNumber}>№ 23497545</p>
-//               </div>
+          {/* <h3 className={css.text}>Мої замовлення</h3>
+          <ul className={css.orderList}>
+            <li className={css.orderItem}>
+              <div className={css.orderCol}>
+                <p className={css.orderDate}></p>
+                <p className={css.orderNumber}>№ 12334455</p>
+              </div>
+              <div className={css.orderCol}>
+                <p className={css.orderLabel}>Сума: </p>
+                <p className={css.orderValue}> 23456</p>
+              </div>
 
-//               <div className={css.orderCol}>
-//                 <p className={css.orderLabel}>Сума: </p>
-//                 <p className={css.orderValue}>1900 грн</p>
-//               </div>
-
-//               <div className={css.orderColSt}>
-//                 <p className={css.orderLabel}>Статус:</p>
-//                 <p className={css.orderValue}>Виконано</p>
-//               </div>
-//             </li>
-//           </ul>
-//         </div>
-//       </div>
-//       <div className={css.buttonLog}>
-//         <div className={css.logoutBtn}>
-//           <Link href="">Вийти з кабінету</Link>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
+              <div className={css.orderColSt}>
+                <p className={css.orderLabel}>Статус: </p>
+                <p className={css.orderValue}> Виконано</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className={css.buttonLog}>
+        <div className={css.logoutBtn}>
+          <Link href="">Вийти з кабінету</Link>
+        </div>
+      </div>
+    </div>
+  );
+} */}

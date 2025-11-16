@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query"
 import { updateMe } from "@/lib/api/clientApi"
 import { PHONE_REGEXP } from "@/lib/vars"
 import { useAuthStore } from "@/stores/authStore"
+import toastMessage, { MyToastType } from "@/lib/messageService"
 
 const UserInfoFormSchema = Yup.object().shape({
 	name: Yup.string().min(2).max(20).required("Це поле обовʼязкове!"),
@@ -30,7 +31,7 @@ interface Props {
 }
 
 export default function UserInfoForm({ isOrder = false }: Props) {
-	const { user } = useAuthStore()
+	const user = useAuthStore((state) => state.user)
 
 	console.log("form-user", user, user?.name)
 
@@ -47,7 +48,7 @@ export default function UserInfoForm({ isOrder = false }: Props) {
 	const mutation = useMutation({
 		mutationFn: (data: UserInfoFormValues) => updateMe(data),
 		onSuccess: () => {
-			"Ви успішно відредагували дані!"
+		toastMessage(MyToastType.success, "Ви успішно відредагували дані!")
 			router.push("/")
 		},
 	})

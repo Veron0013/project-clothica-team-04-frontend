@@ -101,6 +101,12 @@ export const getMe = async () => {
 	}
 }
 
+export const getUsersMe = async () => {
+	const { data } = await nextAuthServer.get<User>("/users/me")
+	console.log("getMe", data)
+	return data
+}
+
 export const updateMe = async (payload: UpdateUserRequest) => {
 	const refreshSession = await checkSession()
 

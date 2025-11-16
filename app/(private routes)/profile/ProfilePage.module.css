@@ -30,8 +30,8 @@ width: 100%;
 }
 .orderItem {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content:space-between;
   width: 100%;
 }
 
@@ -61,6 +61,8 @@ width: 100%;
   line-height: 1.5;
   color: #000;
 }
+
+
 
 .logoutBtn {
   margin-top: 48px;

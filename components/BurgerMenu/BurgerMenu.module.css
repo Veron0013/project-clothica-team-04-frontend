@@ -77,6 +77,26 @@ display: flex;
   height: 36px;
 }
 
+ .BurgernavUp:hover,
+ .BurgernavUp:focus,
+ .BurgernavIn:hover,
+ .BurgernavIn:focus,
+ .BurgerNavUpBasket:hover,
+ .BurgerNavUpBasket:focus {
+   border: 1px solid var(--color-deco-darker);
+ }
+
+ .BurgernavUp:active {
+   border: 1px solid var(--color-deco);
+   background-color: var(--color-deco-darkest);
+ }
+
+ .BurgernavIn:active,
+ .BurgerNavUpBasket:active {
+   border: 1px solid var(--opacity-transparent);
+   background-color: var(--opacity-neutral-darkest-50);
+ }
+
 @media screen and (min-width: 768px) {
   .burgerMenu {
     display: none;

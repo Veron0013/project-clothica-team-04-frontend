@@ -105,6 +105,7 @@
 @media screen and (min-width: 1440px) {
   .text {
     padding-top: 0;
+    padding-bottom: 24px;
   }
 
   .inputTel {
@@ -118,6 +119,7 @@
 
   .form {
     padding-bottom: 16px;
+padding-top: 0;
   }
 
 }

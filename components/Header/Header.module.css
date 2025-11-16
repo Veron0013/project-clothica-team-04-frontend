@@ -113,6 +113,23 @@ background-color: #d6eac0;
     font-weight: 500;
     padding: 4px 10px;
   }
+
+  .navUp:hover,
+  .navUp:focus,
+  .navIn:hover,
+  .navIn:focus {
+    border: 1px solid var(--color-deco-darker);
+  }
+
+  .navUp:active{
+    border: 1px solid var(--color-deco);
+    background-color: var(--color-deco-darkest);
+  }
+
+  .navIn:active{
+    border: 1px solid var(--opacity-transparent);
+background-color: var(--opacity-neutral-darkest-50);
+  }
   .navUpBasket {
     display: flex;
     align-items: center;
