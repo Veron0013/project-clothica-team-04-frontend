@@ -23,6 +23,11 @@
   line-height: 150%;
   color: var(--color-neutral-darkest);
   cursor: pointer;
+  transition: color 0.2s ease, opacity 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+.clear:hover {
+  opacity: 0.7;
 }
 .text {
   font-weight: 400;
@@ -48,8 +53,10 @@
   .panelContainer {
     display: flex;
     align-items: center;
-
     justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .text {
     margin-bottom: 24px;
   }
 }

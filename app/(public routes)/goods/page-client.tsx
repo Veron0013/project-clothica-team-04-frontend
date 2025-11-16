@@ -107,9 +107,7 @@ const ProductsPageClient = () => {
                 onClick={handleShowMore}
                 disabled={isFetching}
               >
-                {isFetching
-                  ? "Завантаження..."
-                  : `Показати ще ${data?.limit} з ${data?.totalGoods}`}
+                {isFetching ? "Завантаження..." : `Показати ще `}
               </button>
             )}
           </div>
