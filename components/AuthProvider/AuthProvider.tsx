@@ -10,20 +10,20 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
 	useEffect(() => {
 		const fetchCheckSession = async () => {
-			try {
-				const isAuthenticated = await checkSession()
+			//try {
+			const isAuthenticated = await checkSession()
 
-				if (isAuthenticated) {
-					const user = await getUsersMe()
-					console.log("auth", user)
-					if (user) setUser(user)
-				} else {
-					clearIsAuthenticated()
-				}
-			} catch (e: unknown) {
-				console.log("auth-error", e)
+			if (isAuthenticated) {
+				const user = await getUsersMe()
+				console.log("auth", user)
+				if (user) setUser(user)
+			} else {
 				clearIsAuthenticated()
 			}
+			//} catch (e: unknown) {
+			//	console.log("auth-error", e)
+			//	clearIsAuthenticated()
+			//}
 		}
 
 		fetchCheckSession()

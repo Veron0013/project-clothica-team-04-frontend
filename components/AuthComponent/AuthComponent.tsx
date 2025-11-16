@@ -38,15 +38,15 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
 		const loadingId = toastMessage(MyToastType.loading, login ? "Вхід..." : "Реєстрація...")
 
 		try {
-			const userObj = await callAuth(login, values)
-			//const userObj = login ? data : data
-			if (!userObj) {
+			const user = await callAuth(login, values)
+			//console.log("login", user, user?.user)
+			if (!user) {
 				//setStatus("Невідома помилка: користувача не отримано")
 				toastMessage(MyToastType.error, "Сталася помилка. Спробуйте ще раз.")
 				throw new Error("")
 			}
 
-			setUser(userObj)
+			setUser(user)
 			resetForm()
 
 			toastMessage(MyToastType.success, login ? "Ви успішно увійшли!" : "Ви успішно зареєструвалися!")

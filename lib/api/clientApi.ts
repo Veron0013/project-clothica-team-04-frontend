@@ -66,7 +66,7 @@ export type AuthValues = {
 
 ////////////////////////////////////////
 
-export async function callAuth(isLogin: boolean, values: AuthValues) {
+export async function callAuth(isLogin: boolean, values: AuthValues): Promise<User> {
 	return isLogin ? await login(values) : await register(values)
 }
 

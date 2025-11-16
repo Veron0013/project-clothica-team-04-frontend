@@ -50,7 +50,7 @@ export default function UserInfoForm({ isOrder = false }: Props) {
 	const mutation = useMutation({
 		mutationFn: (data: UserInfoFormValues) => updateMe(data),
 		onSuccess: () => {
-		toastMessage(MyToastType.success, "Ви успішно відредагували дані!")
+			toastMessage(MyToastType.success, "Ви успішно відредагували дані!")
 			router.push("/")
 		},
 	})

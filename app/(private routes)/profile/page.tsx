@@ -77,6 +77,8 @@ export default function ProfilePage() {
 		}
 	}
 
+	//console.log("order", orders)
+
 	return (
 		<div className={css.profile}>
 			<h2 className={css.title}>Кабінет</h2>
@@ -107,32 +109,18 @@ export default function ProfilePage() {
 								<li key={order._id} className={css.orderItem}>
 									<div className={css.orderCol}>
 										<p className={css.orderDate}>{new Date(order.createdAt).toLocaleDateString("uk-UA")}</p>
-										<p className={css.orderNumber}>№ 12334455{order.orderNumber}</p>
-										<p className={css.orderNumber}>№ 12334455{order.orderNumber}</p>
-										<p className={css.orderNumber}>№ 12334455{order.orderNumber}</p>
+										<p className={css.orderNumber}>№ {order.orderNumber}</p>
 									</div>
 									<div className={css.orderCol}>
 										<p className={css.orderLabel}>Сума: </p>
-										<p className={css.orderValue}> 23456
-											{order.totalAmount} {order.currency}
-										</p>
-										<p className={css.orderLabel}>Сума: </p>
-										<p className={css.orderValue}> 23456
-											{order.totalAmount} {order.currency}
-										</p>
-										<p className={css.orderLabel}>Сума: </p>
-										<p className={css.orderValue}> 23456
+										<p className={css.orderValue}>
 											{order.totalAmount} {order.currency}
 										</p>
 									</div>
 
 									<div className={css.orderColSt}>
 										<p className={css.orderLabel}>Статус: </p>
-										<p className={css.orderValue}>{formatStatus(order.status)} Виконано</p>
-										<p className={css.orderLabel}>Статус: </p>
-										<p className={css.orderValue}>{formatStatus(order.status)} Виконано</p>
-										<p className={css.orderLabel}>Статус: </p>
-										<p className={css.orderValue}>{formatStatus(order.status)} Виконано</p>
+										<p className={css.orderValue}>{formatStatus(order.status)}</p>
 									</div>
 								</li>
 							))}
@@ -163,7 +151,8 @@ export default function ProfilePage() {
 //           <UserInfoForm isOrder={false} />
 //         </div>
 //         <div className={css.order}>
-          {/* <h3 className={css.text}>Мої замовлення</h3>
+{
+	/* <h3 className={css.text}>Мої замовлення</h3>
           <ul className={css.orderList}>
             <li className={css.orderItem}>
               <div className={css.orderCol}>
@@ -190,4 +179,5 @@ export default function ProfilePage() {
       </div>
     </div>
   );
-} */}
+} */
+}
