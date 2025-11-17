@@ -9,7 +9,7 @@
   line-height: 1.2;
   letter-spacing: -0.01em;
   text-align: center;
-  color: var(--color-scheme-6-text);
+  color: #000;
 }
 
 .text {
@@ -18,7 +18,7 @@
   line-height: 1.4;
   letter-spacing: -0.01em;
   text-align: center;
-  color: var(--color-scheme-6-text);
+  color: #000;
   padding-bottom: 16px;
 }
 
@@ -70,28 +70,14 @@
 
 .logoutBtn {
   margin-top: 48px;
-
+  border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 100px;
   min-width: 100%;
   padding: 6px 12px;
-
+  background-color: rgba(0, 0, 0, 0.05);
   cursor: pointer;
   margin-bottom: 48px;
   text-align: center;
-  background-color: var(--color-deco);
-  border: 1px solid var(--color-deco);
-  transition: background-color 0.3s ease, border 0.3s ease;
-  color: var(--color-scheme-6-text);
-}
-.logoutBtn:hover,
-.logoutBtn:focus {
-  border: 1px solid #4e5a42;
-  background-color: #9db484;
-}
-.logoutBtn:active {
-  background-color: var(--color-deco-darkest);
-  border: 1px solid var(--color-deco);
-  color: var(--color-white);
 }
 
 @media screen and (min-width: 768px) {
@@ -130,18 +116,3 @@
     width: 640px;
   }
 }
-<<<<<<< HEAD
-
-.title {
-  margin-bottom: 48px;
-}
-
-.information {
-  width: 640px;
-}
-
-.order {
-  width: 640px;
-}
-=======
->>>>>>> b685293 (add css)

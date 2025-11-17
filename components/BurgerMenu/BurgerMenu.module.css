@@ -1,5 +1,5 @@
 .burgerMenu {
-  background-color: var(--background);
+  background-color: #d6eac0;
   position: fixed;
   top: 72px;
   left: 0;
@@ -39,7 +39,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--opacity-neutral-darkest-5);
+  background-color: rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 100px;
   font-weight: 500;
@@ -47,11 +47,10 @@
   padding: 6px 12px;
   min-width: 305px;
   height: 36px;
-  color: var(--color-scheme-5-text);
 }
 
-.BurgerNavUpBasket {
-  display: flex;
+.BurgerNavUpBasket{
+display: flex;
   align-items: center;
   justify-content: center;
   background-color: #c5e1a5;
@@ -76,28 +75,27 @@
   padding: 6px 12px;
   min-width: 305px;
   height: 36px;
-  color: var(--color-scheme-5-text);
 }
 
-.BurgernavUp:hover,
-.BurgernavUp:focus,
-.BurgernavIn:hover,
-.BurgernavIn:focus,
-.BurgerNavUpBasket:hover,
-.BurgerNavUpBasket:focus {
-  border: 1px solid var(--color-deco-darker);
-}
+ .BurgernavUp:hover,
+ .BurgernavUp:focus,
+ .BurgernavIn:hover,
+ .BurgernavIn:focus,
+ .BurgerNavUpBasket:hover,
+ .BurgerNavUpBasket:focus {
+   border: 1px solid var(--color-deco-darker);
+ }
 
-.BurgernavUp:active {
-  border: 1px solid var(--color-deco);
-  background-color: var(--color-deco-darkest);
-}
+ .BurgernavUp:active {
+   border: 1px solid var(--color-deco);
+   background-color: var(--color-deco-darkest);
+ }
 
-.BurgernavIn:active,
-.BurgerNavUpBasket:active {
-  border: 1px solid var(--opacity-transparent);
-  background-color: var(--opacity-neutral-darkest-50);
-}
+ .BurgernavIn:active,
+ .BurgerNavUpBasket:active {
+   border: 1px solid var(--opacity-transparent);
+   background-color: var(--opacity-neutral-darkest-50);
+ }
 
 @media screen and (min-width: 768px) {
   .burgerMenu {
