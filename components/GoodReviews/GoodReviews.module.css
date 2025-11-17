@@ -13,7 +13,7 @@
   .header {
     flex-direction: row;
     justify-content: space-between;
-    }
+  }
 }
 
 .title {
@@ -46,28 +46,27 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 150%;
-  color: var(--color-neutral-darkest);
+  color: var(--color-scheme-6-text);
 }
-
-
 
 @media (min-width: 768px) {
-    .writeBtn {
-width: 160px;
-}
+  .writeBtn {
+    width: 160px;
+  }
 }
 
 @media (min-width: 1440px) {
-.writeBtn:hover, .writeBtn:focus {
-  background-color: var(--color-deco-dark);
-  border-color: var(--color-deco-dark);
-}
+  .writeBtn:hover,
+  .writeBtn:focus {
+    background-color: var(--color-deco-dark);
+    border-color: var(--color-deco-dark);
+  }
 
-.writeBtn:active {
-  background-color: var(--color-deco-darker);
-  border-color: var(--color-deco-darker);
+  .writeBtn:active {
+    background-color: var(--color-deco-darker);
+    border-color: var(--color-deco-darker);
+  }
 }
-    }
 
 /* --- КОНТЕНТ З ВІДГУКАМИ --- */
 .content {
@@ -88,21 +87,21 @@ width: 160px;
   color: var(--color-scheme-1-text);
   padding: 30px;
   border-radius: 16px;
-  background-color: #D6eac0;
+  background-color: #d6eac0;
 }
 
 @media (min-width: 1440px) {
-    .noReviews {
-border-radius: 16px;
-padding: 24px 0px;
-width: 753px;
-height: 127px;
-    }
+  .noReviews {
+    border-radius: 16px;
+    padding: 24px 0px;
+    width: 753px;
+    height: 127px;
+  }
 }
 
 .writeBtnNoReviews {
-    margin-top: 16px;
-  border: 1px solid #C5E1A5;
+  margin-top: 16px;
+  border: 1px solid #c5e1a5;
   border-radius: 100px;
   padding: 6px 12px;
   width: 100%;
@@ -116,9 +115,9 @@ height: 127px;
 }
 
 @media (min-width: 768px) {
-    .writeBtnNoReviews {
- width: 160px;  
-    }
+  .writeBtnNoReviews {
+    width: 160px;
+  }
 }
 
 .error {

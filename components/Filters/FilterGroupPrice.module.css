@@ -49,7 +49,7 @@
   transform: translateY(-50%);
   height: 4px;
   border-radius: 999px;
-  background: #f1f2ec;
+  background: var(--color-deco-light);
 }
 
 /* активна частина між бігунками */
@@ -61,7 +61,7 @@
   top: 0;
   bottom: 0;
   border-radius: inherit;
-  background: #000;
+  background: var(--color-neutral-darkest);
 }
 
 /* два range-інпути один над одним */
@@ -98,8 +98,8 @@
   width: 20px;
   height: 20px;
   border-radius: 50px;
-  background: var(--color-white);
-  border: 2px solid var(--color-scheme-1-border);
+  background: var(--background);
+  border: 2px solid var(--color-scheme-3-text);
   box-shadow: 0 0 10px 0 var(--opacity-neutral-darkest-15);
   cursor: pointer;
   margin-top: -8px;

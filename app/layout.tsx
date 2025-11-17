@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import AuthPagesLayout from "@/components/AuthPagesLayout/AuthPagesLayout";
+import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
 
 const interSans = Inter({
   variable: "--font-inter",
@@ -54,24 +55,31 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html data-scroll-behavior="smooth" lang="en">
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      data-theme="light" // стартова тема
+      suppressHydrationWarning // щоб не було мутної помилки по темі
+    >
       <body
         className={`${interSans.variable} ${nunitoSans.variable} antialiased`}
       >
-        <TanStackProvider>
-          <div className="layout">
-            <AuthProvider>
-              <Suspense fallback={<Loading />}>
-                <AuthPagesLayout>
-                  {children}
-                  {modal}
-                </AuthPagesLayout>
-              </Suspense>
-            </AuthProvider>
-          </div>
-          <Toaster />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </TanStackProvider>
+        <ThemeProvider>
+          <TanStackProvider>
+            <div className="layout">
+              <AuthProvider>
+                <Suspense fallback={<Loading />}>
+                  <AuthPagesLayout>
+                    {children}
+                    {modal}
+                  </AuthPagesLayout>
+                </Suspense>
+              </AuthProvider>
+            </div>
+            <Toaster />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </TanStackProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

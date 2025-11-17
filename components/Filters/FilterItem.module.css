@@ -12,15 +12,15 @@
     text-decoration-color 0.2s ease;
 }
 .filterLink:hover {
-  opacity: 0.7;
-  text-underline-offset: 2px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .filterLink_active {
-  font-weight: 400;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 20px;
   line-height: 150%;
-  border-bottom: 1px solid currentColor;
+
   padding-bottom: 2px;
 }
 .filterLink_disabled {
@@ -43,15 +43,15 @@
   width: 18px;
   height: 18px;
   border-radius: 4px;
-  border: 1px solid var(--opacity-neutral-darkest-15);
-  background: #fff;
+  border: 1px solid var(--color-scheme-1-text);
+  background: transperent;
   cursor: pointer;
   position: relative;
 }
 
 .filterInput[type="checkbox"]:checked {
   background: #000;
-  border-color: #000;
+  border-color: var(--color-scheme-1-text);
 }
 
 .filterInput[type="checkbox"]:checked::after {
@@ -101,11 +101,12 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 1px solid var(--opacity-neutral-darkest-15);
-  background: #fff;
+
+  background: transparent;
   position: relative;
   cursor: pointer;
   margin: 0 8px 0 0;
+  border: 1px solid var(--color-scheme-1-text);
 }
 
 .filterInput[type="radio"]:checked {
@@ -122,5 +123,8 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #fff;
+  background: transparent;
+  border: 1px solid var(--color-scheme-1-text);
+  background: var(--color-deco-light);
+  border: none;
 }
