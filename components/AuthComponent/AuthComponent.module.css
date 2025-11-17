@@ -21,6 +21,10 @@
   padding: 79px 0;
 }
 
+.reset{
+  margin-top: 10px;
+}
+
 @media screen and (min-width: 768px) {
   .content {
     padding: 126px 0;

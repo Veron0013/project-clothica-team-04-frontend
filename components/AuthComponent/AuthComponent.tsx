@@ -146,6 +146,10 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
 									autoComplete={login ? "current-password" : "new-password"}
 								/>
 								<ErrorMessage name="password" component="p" className={css.error} />
+
+								{login && <button className={css.reset}>
+									<Link href="/reset-password" /> Забули пароль?
+								</button>}
 							</div>
 
 							{status && <p className={css.error}>{status}</p>}
