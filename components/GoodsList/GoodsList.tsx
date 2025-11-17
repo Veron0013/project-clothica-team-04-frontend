@@ -24,9 +24,8 @@ export function GoodsList({ items, dataQty }: Props) {
 		<ul className={css.list}>
 			<AnimatePresence>
 				{items.map((item: Good, index: number) => {
-					const offset = items.length - dataQty
-					const isNew = index >= offset
-					const delay = isNew ? (index - offset) * 100 : 0
+					const isNew = index >= items.length - dataQty
+					const delay = isNew ? (index - (items.length - dataQty)) * 100 : 0
 
 					return (
 						<li key={item._id} id={item._id.toString()} style={{ animationDelay: `${delay}ms` }}>
