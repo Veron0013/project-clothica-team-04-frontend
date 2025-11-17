@@ -53,6 +53,6 @@ export const fetchPopularCategories = async ({
 		page,
 		limit,
 	}
-	const response = await nextServer.get<FetchPopularCategoriesResponse>("/categories", { params })
+	const response = await nextServer.get<FetchPopularCategoriesResponse>("/categories/popular", { params })
 	return response.data
 }

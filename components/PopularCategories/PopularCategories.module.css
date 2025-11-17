@@ -113,9 +113,10 @@
 
 .slideCard:hover,
 .slideCard:focus {
-  box-shadow: 0 8px 24px var(--opacity-neutral-darkest-10);
-  outline: none;
-  border-radius: 16px;
+    box-shadow: 0 8px 24px var(--opacity-neutral-darkest-10);
+    outline: none;
+    border-radius: 16px;
+    
 }
 
 .thumb {
