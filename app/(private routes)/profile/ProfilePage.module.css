@@ -1,3 +1,7 @@
+.profile {
+  margin-bottom: 80px;
+}
+
 .title {
   padding-top: 64px;
   font-weight: 400;
@@ -28,6 +32,7 @@
   gap: 16px;
   width: 100%;
 }
+
 .orderItem {
   display: flex;
   align-items: flex-start;
@@ -48,6 +53,7 @@
   line-height: 1.5;
   color: #000;
 }
+
 .orderLabel {
   font-weight: 600;
   font-size: 18px;
@@ -123,4 +129,6 @@
   .order {
     width: 640px;
   }
+
+
 }
