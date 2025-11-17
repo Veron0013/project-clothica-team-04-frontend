@@ -68,8 +68,6 @@
   color: #000;
 }
 
-
-
 .logoutBtn {
   margin-top: 48px;
   border: 1px solid rgba(255, 255, 255, 0);
@@ -117,6 +115,4 @@
   .order {
     width: 640px;
   }
-
-
 }
