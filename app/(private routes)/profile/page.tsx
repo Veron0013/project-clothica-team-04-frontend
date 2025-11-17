@@ -108,7 +108,7 @@ export default function ProfilePage() {
 							{orders.map((order) => (
 								<li key={order._id} className={css.orderItem}>
 									<div className={css.orderCol}>
-										<p className={css.orderDate}>{new Date(order.createdAt).toLocaleDateString("uk-UA")}</p>
+										<p className={css.orderDate}>{new Date(order.createdAt ?? "").toLocaleDateString("uk-UA")}</p>
 										<p className={css.orderNumber}>№ {order.orderNumber}</p>
 									</div>
 									<div className={css.orderCol}>
