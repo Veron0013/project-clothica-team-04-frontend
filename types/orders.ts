@@ -1,13 +1,13 @@
 export interface OrderItem {
 	productId: string
-	name: string
+	name?: string
 	price: number
-	currency: string
-	image: string
+	currency?: string
+	image?: string
 	quantity: number
-	totalPrice: number
-	feedbackCount: number
-	averageRating: number
+	totalPrice?: number
+	feedbackCount?: number
+	averageRating?: number
 }
 
 export interface DeliveryDetails {
@@ -17,15 +17,16 @@ export interface DeliveryDetails {
 }
 
 export interface Order {
-	_id: string
+	_id?: string
+	orderNumber?: string
 	userId: string | null
-	orderNumber: string
-	totalAmount: number
-	status: "in_process" | "completed" | "canceled" | "assembling" | string;
-	deliveryDetails: DeliveryDetails
-	createdAt: string // або Date, якщо перетворювати після fetch
-	updatedAt: string // або Date
 	items: OrderItem[]
-	totalPrice: number;
-	currency: string;
+	totalAmount: number
+	status?: "У процесі" | "Комплектується" | "Відвантажено" | "Виконано" | "Скасовано" | string
+	deliveryDetails: DeliveryDetails
+	totalPrice?: number
+	comment?: string
+	currency?: string
+	createdAt?: string // або Date, якщо перетворювати після fetch
+	updatedAt?: string // або Date
 }

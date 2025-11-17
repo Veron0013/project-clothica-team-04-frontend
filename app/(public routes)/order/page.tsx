@@ -1,7 +1,7 @@
 "use client"
 import GoodsOrderList from "@/components/GoodsOrderList/GoodsOrderList"
-import UserInfoForm from "@/components/UserInfoForm/UserInfoForm"
 import css from "./page.module.css"
+import UserOrderInfoForm from "@/components/UserOrderInfoForm/UserOrderInfoForm"
 
 const CategoryPage = () => {
 	return (
@@ -13,7 +13,7 @@ const CategoryPage = () => {
 					<GoodsOrderList />
 				</div>
 				<div className={css.flexbox_item}>
-					<UserInfoForm isOrder={true} />
+					<UserOrderInfoForm />
 				</div>
 			</div>
 		</div>

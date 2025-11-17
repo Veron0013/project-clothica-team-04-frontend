@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px;
+  /*padding: 12px;*/
   border-radius: 8px;
 }
 
@@ -58,6 +58,8 @@
   .basketItemHead {
     margin-right: 8px;
     max-width: 160px;
+    width: 100%;
+    min-width: 70%;
   }
 }
 
