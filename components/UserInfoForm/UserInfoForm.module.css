@@ -20,6 +20,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 32px;
+
 }
 
 .label {
@@ -54,9 +55,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
-
-  background-color: var(--color-deco);
-  color: var(--color-scheme-6-text);
+  color: #000;
   border: 1px solid #c5e1a5;
   border-radius: 100px;
   padding: 6px 12px;
@@ -65,10 +64,7 @@
   margin-bottom: 32px;
   margin-top: 8px;
 }
-.button:hover,
-.button:focus {
-  background: var(--opacity-neutral-darkest-15);
-}
+
 /* ========================== */
 /*   TABLET ≥ 768px           */
 /* ========================== */
@@ -118,6 +114,6 @@
 
   .form {
     padding-bottom: 16px;
-    padding-top: 0;
+padding-top: 0;
   }
 }
