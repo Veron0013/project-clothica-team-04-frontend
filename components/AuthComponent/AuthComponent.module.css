@@ -122,21 +122,20 @@
 
 .submitBtn {
   width: 100%;
-
+  color: var(--color-neutral-darkest);
   font-size: 16px;
   font-weight: 500;
   background-color: var(--color-deco);
   border: 1px solid var(--color-deco);
-  transition: background-color 0.3s ease, border 0.3s ease;
-  color: var(--color-scheme-6-text);
+
   padding: 6px 0;
   border-radius: 100px;
 }
 
 .submitBtn:hover,
 .submitBtn:focus {
-  border: 1px solid #4e5a42;
-  background-color: #9db484;
+  background-color: var(--color-deco-dark);
+  border: 1px solid var(--color-deco-darker);
 }
 .submitBtn:active {
   background-color: var(--color-deco-darkest);
