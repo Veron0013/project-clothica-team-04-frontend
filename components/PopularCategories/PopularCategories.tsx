@@ -58,19 +58,28 @@ export default function PopularCategories({
 
   const categories = useMemo(() => {
     const list = (data?.pages ?? []).flatMap((p) => p.categories);
-    const seen = new Set<string>();
-    return list.filter((c) =>
-      seen.has(c._id) ? false : (seen.add(c._id), true)
-    );
+    return list;
   }, [data]);
 
   const swiperRef = useRef<SwiperType | null>(null);
-  const [isBeginning, setIsBeginning] = useState(true);
-  const [isEnd, setIsEnd] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slidesPerViewState, setSlidesPerViewState] = useState(1);
 
   const hasNextPage = !!_hasNextPage;
-  const isPrevDisabled = isBeginning;
-  const isNextDisabled = isEnd && !hasNextPage;
+  const isPrevDisabled = activeIndex === 0;
+  const isNextDisabled =
+    !hasNextPage &&
+    categories.length > 0 &&
+    activeIndex >= categories.length - slidesPerViewState;
+
+  const loadMoreIfNeeded = async () => {
+    if (!hasNextPage || isFetchingNextPage) return;
+
+    await fetchNextPage();
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+    swiperRef.current?.update();
+  };
 
   const handlePrev = () => swiperRef.current?.slidePrev();
 
@@ -78,14 +87,10 @@ export default function PopularCategories({
     const s = swiperRef.current;
     if (!s) return;
 
-    if (s.isEnd && hasNextPage && !isFetchingNextPage) {
-      await fetchNextPage();
-      await new Promise(requestAnimationFrame);
-      await new Promise(requestAnimationFrame);
-      s.update();
-      s.slideNext();
-      return;
+    if (s.isEnd) {
+      await loadMoreIfNeeded();
     }
+
     s.slideNext();
   };
 
@@ -106,8 +111,19 @@ export default function PopularCategories({
               swiperRef.current = swiper;
             }}
             onSlideChange={(swiper) => {
-              setIsBeginning(swiper.isBeginning);
-              setIsEnd(swiper.isEnd);
+              setActiveIndex(swiper.realIndex);
+
+              let currentSpv = 1;
+              const paramSpv = swiper.params.slidesPerView;
+
+              if (typeof paramSpv === "number") {
+                currentSpv = paramSpv;
+              }
+
+              setSlidesPerViewState(currentSpv);
+            }}
+            onReachEnd={async () => {
+              await loadMoreIfNeeded();
             }}
             keyboard={{ enabled: true }}
             spaceBetween={32}
@@ -152,10 +168,10 @@ export default function PopularCategories({
           <button
             type="button"
             className={`${css.navBtn} ${css.navNext} ${
-              isNextDisabled || isFetchingNextPage ? css.navBtnDisabled : ""
+              isNextDisabled ? css.navBtnDisabled : ""
             }`}
             onClick={handleNext}
-            disabled={isNextDisabled || isFetchingNextPage}
+            disabled={isNextDisabled}
             aria-label="Наступні товари"
           >
             <svg className={css.icon} width={24} height={24}>

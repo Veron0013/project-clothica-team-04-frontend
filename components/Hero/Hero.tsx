@@ -32,11 +32,21 @@ export default function Hero() {
           <picture>
             <source
               media="(max-width: 767px)"
-              srcSet="/images/hero/hero-mobile.webp"
+              srcSet="
+        /images/hero/hero-mobile.webp 1x,
+        /images/hero/hero-mobile@2x.webp 2x
+      "
+              width="335"
+              height="335"
             />
             <source
               media="(max-width: 1439px)"
-              srcSet="/images/hero/hero-tablet.webp"
+              srcSet="
+        /images/hero/hero-tablet.webp 1x,
+        /images/hero/hero-tablet@2x.webp 2x
+      "
+              width="336"
+              height="425"
             />
             <Image
               src="/images/hero/hero-desktop.webp"

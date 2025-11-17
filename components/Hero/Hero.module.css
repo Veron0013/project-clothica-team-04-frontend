@@ -143,4 +143,9 @@
     .title {
         font-size: 56px;
     }
+    .imageWrapper {
+    min-width: 640px ;
+    min-height: 394px;
+    flex-shrink: 0;
+        }
 }

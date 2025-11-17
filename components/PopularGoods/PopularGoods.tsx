@@ -1,4 +1,5 @@
 "use client";
+
 import css from "./PopularGoods.module.css";
 import Link from "next/link";
 import { useRef, useState, useMemo } from "react";
@@ -6,11 +7,10 @@ import { type Good } from "@/types/goods";
 import HomeGoodInfo from "../HomeGoodInfo/HomeGoodInfo";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper";
-import { Navigation, Keyboard, Pagination } from "swiper/modules";
+import { Navigation, Keyboard } from "swiper/modules";
 import { fetchPopularGoods } from "@/lib/api/mainPageApi";
 import "swiper/css";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 type PopularGoodsProps = {
@@ -23,15 +23,14 @@ type PopularGoodsProps = {
   };
 };
 
+const MAX_BULLETS = 5;
+
 export default function PopularGoods({ initialData }: PopularGoodsProps) {
   const limit = initialData.limit ?? 6;
-
-  const total = initialData.total;
 
   const seed = {
     ...initialData,
     limit,
-    total,
   };
 
   const {
@@ -55,18 +54,40 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
   const goods = useMemo(() => {
     const list = (data?.pages ?? []).flatMap((p) => p.items);
     const seen = new Set<string>();
-    return list.filter((c) =>
-      seen.has(c._id) ? false : (seen.add(c._id), true)
+
+    return list.filter((item) =>
+      seen.has(item._id) ? false : (seen.add(item._id), true)
     );
   }, [data]);
 
   const swiperRef = useRef<SwiperType | null>(null);
-  const [isBeginning, setIsBeginning] = useState(true);
-  const [isEnd, setIsEnd] = useState(false);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [slidesPerViewState, setSlidesPerViewState] = useState(1);
+  const [isPaginationReady, setIsPaginationReady] = useState(false);
 
   const hasNextPage = !!_hasNextPage;
-  const isPrevDisabled = isBeginning;
-  const isNextDisabled = isEnd && !hasNextPage;
+
+  const updateSlidesPerView = (swiper: SwiperType) => {
+    let currentSpv = 1;
+    const paramSpv = swiper.params.slidesPerView;
+
+    if (typeof paramSpv === "number") {
+      currentSpv = paramSpv;
+    }
+
+    setSlidesPerViewState(currentSpv);
+  };
+
+  const loadMoreIfNeeded = async () => {
+    if (!hasNextPage || isFetchingNextPage) return;
+
+    await fetchNextPage();
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+
+    swiperRef.current?.update();
+  };
 
   const handlePrev = () => swiperRef.current?.slidePrev();
 
@@ -74,15 +95,43 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
     const s = swiperRef.current;
     if (!s) return;
 
-    if (s.isEnd && hasNextPage && !isFetchingNextPage) {
-      await fetchNextPage();
-      await new Promise(requestAnimationFrame);
-      await new Promise(requestAnimationFrame);
-      s.update();
-      s.slideNext();
-      return;
+    if (s.isEnd) {
+      await loadMoreIfNeeded();
     }
+
     s.slideNext();
+  };
+
+  const totalSlides = goods.length;
+  const positionsCount = Math.max(1, totalSlides - slidesPerViewState + 1);
+
+  const effectiveActiveIndex = Math.min(activeIndex, positionsCount - 1);
+
+  const isPrevDisabled = effectiveActiveIndex === 0;
+  const isNextDisabled =
+    !hasNextPage && effectiveActiveIndex >= positionsCount - 1;
+
+  const visibleCount = Math.min(MAX_BULLETS, positionsCount);
+
+  let windowStart = 0;
+
+  if (positionsCount > visibleCount) {
+    const middle = Math.floor(visibleCount / 2);
+
+    if (effectiveActiveIndex <= middle) {
+      windowStart = 0;
+    } else if (effectiveActiveIndex >= positionsCount - middle - 1) {
+      windowStart = positionsCount - visibleCount;
+    } else {
+      windowStart = effectiveActiveIndex - middle;
+    }
+  }
+
+  const handleBulletClick = (positionIndex: number) => {
+    const s = swiperRef.current;
+    if (!s) return;
+
+    s.slideTo(positionIndex);
   };
 
   return (
@@ -94,15 +143,21 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
             Всі товари
           </Link>
         </div>
+
         <div className={css.sliderWrapper}>
           <Swiper
-            modules={[Navigation, Keyboard, Pagination]}
+            modules={[Navigation, Keyboard]}
             onBeforeInit={(swiper) => {
               swiperRef.current = swiper;
+              updateSlidesPerView(swiper);
+              setIsPaginationReady(true);
             }}
             onSlideChange={(swiper) => {
-              setIsBeginning(swiper.isBeginning);
-              setIsEnd(swiper.isEnd);
+              setActiveIndex(swiper.realIndex);
+              updateSlidesPerView(swiper);
+            }}
+            onReachEnd={async () => {
+              await loadMoreIfNeeded();
             }}
             keyboard={{ enabled: true }}
             spaceBetween={32}
@@ -110,12 +165,6 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
             breakpoints={{
               768: { slidesPerView: 2 },
               1440: { slidesPerView: 4 },
-            }}
-            pagination={{
-              clickable: true,
-              el: ".popularPagination",
-              dynamicBullets: true,
-              dynamicMainBullets: 1,
             }}
             className={css.swiper}
           >
@@ -126,7 +175,35 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
             ))}
           </Swiper>
 
-          <div className={`popularPagination ${css.pagination}`}></div>
+          {isPaginationReady && (
+            <div className={css.pagination}>
+              {Array.from({ length: visibleCount }).map((_, i) => {
+                const positionIndex = windowStart + i;
+                const distance = Math.abs(positionIndex - effectiveActiveIndex);
+
+                let dotClass = css.dot;
+
+                if (distance === 0) {
+                  dotClass = `${css.dot} ${css.dotActive}`;
+                } else if (distance === 1) {
+                  dotClass = `${css.dot} ${css.dotNear}`;
+                } else if (distance === 2) {
+                  dotClass = `${css.dot} ${css.dotFar}`;
+                }
+
+                return (
+                  <button
+                    key={positionIndex}
+                    type="button"
+                    className={dotClass}
+                    onClick={() => handleBulletClick(positionIndex)}
+                    aria-label={`Перейти до позиції ${positionIndex + 1}`}
+                  />
+                );
+              })}
+            </div>
+          )}
+
           <button
             type="button"
             className={`${css.navBtn} ${css.navPrev} ${
@@ -140,13 +217,14 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
               <use href="/sprite.svg/#arrow_back"></use>
             </svg>
           </button>
+
           <button
             type="button"
             className={`${css.navBtn} ${css.navNext} ${
               isNextDisabled ? css.navBtnDisabled : ""
             }`}
             onClick={handleNext}
-            disabled={isNextDisabled || isFetchingNextPage}
+            disabled={isNextDisabled}
             aria-label="Наступні товари"
           >
             <svg className={css.icon} width={24} height={24}>
