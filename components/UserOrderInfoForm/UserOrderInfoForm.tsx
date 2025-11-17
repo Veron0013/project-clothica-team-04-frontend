@@ -12,6 +12,9 @@ import toastMessage, { MyToastType } from "@/lib/messageService"
 import { debounce } from "lodash"
 import { useState, useEffect, useMemo } from "react"
 import { CityRespNP, searchCities, searchWarehouses, WarehoseRespNP } from "@/lib/api/nPostApi"
+import { Order } from "@/types/orders"
+import { UserOrderInfoFormValues } from "@/types/user"
+import { useBasket } from "@/stores/basketStore"
 
 const UserInfoFormSchema = Yup.object().shape({
 	name: Yup.string().min(2).max(20).required("Це поле обовʼязкове!"),
@@ -21,19 +24,10 @@ const UserInfoFormSchema = Yup.object().shape({
 	warehoseNumber: Yup.number().min(1).max(10).required("Це поле обовʼязкове!"),
 })
 
-interface UserInfoFormValues {
-	name: string
-	lastname: string
-	phone: string
-	city?: string
-	comment?: string
-	warehoseNumber?: string
-}
-
-export default function UserOrderInfoForm() {
 export default function UserOrderInfoForm() {
 	const user = useAuthStore((state) => state.user)
 	const router = useRouter()
+	const basketGoods = useBasket((state) => state.goods)
 
 	const [cityQuery, setCityQuery] = useState("") // що вводить користувач
 	const [cities, setCities] = useState<CityRespNP[]>([])
@@ -44,15 +38,6 @@ export default function UserOrderInfoForm() {
 	const [loadingWarehouses, setLoadingWarehouses] = useState(false)
 
 	console.log("form-user", user, user?.name)
-
-	const initialValues: UserInfoFormValues = {
-		name: "Ваше імʼя",
-		lastname: "Ваше прізвище",
-		phone: user?.phone ? user.phone : "+38(0__) ___- __ - __",
-		city: "Ваше місто",
-		warehoseNumber: "1",
-		comment: "Введіть ваш коментар",
-	}
 
 	useEffect(() => {
 		debouncedSearch(cityQuery)
