@@ -109,8 +109,8 @@ export const getUsersMe = async () => {
 }
 
 export const sendOrder = async (payload: Order) => {
-	const endpiondUrl = payload.userId ? "orders" : "/orders/guest"
-	const res = await nextAuthServer.post<User>(endpiondUrl, payload)
+	//const endpiondUrl = payload.userId ? "orders" : "/orders/guest"
+	const res = await nextAuthServer.post<User>("order", payload)
 	return res.data
 }
 
