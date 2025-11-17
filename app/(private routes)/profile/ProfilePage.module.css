@@ -1,3 +1,7 @@
+.profile {
+  margin-bottom: 80px;
+}
+
 .title {
   padding-top: 64px;
   font-weight: 400;
@@ -26,12 +30,13 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-width: 100%;
+  width: 100%;
 }
+
 .orderItem {
   display: flex;
   align-items: flex-start;
-  justify-content:space-between;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -48,6 +53,7 @@ width: 100%;
   line-height: 1.5;
   color: #000;
 }
+
 .orderLabel {
   font-weight: 600;
   font-size: 18px;
@@ -91,26 +97,26 @@ width: 100%;
   }
 }
 
-@media screen and (min-width: 1440px){
-.profCont{
-display: flex;
-flex-direction: row-reverse;
-gap:32px ;
-justify-content: space-between;
-align-items: flex-start;
-}
+@media screen and (min-width: 1440px) {
+  .profCont {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 32px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 
-.title{
-  margin-bottom: 48px;  
-}
+  .title {
+    margin-bottom: 48px;
+  }
 
-.information{
+  .information {
     width: 640px;
-}
+  }
 
-.order{
-width: 640px;
-}
+  .order {
+    width: 640px;
+  }
 
 
 }
