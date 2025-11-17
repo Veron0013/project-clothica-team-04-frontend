@@ -98,14 +98,14 @@
 }
 
 .cardCta:hover {
-  background-color: var(--opacity-neutral-darkest-10);
-  border-color: var(--opacity-neutral-darkest-20);
+  background-color: var(--color-deco);
+  border-color: var(--color-deco);
   transform: translateY(-2px);
 }
 
 .cardCta:active {
   transform: translateY(0);
-  background-color: var(--opacity-neutral-darkest-15);
+  background-color: var(--color-deco);
 }
 
 @keyframes fadeUp {

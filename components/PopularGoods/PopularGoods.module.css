@@ -1,208 +1,202 @@
 .popularGoods {
-    padding-top: 48px;
-    padding-bottom: 48px;
-    position: relative;
+  padding-top: 48px;
+  padding-bottom: 48px;
+  position: relative;
 }
 
 .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .sliderWrapper {
-    position: relative;
+  position: relative;
 }
 
 .swiper {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .nav {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
 }
 
 .title {
-    font-family: var(--font-nunito-mono), sans-serif;
-    font-size: 36px;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1.2;
-    color: var(--main-color-light);
-    flex: 1;
-    max-width: calc(100% - 108px);
+  font-family: var(--font-nunito-mono), sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--main-color-light);
+  flex: 1;
+  max-width: calc(100% - 108px);
 }
 
 .allGoodsBtn {
-    text-align: center;
-    font-family: var(--font-inter), sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    font-weight: 500;
-    background-color: var(--opacity-neutral-darkest-5);
-    border: 1px solid rgba(255, 255, 255, 0);
-    border-radius: 100px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    padding: 6px 12px;
-    transition: background-color 0.3s ease, border 0.3s ease;
+  text-align: center;
+  font-family: var(--font-inter), sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  background-color: var(--opacity-neutral-darkest-5);
+  border: 1px solid rgba(255, 255, 255, 0);
+  border-radius: 100px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding: 6px 12px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+  color: var(--color-scheme-6-text);
 }
 
 .allGoodsBtn:hover {
-    background-color: var(--opacity-neutral-darkest-15);
-    border: 1px solid var(--opacity-neutral-darkest-50);
+  background-color: var(--opacity-neutral-darkest-15);
+  border: 1px solid var(--opacity-neutral-darkest-50);
 }
 
 .navBtn {
-    border: 1px solid var(--color-scheme-1-background);
-    border-radius: 100px;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-deco);
-    cursor: pointer;
-    position: absolute;
-    bottom: 0px;
-    transform: none;
-    margin-top: 0;
-    z-index: 2;
-    transition: background-color .2s ease, border .2s ease;
-    fill: #000;
-
+  border: 1px solid var(--color-scheme-1-background);
+  border-radius: 100px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-deco);
+  cursor: pointer;
+  position: absolute;
+  bottom: 0px;
+  transform: none;
+  margin-top: 0;
+  z-index: 2;
+  transition: background-color 0.2s ease, border 0.2s ease;
+  fill: #000;
 }
 
 .navNext {
-    right: 0;
-    left: auto;
+  right: 0;
+  left: auto;
 }
 
 .navPrev {
-    right: 66px;
-    left: auto;
+  right: 66px;
+  left: auto;
 }
 
 .navBtn:hover:not(.navBtnDisabled),
 .navBtn:focus:not(.navBtnDisabled) {
-    background-color: var(--color-deco-dark);
-    border: 1px solid var(--color-deco-darker);
+  background-color: var(--color-deco-dark);
+  border: 1px solid var(--color-deco-darker);
 }
 
 .navBtn:active:not(:disabled) {
-    border: 1px solid var(--color-deco);
-    background-color: var(--color-deco-darkest);
-    fill: white;
+  border: 1px solid var(--color-deco);
+  background-color: var(--color-deco-darkest);
+  fill: white;
 }
 
 .navBtnDisabled:disabled {
-    border: 1px solid var(--color-scheme-1-background);
-    background-color: var(--color-scheme-5-foreground);
-    opacity: 0.3;
-    cursor: default;
+  border: 1px solid var(--color-scheme-1-background);
+  background-color: var(--color-scheme-5-foreground);
+  opacity: 0.3;
+  cursor: default;
 }
 
 .pagination {
-    position: static;
-    display: flex;
-    gap: 9px;
-    justify-content: flex-start;
-    align-items: center;
-    margin-right: auto;
-    height: 48px;
-    margin-top: 40px;
-    padding-left: 10px;
+  position: static;
+  display: flex;
+  gap: 9px;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: auto;
+  height: 48px;
+  margin-top: 40px;
+  padding-left: 10px;
 }
 
 /* базова крапка */
 .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    border: none;
-    padding: 0;
-    background: #d0d0d0;
-    opacity: 0.4;
-    cursor: pointer;
-    transition:
-        transform 0.5s ease,
-        opacity 0.5s ease,
-        background 0.5s ease;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: #d0d0d0;
+  opacity: 0.4;
+  cursor: pointer;
+  transition: transform 0.5s ease, opacity 0.5s ease, background 0.5s ease;
 }
 
 .dotActive {
-    background: #000;
-    opacity: 1;
-    transform: scale(1.5);
+  background: #000;
+  opacity: 1;
+  transform: scale(1.5);
 }
 
 .dotNear {
-    opacity: 0.8;
-    transform: scale(1.2);
+  opacity: 0.8;
+  transform: scale(1.2);
 }
 
 .dotFar {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 @media (min-width: 375px) {
-    .container {
-        max-width: 375px;
-    }
+  .container {
+    max-width: 375px;
+  }
 
-    .allGoodsBtn {
-        width: 108px;
-    }
+  .allGoodsBtn {
+    width: 108px;
+  }
 }
 
 @media (min-width: 768px) {
-    .container {
-        max-width: 768px;
-    }
+  .container {
+    max-width: 768px;
+  }
 
-    .navBtn {
-        position: absolute;
-        top: 33%;
-        transform: translateY(-50%);
-        z-index: 20;
-        bottom: auto;
-        left: auto;
-        right: auto;
-    }
-    
-    .navPrev {
-        left: -28px;
-    }
-    
-    .navNext {
-        right: -28px;
-    }
+  .navBtn {
+    position: absolute;
+    top: 33%;
+    transform: translateY(-50%);
+    z-index: 20;
+    bottom: auto;
+    left: auto;
+    right: auto;
+  }
 
-    .pagination {
-        justify-content: center;
-        margin: 40px auto 0;
-        padding: 0;
-        height: 32px;
-       }
-        
-            
+  .navPrev {
+    left: -28px;
+  }
+
+  .navNext {
+    right: -28px;
+  }
+
+  .pagination {
+    justify-content: center;
+    margin: 40px auto 0;
+    padding: 0;
+    height: 32px;
+  }
 }
 
 @media (min-width: 1440px) {
-    .container {
-        max-width: 1440px;
-    }
+  .container {
+    max-width: 1440px;
+  }
 
-    .title {
-        font-size: 48px;
-    }
+  .title {
+    font-size: 48px;
+  }
 
-    .popularGoods {
-        padding-top: 80px;
-        padding-bottom: 80px;
-    }
-
+  .popularGoods {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
 }

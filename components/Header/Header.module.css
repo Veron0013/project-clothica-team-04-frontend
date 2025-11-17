@@ -2,7 +2,7 @@
   display: none;
 }
 .section {
-background-color: #d6eac0;
+  background-color: var(--color-scheme-5-background);
 }
 .header {
   display: flex;
@@ -75,7 +75,13 @@ background-color: #d6eac0;
   align-items: center;
   justify-content: center;
 }
-
+.link {
+  color: var(--color-scheme-5-text);
+}
+.link:hover,
+.link:focus {
+  color: var(--color-deco-dark);
+}
 @media screen and (min-width: 768px) {
   .auth {
     display: flex;
@@ -95,23 +101,25 @@ background-color: #d6eac0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-deco);
     border: 1px solid rgba(255, 255, 255, 0);
     border-radius: 100px;
     font-size: 14px;
     font-weight: 500;
     padding: 4px 10px;
+    color: var(--color-scheme-5-text);
   }
   .navIn {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #c5e1a5;
+    background-color: var(--color-deco);
     border: 1px solid rgba(255, 255, 255, 0);
     border-radius: 100px;
     font-size: 14px;
     font-weight: 500;
     padding: 4px 10px;
+    color: var(--color-scheme-5-text);
   }
 
   .navUp:hover,
@@ -121,14 +129,14 @@ background-color: #d6eac0;
     border: 1px solid var(--color-deco-darker);
   }
 
-  .navUp:active{
+  .navUp:active {
     border: 1px solid var(--color-deco);
     background-color: var(--color-deco-darkest);
   }
 
-  .navIn:active{
+  .navIn:active {
     border: 1px solid var(--opacity-transparent);
-background-color: var(--opacity-neutral-darkest-50);
+    background-color: var(--opacity-neutral-darkest-50);
   }
   .navUpBasket {
     display: flex;
@@ -140,6 +148,7 @@ background-color: var(--opacity-neutral-darkest-50);
     font-size: 14px;
     font-weight: 500;
     padding: 4px 10px;
+    color: var(--color-neutral-darkest);
   }
 }
 

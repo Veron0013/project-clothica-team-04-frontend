@@ -1,5 +1,5 @@
 .modal {
-  background-color: #f9fcf6;
+  background-color: var(--color-deco-lighter);
   width: 100%;
   max-width: 100%;
   height: 100%;

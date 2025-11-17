@@ -1,0 +1,44 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--color-scheme-1-border);
+  background: var(--color-scheme-1-background);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.toggle:hover {
+  box-shadow: 0 0 0 2px var(--opacity-neutral-darkest-20);
+}
+
+.track {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--color-scheme-3-background);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  box-shadow: inset 0 0 0 1px var(--color-scheme-3-border);
+  transition: background 0.2s ease;
+}
+
+.knob {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--color-scheme-6-background);
+  box-shadow: 0 2px 4px var(--opacity-neutral-darkest-30);
+  transform: translateX(0);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Темна тема – кулька вправо */
+.toggleDark .knob {
+  transform: translateX(16px);
+  background: var(--color-scheme-6-foreground);
+}
