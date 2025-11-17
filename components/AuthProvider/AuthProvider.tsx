@@ -29,6 +29,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 		}
 
 		fetchCheckSession()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [setUser, clearIsAuthenticated])
 
 	return <>{children}</>
