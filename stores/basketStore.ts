@@ -8,6 +8,7 @@ type StoreGood = {
 	color?: string
 	size?: string
 	quantity: number
+	price: number
 }
 
 type AddGoodPayload = {
@@ -15,6 +16,7 @@ type AddGoodPayload = {
 	color?: string
 	size?: string
 	quantity?: number
+	price: number
 }
 
 type BasketState = {
@@ -46,9 +48,9 @@ export const useBasket = create<BasketState>()(
 								goods: state.goods.map((g) => (g.key === key ? { ...g, quantity: g.quantity + quantityToAdd } : g)),
 							}
 						}
-
+						console.log("ADDING GOOD:", good)
 						return {
-							goods: [...state.goods, { ...good, key, quantity: quantityToAdd }],
+							goods: [...state.goods, { ...good, key, quantity: quantityToAdd, price: good.price }],
 						}
 					}),
 

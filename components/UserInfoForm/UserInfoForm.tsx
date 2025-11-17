@@ -34,7 +34,7 @@ interface Props {
 export default function UserInfoForm({ isOrder = false }: Props) {
 	const user = useAuthStore((state) => state.user)
 
-	console.log("form-user", user, user?.name)
+	//console.log("form-user", user, user?.name)
 
 	const initialValues: UserInfoFormValues = {
 		name: "Ваше імʼя",

@@ -12,4 +12,13 @@ export type User = {
 	error?: string
 }
 
+export interface UserOrderInfoFormValues {
+	name: string
+	lastname: string
+	phone: string
+	city: string
+	comment: string
+	warehoseNumber: string
+}
+
 export type EditUser = Omit<User, "avatar">

@@ -6,6 +6,8 @@ import { BasketStoreOrder } from "@/types/goods"
 import Image from "next/image"
 import { getGoodsFromArray } from "@/lib/api/api"
 import css from "./GoodsOrderList.module.css"
+import Link from "next/link"
+import { DELIVERY_PRICE } from "@/lib/vars"
 
 export default function GoodsOrderList() {
 	const basketGoods = useBasket((state) => state.goods)
@@ -66,7 +68,7 @@ export default function GoodsOrderList() {
 		return goodsData.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0)
 	}, [goodsData])
 
-	const deliveryCost = subtotal > 0 ? 99 : 0 // умовна доставка
+	const deliveryCost = subtotal > 0 ? DELIVERY_PRICE : 0 // умовна доставка
 	const total = subtotal + deliveryCost
 
 	if (loading) return <div className={css.basketLoading}>Loading...</div>
@@ -75,11 +77,15 @@ export default function GoodsOrderList() {
 		<div className={css.basketContainer}>
 			{goodsData.map((item) => (
 				<div key={item.key} className={css.basketItem}>
-					<Image src={item.image} alt={item.name} width={82} height={100} className={css.basketItemImage} />
+					<Link href={`/goods/${String(item._id)}`}>
+						<Image src={item.image} alt={item.name} width={82} height={100} className={css.basketItemImage} />
+					</Link>
 					<div className={css.basketCard}>
 						<div className={css.basketItemInfo}>
 							<div className={css.basketItemHead}>
-								<div className={css.basketItemName}>{item.name}</div>
+								<Link href={`/goods/${String(item._id)}`} className={css.basketItemName}>
+									{item.name}
+								</Link>
 								{item.feedbackCount !== undefined && (
 									<div className={css.basketItemFeedback}>
 										{item.averageRating ? (
