@@ -56,7 +56,7 @@ export default function UserOrderInfoForm() {
 			deliveryDetails: {
 				address: `${values.city}, ${values.warehoseNumber}`,
 				phone: values.phone,
-				fullName: `${values.name}${values.lastname.toUpperCase()}`,
+				fullName: `${values.name} ${values.lastname.toUpperCase()}`,
 			},
 			comment: values.comment || "",
 		}

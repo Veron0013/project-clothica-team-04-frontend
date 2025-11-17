@@ -30,10 +30,16 @@ export async function POST(req: NextRequest) {
 		const body = await req.json()
 		const cookieStore = await cookies()
 
-		const ordersEndpoint = body?.UserId ? "/orders" : "/orders/guest"
+		//const accessToken = cookieStore.get("accessToken")?.value
+		//const refreshToken = cookieStore.get("refreshToken")?.value
+		//const sessionId = cookieStore.get("sessionId")?.value
+
+		const ordersEndpoint = body?.userId ? "/orders" : "/orders/guest"
 
 		const res = await api.post(ordersEndpoint, body, {
-			headers: { Cookie: cookieStore.toString() },
+			headers: {
+				Cookie: cookieStore.toString(),
+			},
 		})
 		return NextResponse.json(res.data, { status: res.status })
 	} catch (error) {
