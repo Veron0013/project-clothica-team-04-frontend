@@ -48,7 +48,7 @@
   color: var(--color-neutral-darkest);
 }
 
-/* пошук сорт */
+/* пошук + сорт */
 
 .goodsContent {
   display: flex;
@@ -57,28 +57,46 @@
   margin-bottom: 1.5rem;
   align-items: center;
   justify-content: center;
+  margin-top: 24px;
 }
 
 .searchWrapper {
   flex: 1 1 200px;
 }
 
+/* 🔹 КАСТОМНИЙ ІНПУТ ПОШУКУ */
 .searchInput {
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+  height: 40px;
+  padding: 10px 16px;
+
+  border-radius: 16px;
+  border: 1px solid var(--color-scheme-1-border, #d5dbcf);
+  background: var(--color-deco-lighter);
+  color: var(--color-scheme-5-text);
+
+  font-size: 14px;
+  line-height: 150%;
+  color: var(--color-scheme-5-text);
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.sortWrapper select {
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+.searchInput::placeholder {
+  color: var(--color-neutral-dark, #80827c);
+}
+
+.searchInput:focus {
+  border-color: var(--color-deco);
+  box-shadow: 0 0 0 1px var(--color-deco);
 }
 
 @media (min-width: 768px) {
+  .goodsContent {
+    margin-top: 0px;
+  }
   .layout {
     display: grid;
     grid-template-columns: 243px minmax(0, 1fr);
@@ -94,9 +112,5 @@
 
   .cardCta {
     margin-bottom: 112px;
-  }
-
-  .goodsContent {
-    margin-top: 16px;
   }
 }
