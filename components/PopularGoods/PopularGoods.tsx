@@ -38,6 +38,7 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
     fetchNextPage,
     hasNextPage: _hasNextPage,
     isFetchingNextPage,
+    isError,
   } = useInfiniteQuery({
     queryKey: ["popularGoods"],
     initialPageParam: seed.page,
@@ -134,6 +135,8 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
     s.slideTo(positionIndex);
   };
 
+  const showError = isError && goods.length === 0;
+
   return (
     <section id="popular-goods" className={css.popularGoods}>
       <div className={css.container}>
@@ -145,35 +148,39 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
         </div>
 
         <div className={css.sliderWrapper}>
-          <Swiper
-            modules={[Navigation, Keyboard]}
-            onBeforeInit={(swiper) => {
-              swiperRef.current = swiper;
-              updateSlidesPerView(swiper);
-              setIsPaginationReady(true);
-            }}
-            onSlideChange={(swiper) => {
-              setActiveIndex(swiper.realIndex);
-              updateSlidesPerView(swiper);
-            }}
-            onReachEnd={async () => {
-              await loadMoreIfNeeded();
-            }}
-            keyboard={{ enabled: true }}
-            spaceBetween={32}
-            slidesPerView={1}
-            breakpoints={{
-              768: { slidesPerView: 2 },
-              1440: { slidesPerView: 4 },
-            }}
-            className={css.swiper}
-          >
-            {goods.map((good) => (
-              <SwiperSlide tag="ul" key={good._id}>
-                <HomeGoodInfo item={good} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+          {showError ? (
+            <p>Не вдалося завантажити категорії</p>
+          ) : (
+            <Swiper
+              modules={[Navigation, Keyboard]}
+              onBeforeInit={(swiper) => {
+                swiperRef.current = swiper;
+                updateSlidesPerView(swiper);
+                setIsPaginationReady(true);
+              }}
+              onSlideChange={(swiper) => {
+                setActiveIndex(swiper.realIndex);
+                updateSlidesPerView(swiper);
+              }}
+              onReachEnd={async () => {
+                await loadMoreIfNeeded();
+              }}
+              keyboard={{ enabled: true }}
+              spaceBetween={32}
+              slidesPerView={1}
+              breakpoints={{
+                768: { slidesPerView: 2 },
+                1440: { slidesPerView: 4 },
+              }}
+              className={css.swiper}
+            >
+              {goods.map((good) => (
+                <SwiperSlide tag="ul" key={good._id}>
+                  <HomeGoodInfo item={good} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
 
           {isPaginationReady && (
             <div className={css.pagination}>
