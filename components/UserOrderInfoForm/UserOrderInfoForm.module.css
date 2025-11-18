@@ -23,7 +23,7 @@
 
 .label_wrapper {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   flex-wrap: wrap;
   min-width: 100%;
