@@ -1,11 +1,11 @@
-import axios, { AxiosResponse } from "axios"
+import axios from "axios"
 
-const GET_MODEL = "AddressGeneral"
-const GET_CITIES_METHOD = "getCities"
+export const GET_MODEL = "AddressGeneral"
+export const GET_CITIES_METHOD = "getCities"
 
-const GET_WH_METHOD = "getWarehouses"
+export const GET_WH_METHOD = "getWarehouses"
 
-const API_KEY: string = process.env.NEXT_PUBLIC_NOVA_POST_API || ""
+export const API_KEY: string = process.env.NEXT_PUBLIC_NOVA_POST_API || ""
 
 export type ApiParamsNovaPost = {
 	apiKey: string
@@ -42,40 +42,28 @@ export interface WarehoseRespNP {
 }
 
 export const NovaPostServer = axios.create({
-	baseURL: process.env.NEXT_PUBLIC_NOVA_POST_URL + "/api",
-	withCredentials: true,
+	baseURL: "/api/np",
 })
 
-async function novaPostRequest<TParams extends CityPropsNP | WarehosePropsNP, TResp>(params: {
-	apiKey: string
-	modelName: string
-	calledMethod: string
-	methodProperties: TParams
-}): Promise<TResp[]> {
-	const res: AxiosResponse<{ data: TResp[] }> = await NovaPostServer.post("/", {
-		apiKey: params.apiKey,
-		modelName: params.modelName,
-		calledMethod: params.calledMethod,
-		methodProperties: params.methodProperties,
+export const searchCities = async (search: string) => {
+	const res = await NovaPostServer.post("/cities", {
+		FindByString: search,
+		Page: "1",
+		Limit: "20",
+		Language: "UA",
 	})
 
 	return res.data.data
 }
 
-export const getCities = async (apiKey: string, props: CityPropsNP): Promise<CityRespNP[]> => {
-	return novaPostRequest<CityPropsNP, CityRespNP>({
-		apiKey: API_KEY,
-		modelName: GET_MODEL,
-		calledMethod: GET_CITIES_METHOD,
-		methodProperties: props,
+export const searchWarehouses = async (cityRef: string) => {
+	const res = await NovaPostServer.post("/warehouses", {
+		CityRef: cityRef,
+		//CityName: cityName,
+		Page: "1",
+		Limit: "20",
+		Language: "UA",
 	})
-}
 
-export const getWarehouses = async (apiKey: string, props: WarehosePropsNP): Promise<WarehoseRespNP[]> => {
-	return novaPostRequest<WarehosePropsNP, WarehoseRespNP>({
-		apiKey: API_KEY,
-		modelName: GET_MODEL,
-		calledMethod: GET_WH_METHOD,
-		methodProperties: props,
-	})
+	return res.data.data
 }

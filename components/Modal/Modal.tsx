@@ -21,7 +21,13 @@ export default function Modal({
   ariaLabel,
   closeOnBackdropClick = true,
 }: ModalProps) {
-  // Закриваємо по Esc + лочимо скрол body
+  const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!closeOnBackdropClick) return;
+
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -50,11 +56,7 @@ export default function Modal({
         aria-modal="true"
         aria-labelledby={ariaLabelledby}
         aria-label={ariaLabel}
-        onMouseDown={(e) => {
-          if (!closeOnBackdropClick) return;
-
-          if (e.currentTarget === e.target) onClose();
-        }}
+        onClick={handleBackdropClick}
       >
         <div className={style.content}>{children}</div>
       </div>

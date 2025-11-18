@@ -64,7 +64,7 @@
   --color-scheme-6-border: var(--opacity-neutral-darkest-15);
   --color-scheme-6-accent: var(--color-neutral-darkest);
   --color-scheme-6-foreground: var(--color-deco-dark);
-  --color-red: #9d0000;
+  --color-red: #860303;
   --color-scheme-9-accent: #fff;
   --background: var(--color-deco-lighter);
   --foreground: var(--color-scheme-4-text);
@@ -74,42 +74,54 @@
   color-scheme: dark;
 
   /* === ГОЛОВНІ КОЛЬОРИ ДЛЯ ТЕМНОЇ ТЕМИ (точно як у макеті) === */
-  --background: #3c3c3b; /* фон сторінки */
-  --foreground: #d6eac0; /* блідо-салатовий текст (заголовки, текст) */
+  --background: #3c3c3b;
+  /* фон сторінки */
+  --foreground: #d6eac0;
+  /* блідо-салатовий текст (заголовки, текст) */
   --opacity-neutral-darkest-15: #c5e1a5;
   --opacity-neutral-darkest-5: #c5e1a5;
-  --opacity-neutral-darkest-10:#c5e1a5;
+  --opacity-neutral-darkest-10: #c5e1a5;
   --opacity-neutral-darkest-15: #c5e1a5;
-  --opacity-neutral-darkest-20:#c5e1a5;
-  --opacity-neutral-darkest-30:#c5e1a5;
-  --opacity-neutral-darkest-40:#c5e1a5;
-  --opacity-neutral-darkest-50:#c5e1a5;
+  --opacity-neutral-darkest-20: #c5e1a5;
+  --opacity-neutral-darkest-30: #c5e1a5;
+  --opacity-neutral-darkest-40: #c5e1a5;
+  --opacity-neutral-darkest-50: #c5e1a5;
   --opacity-neutral-darkest-60:
-  /* Нейтральні для текстів і бордерів */
-  --color-neutral-darkest: rgba(0, 0, 0, 1); /* блідо-салатовий */
-  --color-neutral-lighter: #c5e1a5; /* світліший салатовий */
+    /* Нейтральні для текстів і бордерів */
+    --color-neutral-darkest: rgba(0, 0, 0, 1);
+  /* блідо-салатовий */
+  --color-neutral-lighter: #c5e1a5;
+  /* світліший салатовий */
   --color-neutral-light: #9db484;
   --color-neutral: #7f7f7f;
   --color-neutral-dark: #4c4c4c;
   --color-neutral-darker: #2d2d2c;
-  --color-neutral-lightest: #4a4a49; /* фони карток */
+  --color-neutral-lightest: #4a4a49;
+  /* фони карток */
   --color-white: #f9fcf6;
 
   /* === Декоративні відтінки (взято з твоєї зеленої палітри) === */
-  --color-deco-lightest: #d6eac0; /* найсвітліший (текст заголовків) */
-  --color-deco-lighter: #c5e1a5; /* зелений м'який */
-  --color-deco-light: #9db484; /* темно-салатовий */
-  --color-deco: #9db484; /* основний акцент (кнопки) */
-  --color-deco-dark: #c5e1a5; /* темний зеленуватий */
+  --color-deco-lightest: #d6eac0;
+  /* найсвітліший (текст заголовків) */
+  --color-deco-lighter: #c5e1a5;
+  /* зелений м'який */
+  --color-deco-light: #9db484;
+  /* темно-салатовий */
+  --color-deco: #9db484;
+  /* основний акцент (кнопки) */
+  --color-deco-dark: #c5e1a5;
+  /* темний зеленуватий */
   --color-deco-darker: #c5e1a5;
   --color-deco-darkest: #c5e1a5;
 
-  --color-red: #9d0000; /* червоний залишаємо */
+  --color-red: #f17575;
+  /* червоний залишаємо */
   --opacity-neutral-darkest-5: #4e5a42;
   /* === СХЕМИ (повністю підігнані під макет) === */
 
   /* Фільтри, сайдбар, дрібні блоки */
-  --color-scheme-1-background: #3c3c3b; /* як фон */
+  --color-scheme-1-background: #3c3c3b;
+  /* як фон */
   --color-scheme-1-text: #d6eac0;
   --color-scheme-1-border: rgba(214, 234, 192, 0.2);
   --color-scheme-1-foreground: #4a4a49;
@@ -123,14 +135,16 @@
   --color-scheme-2-accent: #c5e1a5;
 
   /* Картки товарів */
-  --color-scheme-3-background: #4a4a49; /* трохи світліше за фон */
+  --color-scheme-3-background: #4a4a49;
+  /* трохи світліше за фон */
   --color-scheme-3-text: #d6eac0;
   --color-scheme-3-border: rgba(214, 234, 192, 0.15);
   --color-scheme-3-accent: #c5e1a5;
   --color-scheme-3-foreground: #3c3c3b;
 
   /* ГОЛОВНИЙ ФОН */
-  --color-scheme-4-background: #3c3c3b; /* 🔥 фон сторінки */
+  --color-scheme-4-background: #3c3c3b;
+  /* 🔥 фон сторінки */
   --color-scheme-4-text: #d6eac0;
   --color-scheme-4-border: rgba(214, 234, 192, 0.15);
   --color-scheme-4-accent: #c5e1a5;
@@ -149,9 +163,9 @@
   --color-scheme-6-border: rgba(0, 0, 0, 0.1);
   --color-scheme-6-accent: #3b4331;
   --color-scheme-6-foreground: #9db484;
-
   --color-scheme-9-accent: #c5e1a5;
 }
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -165,7 +179,6 @@ body {
     Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   margin: 0;
 }
 
@@ -177,8 +190,10 @@ body {
   height: 100%;
   min-height: 100vh;
 }
+
 svg {
-  fill: --color-scheme-1-text;
+  fill: var(--color-scheme-6-foreground);
+  stroke: var(--color-neutral-darkest);
 }
 
 a {
@@ -212,4 +227,16 @@ button {
     max-width: 1440px;
     padding: 0 64px;
   }
+}
+
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
 }

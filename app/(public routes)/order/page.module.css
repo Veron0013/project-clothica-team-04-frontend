@@ -1,5 +1,5 @@
 .wrapper {
-  margin-top: 112px;
+  margin: 64px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,17 +7,54 @@
 }
 
 .wrapper h2 {
-  font-size: 25px;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 120%;
+  letter-spacing: -0.01;
+  text-align: center;
 }
 
 .flexbox {
   display: flex;
   align-items: center;
-  /*flex-wrap: wrap;*/
-  /*min-width: 100%;*/
+  justify-content: center;
+  flex-wrap: wrap;
+  min-width: 100%;
   gap: 32px;
+  margin-top: 48px;
 }
 
 .flexbox_item {
-  min-width: 50%;
+  width: 100%;
+}
+
+.flexbox_item h4 {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 140%;
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+@media screen and (min-width: 1440px) {
+  .flexbox {
+    flex-wrap: nowrap;
+    align-items: start;
+  }
+
+  .wrapper {
+    margin: 112px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .flexbox_item {
+    min-width: 50%;
+    width: 100%;
+  }
 }

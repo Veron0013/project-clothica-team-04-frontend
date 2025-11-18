@@ -116,6 +116,9 @@
   margin-top: 40px;
   padding-left: 10px;
 }
+.icon {
+  fill: var(--color-scheme-6-text);
+}
 
 /* базова крапка */
 .dot {

@@ -14,8 +14,8 @@
   gap: 16px;
   border-radius: 16px;
   width: 100%;
-  background-color: #d6eac0;
-  padding: 24px 16px
+  background-color: var(--color-scheme-5-background);
+  padding: 24px 16px;
 }
 
 .message_text {
@@ -23,17 +23,18 @@
   line-height: 1.5;
   font-weight: 600;
   text-align: center;
-  color: #000;
+  color: var(--color-scheme-5-text);
 }
 
 .message_button {
   font-weight: 500;
   font-size: 16px;
   border: 1px solid #c5e1a5;
-  background: #c5e1a5;
+  color: var(--color-scheme-6-text);
+  background-color: var(--color-deco);
   border-radius: 100px;
   padding: 6px 12px;
-  color: #000000;
+
   transition: background-color 0.2s ease;
   cursor: pointer;
   min-width: 100%;
@@ -41,12 +42,11 @@
 
 .message_button:hover,
 .message_button:focus {
-  background-color: #9db484;
+  background: var(--opacity-neutral-darkest-15);
 }
 
 /* TABLET */
 @media (min-width: 768px) {
-
   .message_button {
     font-size: 16px;
     font-weight: 600;

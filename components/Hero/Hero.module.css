@@ -129,24 +129,30 @@
   }
 }
 @media (min-width: 1440px) {
-  .hero {
-    padding-top: 112px;
-    padding-bottom: 112px;
-  }
-  .container {
-    max-width: 1440px;
-    align-items: center;
-  }
-  .textWrapper {
-    max-width: 640px;
-  }
-
-  .title {
-    font-size: 56px;
-  }
-  .imageWrapper {
-    min-width: 640px;
-    min-height: 394px;
+    .hero {
+        padding-top: 112px;
+        padding-bottom: 112px;
+        }
+    .container {
+        max-width: 1440px;
+        align-items: center;
+    }
+    .textWrapper {
+        max-width: 640px;
+    }
+    
+    .title {
+        font-size: 56px;
+    }
+    .imageWrapper {
+    width: 640px;
+    height: 394px;
     flex-shrink: 0;
-  }
+        }
+    .heroImage {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        }
 }

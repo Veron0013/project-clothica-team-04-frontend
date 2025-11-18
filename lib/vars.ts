@@ -1,5 +1,6 @@
 export const PER_PAGE: number = 12
 export const DELIVERY_PRICE: number = 99
+export const SCROLL_THRESHOLD = 500
 
 export const ERROR_MAIN_MESSAGE: string = "Oops. Seems like error. Try again later"
 export const LOADING_MAIN_MESSAGE: string = "Зачекайте, будь ласка. Завантаження даних..."

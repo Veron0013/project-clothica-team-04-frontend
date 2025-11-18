@@ -43,6 +43,7 @@ export default function PopularCategories({
     fetchNextPage,
     hasNextPage: _hasNextPage,
     isFetchingNextPage,
+    isError,
   } = useInfiniteQuery({
     queryKey: ["popularCategories"],
     initialPageParam: seed.page,
@@ -94,6 +95,8 @@ export default function PopularCategories({
     s.slideNext();
   };
 
+  const showError = isError && categories.length === 0;
+
   return (
     <section id="popular-categories" className={css.categories}>
       <div className={css.container}>
@@ -105,53 +108,56 @@ export default function PopularCategories({
         </div>
 
         <div className={css.sliderWrapper}>
-          <Swiper
-            modules={[Keyboard, Pagination]}
-            onBeforeInit={(swiper) => {
-              swiperRef.current = swiper;
-            }}
-            onSlideChange={(swiper) => {
-              setActiveIndex(swiper.realIndex);
+          {showError ? (
+            <p>Не вдалося завантажити категорії</p>
+          ) : (
+            <Swiper
+              modules={[Keyboard, Pagination]}
+              onBeforeInit={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              onSlideChange={(swiper) => {
+                setActiveIndex(swiper.realIndex);
 
-              let currentSpv = 1;
-              const paramSpv = swiper.params.slidesPerView;
+                let currentSpv = 1;
+                const paramSpv = swiper.params.slidesPerView;
 
-              if (typeof paramSpv === "number") {
-                currentSpv = paramSpv;
-              }
+                if (typeof paramSpv === "number") {
+                  currentSpv = paramSpv;
+                }
 
-              setSlidesPerViewState(currentSpv);
-            }}
-            onReachEnd={async () => {
-              await loadMoreIfNeeded();
-            }}
-            keyboard={{ enabled: true }}
-            spaceBetween={32}
-            slidesPerView={1}
-            breakpoints={{
-              768: { slidesPerView: 2 },
-              1440: { slidesPerView: 3 },
-            }}
-            className={css.swiper}
-          >
-            {categories.map((cat) => (
-              <SwiperSlide key={cat._id} className={css.slideCard}>
-                <Link href={`/goods?category=${cat._id}`}>
-                  <div className={css.thumb}>
-                    <Image
-                      src={cat.image}
-                      alt={cat.name}
-                      fill
-                      sizes="(min-width:1440px) 33vw, (min-width:768px) 50vw, 100vw"
-                      className={css.img}
-                    />
-                  </div>
-                  <h3 className={css.cardTitle}>{cat.name}</h3>
-                </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-
+                setSlidesPerViewState(currentSpv);
+              }}
+              onReachEnd={async () => {
+                await loadMoreIfNeeded();
+              }}
+              keyboard={{ enabled: true }}
+              spaceBetween={32}
+              slidesPerView={1}
+              breakpoints={{
+                768: { slidesPerView: 2 },
+                1440: { slidesPerView: 3 },
+              }}
+              className={css.swiper}
+            >
+              {categories.map((cat) => (
+                <SwiperSlide key={cat._id} className={css.slideCard}>
+                  <Link href={`/goods?category=${cat._id}`}>
+                    <div className={css.thumb}>
+                      <Image
+                        src={cat.image}
+                        alt={cat.name}
+                        fill
+                        sizes="(min-width:1440px) 33vw, (min-width:768px) 50vw, 100vw"
+                        className={css.img}
+                      />
+                    </div>
+                    <h3 className={css.cardTitle}>{cat.name}</h3>
+                  </Link>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
           <button
             type="button"
             className={`${css.navBtn} ${css.navPrev} ${

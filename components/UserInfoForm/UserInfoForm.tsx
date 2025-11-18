@@ -1,23 +1,29 @@
-"use client";
+'use client';
 
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
-import * as Yup from "yup";
-import css from "./UserInfoForm.module.css";
-import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
-import { updateMe } from "@/lib/api/clientApi";
-import { PHONE_REGEXP } from "@/lib/vars";
-import { useAuthStore } from "@/stores/authStore";
-import toastMessage, { MyToastType } from "@/lib/messageService";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import * as Yup from 'yup';
+import css from './UserInfoForm.module.css';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { updateMe } from '@/lib/api/clientApi';
+import { PHONE_REGEXP } from '@/lib/vars';
+import { useAuthStore } from '@/stores/authStore';
+import toastMessage, {
+  MyToastType,
+  normalizePhone,
+} from '@/lib/messageService';
 
 const UserInfoFormSchema = Yup.object().shape({
-  name: Yup.string().min(2).max(20).required("Це поле обовʼязкове!"),
-  lastname: Yup.string().min(3).max(20).required("Це поле обовʼязкове!"),
+  name: Yup.string().min(2).max(20).required('Це поле обовʼязкове!'),
+  lastname: Yup.string().min(3).max(20).required('Це поле обовʼязкове!'),
   phone: Yup.string()
-    .matches(PHONE_REGEXP, "Введіть коректний номер телефону")
-    .required("Це поле обовʼязкове!"),
-  city: Yup.string().min(3).required("Це поле обовʼязкове!"),
-  warehoseNumber: Yup.number().min(1).max(10).required("Це поле обовʼязкове!"),
+    .matches(PHONE_REGEXP, 'Введіть коректний номер телефону')
+    .required('Це поле обовʼязкове!'),
+  city: Yup.string().min(3).required('Це поле обовʼязкове!'),
+  warehoseNumber: Yup.number()
+    .typeError('Вкажіть номер відділення цифрами')
+    .min(1, 'Номер не може бути меншим за 1')
+    .required('Це поле обовʼязкове!'),
 });
 
 interface UserInfoFormValues {
@@ -26,34 +32,30 @@ interface UserInfoFormValues {
   phone: string;
   city: string;
   comment?: string;
-  warehoseNumber: number;
+  warehoseNumber: string;
 }
 
-interface Props {
-  isOrder: boolean;
-}
-
-export default function UserInfoForm({ isOrder = false }: Props) {
-  const user = useAuthStore((state) => state.user);
+export default function UserInfoForm() {
+  const user = useAuthStore(state => state.user);
+  const setUser = useAuthStore(state => state.setUser);
 
   //console.log("form-user", user, user?.name)
 
   const initialValues: UserInfoFormValues = {
-    name: "Ваше імʼя",
-    lastname: "Ваше прізвище",
-    phone: user?.phone ? user.phone : "+38(0__) ___- __ - __",
-    city: "Ваше місто",
-    warehoseNumber: 1,
-    comment: "Введіть ваш коментар",
+    name: user?.name || '',
+    lastname: user?.lastname || user?.lastname || '',
+    phone: user?.phone || '',
+    city: user?.city || '',
+    warehoseNumber: user?.warehoseNumber || user?.warehoseNumber || '',
   };
-
   const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: (data: UserInfoFormValues) => updateMe(data),
-    onSuccess: () => {
-      toastMessage(MyToastType.success, "Ви успішно відредагували дані!");
-      router.push("/");
+    onSuccess: updatedUser => {
+      toastMessage(MyToastType.success, 'Ви успішно відредагували дані!');
+      router.push('/');
+      setUser(updatedUser);
     },
   });
 
@@ -61,15 +63,23 @@ export default function UserInfoForm({ isOrder = false }: Props) {
     values: UserInfoFormValues,
     actions: FormikHelpers<UserInfoFormValues>
   ) => {
-    mutation.mutate(values, {
+    const userValues = { ...values };
+    userValues.phone = normalizePhone(userValues.phone) || userValues.phone;
+
+    mutation.mutate(userValues, {
       onSettled: () => {
         actions.setSubmitting(false);
       },
       onSuccess: () => {
-        actions.resetForm({ values }); // оставляем актуальные значения
+        actions.resetForm({ values });
       },
     });
   };
+
+  const getInputClass = (error: unknown, touched: boolean | undefined) => {
+    return error && touched ? `${css.input} ${css.inputError}` : css.input;
+  };
+
   return (
     <div className={css.order_container}>
       <Formik
@@ -77,11 +87,11 @@ export default function UserInfoForm({ isOrder = false }: Props) {
         validationSchema={UserInfoFormSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, errors, touched }) => (
           <Form className={css.form}>
             <fieldset className={css.form}>
               <legend className={css.text}>Особиста інформація</legend>
-              <div className={css.labelCont}>
+              <div className={css.label_wrapper}>
                 <div className={css.label}>
                   <label htmlFor="name">Імʼя*</label>
                   <ErrorMessage
@@ -91,18 +101,20 @@ export default function UserInfoForm({ isOrder = false }: Props) {
                   />
                   <Field
                     id="name"
-                    className={css.input}
+                    className={getInputClass(errors.name, touched.name)}
                     type="text"
                     name="name"
+                    placeholder="Ваше імʼя"
                   />
                 </div>
                 <div className={css.label}>
                   <label htmlFor="lastname">Прізвище*</label>
                   <Field
                     id="lastname"
-                    className={css.input}
                     type="text"
                     name="lastname"
+                    placeholder="Ваше прізвище"
+                    className={getInputClass(errors.lastname, touched.lastname)}
                   />
                   <ErrorMessage
                     name="lastname"
@@ -110,27 +122,31 @@ export default function UserInfoForm({ isOrder = false }: Props) {
                     className={css.error}
                   />
                 </div>
-                <div className={css.label}>
-                  <label htmlFor="phone">Номер телефону*</label>
-                  <Field
-                    id="phone"
-                    className={css.inputTel}
-                    type="tel"
-                    name="phone"
-                  />
-                  <ErrorMessage
-                    name="phone"
-                    component="p"
-                    className={css.error}
-                  />
-                </div>
+              </div>
+              <div className={css.label}>
+                <label htmlFor="phone">Номер телефону*</label>
+                <Field
+                  id="phone"
+                  className={getInputClass(errors.phone, touched.phone)}
+                  type="tel"
+                  name="phone"
+                  placeholder="+38(0__) ___- __ - __"
+                />
+                <ErrorMessage
+                  name="phone"
+                  component="p"
+                  className={css.error}
+                />
+              </div>
+              <div className={css.label_wrapper}>
                 <div className={css.label}>
                   <label htmlFor="city">Місто доставки*</label>
                   <Field
                     id="city"
-                    className={css.input}
                     type="text"
                     name="city"
+                    className={getInputClass(errors.city, touched.city)}
+                    placeholder="Ваше місто"
                   />
                   <ErrorMessage
                     name="city"
@@ -145,9 +161,13 @@ export default function UserInfoForm({ isOrder = false }: Props) {
 
                   <Field
                     id="warehoseNumber"
-                    className={css.input}
-                    type="number"
+                    type="text"
                     name="warehoseNumber"
+                    placeholder="Ваш номер відділення"
+                    className={getInputClass(
+                      errors.warehoseNumber,
+                      touched.warehoseNumber
+                    )}
                   />
                   <ErrorMessage
                     name="warehoseNumber"
@@ -156,44 +176,14 @@ export default function UserInfoForm({ isOrder = false }: Props) {
                   />
                 </div>
               </div>
-              {isOrder && (
-                <div className={css.label}>
-                  <label htmlFor="comment">Коментар</label>
-
-                  <Field
-                    id="comment"
-                    className={css.input}
-                    type="text"
-                    name="comment"
-                  />
-                  <ErrorMessage
-                    name="comment"
-                    component="p"
-                    className={css.error}
-                  />
-                </div>
-              )}
             </fieldset>
-
-            {!isOrder ? (
-              <button
-                className={css.button}
-                type="submit"
-                disabled={isSubmitting || mutation.isPending}
-              >
-                {mutation.isPending ? "Збереження..." : "Зберегти зміни"}
-              </button>
-            ) : (
-              <button
-                className={css.button}
-                type="submit"
-                disabled={isSubmitting || mutation.isPending}
-              >
-                {mutation.isPending
-                  ? "Оформлення замовлення..."
-                  : "Оформити замовлення"}
-              </button>
-            )}
+            <button
+              className={css.button}
+              type="submit"
+              disabled={isSubmitting || mutation.isPending}
+            >
+              {mutation.isPending ? 'Збереження...' : 'Зберегти зміни'}
+            </button>
           </Form>
         )}
       </Formik>

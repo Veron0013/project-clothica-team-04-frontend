@@ -8,7 +8,7 @@
 }
 
 .filterContainerOpen {
-  max-height: 800px; /* або 70vh/1000px, головне — більше, ніж контент */
+  max-height: 800px;
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
