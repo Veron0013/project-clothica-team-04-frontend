@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import css from "./Header.module.css";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import { useAuthStore } from "@/stores/authStore";
@@ -13,6 +13,7 @@ import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
@@ -60,6 +61,11 @@ export default function Header() {
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
   }, [menuOpen]);
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
 
   return (
     <header className={css.section}>
