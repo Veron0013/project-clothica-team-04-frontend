@@ -11,7 +11,7 @@ export default function AuthPagesLayout({
 }) {
   const pathname = usePathname();
 
-  const isAuthPage = pathname === "/sign-in" || pathname === "/sign-up";
+  const isAuthPage = pathname === "/sign-in" || pathname === "/sign-up" || pathname === "/recovery" || pathname === "/reset-password";
 
   return (
     <>

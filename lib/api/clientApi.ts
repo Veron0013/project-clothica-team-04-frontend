@@ -139,7 +139,7 @@ export const uploadImage = async (file: File): Promise<string> => {
 }
 
 export const passwordSendMail = async (email: ResetPasswordSendmailRequest) => {
-	const res = await nextAuthServer.post("/auth/request-reset-email", email)
+	const res = await nextAuthServer.post("/auth/request-reset-pwd", email)
 	return res
 }
 

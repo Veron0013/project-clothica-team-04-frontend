@@ -1,7 +1,5 @@
 .form {
   padding-top: 24px;
-  display: flex;
-  flex-direction: column;
   width: 100%;
 }
 
@@ -12,28 +10,23 @@
   letter-spacing: -0.01em;
   text-align: center;
   color: #000;
-  padding-top: 48px;
+  padding-top: 24px;
 }
 
-.label_wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
 
-}
-
-.label {
+.labelCont {
   display: flex;
   flex-direction: column;
   font-size: 16px;
   line-height: 1.5;
   color: #000;
-  gap: 10px;
-  flex: 1 1 100%;
-  /* елемент займає весь рядок на мобілці */
+  gap: 16px;
 }
-
+.label{
+  display: flex;
+  flex-direction: column;
+  gap:8px;
+}
 .input,
 .inputTel {
   width: 100%;
@@ -42,7 +35,6 @@
   padding: 10px 12px;
   font-size: 14px;
   background-color: #fff;
-  margin-bottom: 16px;
 }
 
 .input::placeholder {
@@ -62,34 +54,34 @@
   width: 100%;
   background-color: #c5e1a5;
   margin-bottom: 32px;
-  margin-top: 8px;
+  margin-top: 24px;
 }
 
-/* ========================== */
-/*   TABLET ≥ 768px           */
-/* ========================== */
 @media screen and (min-width: 768px) {
   .form {
     padding-top: 48px;
     padding-bottom: 32px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 16px 32px;
   }
-
-  .label {
-    flex: 1 1 calc(50% - 32px);
-    /* 2 поля в рядок */
-    min-width: 250px;
-  }
-
-  .input,
+.text{
+  padding-top: 0px;
+}
+.labelCont{
+flex-direction: row;
+flex-wrap: wrap;
+column-gap: 32px;
+row-gap: 24px;
+}
+.input{
+width: 336px;
+}
   .inputTel {
+    width: 704px;
     height: 40px;
     font-size: 16px;
   }
 
   .button {
+    display: block;
     width: auto;
     height: 36px;
     padding: 6px 24px;
@@ -97,23 +89,20 @@
   }
 }
 
-/* ========================== */
-/*   DESKTOP ≥ 1440px         */
-/* ========================== */
 @media screen and (min-width: 1440px) {
   .text {
     padding-top: 0;
     padding-bottom: 24px;
   }
-
-  .label {
-    flex: 1 1 calc(33.33% - 32px);
-    /* 3 поля в рядок */
-    min-width: 280px;
+  .input{
+    width: 304px;
   }
+.inputTel{
+  width: 640px;
+}
 
   .form {
-    padding-bottom: 16px;
+    padding-bottom: 24px;
 padding-top: 0;
   }
 }
