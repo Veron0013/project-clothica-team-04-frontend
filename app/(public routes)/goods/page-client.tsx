@@ -1,7 +1,7 @@
 'use client';
 
 import { GoodsList } from '@/components/GoodsList';
-import { getGoods } from '@/lib/api/api';
+import { getFilterOptions, getGoods } from '@/lib/api/api';
 import toastMessage, { MyToastType } from '@/lib/messageService';
 import { CLEAR_FILTERS, PER_PAGE } from '@/lib/vars';
 import { Good, GoodsQuery } from '@/types/goods';
@@ -14,7 +14,7 @@ import MessageNoInfo from '@/components/MessageNoInfo/MessageNoInfo';
 import FilterPanel from '@/components/Filters/FilterPanel';
 import Loading from '@/app/loading';
 import css from './page-client.module.css';
-import { AllSortData } from '@/types/filters';
+import { AllFilters, AllSortData } from '@/types/filters';
 import SortDropdown from '@/components/SortDropdown/SortDropdown';
 
 const ProductsPageClient = () => {
@@ -24,6 +24,8 @@ const ProductsPageClient = () => {
 
   const [displayedGoods, setDisplayedGoods] = useState<Good[]>([]);
   const [dataQty, setDataQty] = useState(0);
+  const [currentCategory, setCurrentCategory] = useState<string>('Всі товари');
+  const [filters, setFilters] = useState<AllFilters | null>(null);
 
   const limit = PER_PAGE;
   const initialSearch = sp.get('search') || '';
@@ -68,13 +70,35 @@ const ProductsPageClient = () => {
   }, [data]);
 
   useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        const data = await getFilterOptions();
+        setFilters(data);
+      } catch (error) {
+        console.error('Не вдалося завантажити фільтри:', error);
+      }
+    };
+    fetchFilters();
+  }, []);
+
+  useEffect(() => {
     const fetchSearch = () => {
       if (sp.toString() === '') {
         setSearchValue('');
       }
+      if (sp.get('category') && filters) {
+        const catData = filters.categories?.filter(
+          item => item._id === sp.get('category')
+        );
+        if (catData) {
+          setCurrentCategory(catData ? catData[0].name : 'Всі товари');
+        }
+      } else {
+        setCurrentCategory('Всі товари');
+      }
     };
     fetchSearch();
-  }, [sp]);
+  }, [sp, filters]);
 
   const handleShowMore = () => {
     const nextLimit = Number(searchParams.limit) + 3;
@@ -117,9 +141,10 @@ const ProductsPageClient = () => {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
+  //console.log(displayedGoods[0]);
   return (
     <section className={css.goods}>
-      <h1 className={css.title}>Всі товари</h1>
+      <h1 className={css.title}>{currentCategory}</h1>
 
       <div className={css.layout}>
         <FilterPanel

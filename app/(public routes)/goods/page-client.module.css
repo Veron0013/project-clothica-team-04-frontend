@@ -97,6 +97,7 @@
   .goodsContent {
     margin-top: 0px;
   }
+
   .layout {
     display: grid;
     grid-template-columns: 243px minmax(0, 1fr);

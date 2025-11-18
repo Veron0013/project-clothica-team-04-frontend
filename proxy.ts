@@ -100,7 +100,7 @@ export const config = {
   //matcher: ["/sign-in", "/sign-up"],
 };
 
-const goHome = (cookieStore: ReadonlyRequestCookies) => {
+export const goHome = (cookieStore: ReadonlyRequestCookies) => {
   cookieStore.delete('accessToken');
   cookieStore.delete('refreshToken');
   cookieStore.delete('sessionId');
