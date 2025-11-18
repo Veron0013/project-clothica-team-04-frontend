@@ -11,6 +11,7 @@ export type LoginRequest = {
 
 export type ResetPasswordSendmailRequest = {
   email: string;
+  phone: string;
 };
 
 export type RestorePasswordRequest = {
@@ -145,8 +146,8 @@ export const uploadImage = async (file: File): Promise<string> => {
   return data.url;
 };
 
-export const passwordSendMail = async (email: ResetPasswordSendmailRequest) => {
-  const res = await nextAuthServer.post('/auth/request-reset-email', email);
+export const passwordSendMail = async (phone: ResetPasswordSendmailRequest) => {
+  const res = await nextAuthServer.post('/auth/request-reset-pwd', phone);
   return res;
 };
 

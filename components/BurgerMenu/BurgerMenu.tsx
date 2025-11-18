@@ -9,7 +9,7 @@ interface BurgerMenuProps {
 
 export default function BurgerMenu({ menuOpen, onClose }: BurgerMenuProps) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
+  
   return (
     <div className={`${css.burgerMenu} ${menuOpen ? css.active : ""}`}>
       <ul className={css.burgerNav}>
