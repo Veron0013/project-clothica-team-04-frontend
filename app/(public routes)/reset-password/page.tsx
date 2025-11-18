@@ -1,78 +1,113 @@
-"use client";
+"use client"
+import { useRouter, useSearchParams } from "next/navigation"
 
-import Link from "next/link";
-import css from "./ResetPassword.module.css";
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { Field, Form, Formik, type FormikHelpers } from "formik"
+import { useId, useState } from "react"
+import css from "./ResetPassword.module.css"
+import * as Yup from "yup"
+import { resetPassword } from "@/lib/api/clientApi"
+import toastMessage, { MyToastType } from "@/lib/messageService"
+import Link from "next/link"
 
-export default function ResetPassword() {
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+const ResetPassword = () => {
+	interface ResetPasswordFormValues {
+		password: string
+	}
 
-  const [password, setPassword] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [message, setMessage] = useState("");
+	const initialValues: ResetPasswordFormValues = {
+		password: "",
+	}
 
-  const handleSubmit = async () => {
-    if (!token) {
-      setMessage("Недійсне або відсутнє посилання для зміни паролю.");
-      return;
-    }
+	const SendMailSchema = Yup.object().shape({
+		password: Yup.string().min(8).max(36).required(),
+	})
 
-    setIsSubmitting(true);
-    setMessage("");
+	const fieldId = useId()
+	const router = useRouter()
+	// const [error, setError] = useState("")
+	const [show, setShow] = useState(false)
+	const [isSending, setIsSending] = useState(false)
 
-    try {
-      const res = await fetch("/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, password }),
-      });
+	const searchParams = useSearchParams()
+	const token = searchParams.get("token")
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setMessage(data?.message || "Не вдалося змінити пароль.");
-      } else {
-        setMessage("Пароль успішно змінено! Увійдіть з новим паролем 💚");
-      }
-    } catch {
-      setMessage("Сталася помилка. Спробуйте ще раз.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+	//console.log(token)
 
+	const handleSubmit = async (
+		values: ResetPasswordFormValues,
+		formikHelpers: FormikHelpers<ResetPasswordFormValues>
+	) => {
+		setIsSending(true)
+		formikHelpers.resetForm()
+
+		try {
+			const res = await resetPassword({ ...values, token: String(token) })
+
+			console.log(res.status)
+
+			if (!res.data.message || res?.status !== 200) {
+				toastMessage(MyToastType.error, `Пароль не змінено. Сервер на технічному обслуговуванні.`)
+				// setError("Server under maintanance")
+			} else if (res.data) {
+				toastMessage(MyToastType.success, res.data.message)
+				router.push("/sign-in")
+				formikHelpers.resetForm()
+			} else {
+				// setError("Упппс... виникла помилка")
+			}
+		} catch (err: unknown) {
+          const message =
+            err instanceof Error ? err.message : "Упппс... виникла помилка";
+          toastMessage(
+            MyToastType.error,
+            `E-mail не надіслано. Виникла помилка. ${message}`
+          );
+          // setError("Oops... some error");
+		} finally {
+			setIsSending(false)
+		}
+	}
   return (
     <div className={css.wrapper}>
       <header className={css.header}>
-        <Link href="/" className={css.logo} aria-label="Clothica logo">
+        <Link  href="/" className={css.logo} aria-label="Clothica logo">
           <svg width="84" height="36" aria-hidden="true">
             <use href="/sprite.svg#icon-company-logo" />
           </svg>
         </Link>
       </header>
+			<Formik initialValues={initialValues} validationSchema={SendMailSchema} onSubmit={handleSubmit}>
+				<Form className={css.form}>
+					<div className={css.formGroup}>
+						<label htmlFor="password">Введіть свій новий пароль</label>
+						<div className={css.passwordWrapper}>
+							<Field
+								id={`${fieldId}-password`}
+								type={!show ? "password" : "text"}
+								name="password"
+								placeholder=""
+								autoComplete="off"
+								className={css.input}
+							/>
+							<span className={css.toggleIcon} onClick={() => setShow(!show)}>
+							</span>
+						</div>
+					</div>
 
-      <div className={css.formCont}>
-        <form className={css.form} onSubmit={handleSubmit}>
-          <label htmlFor="password">Ввести новий пароль</label>
-          <input
-            name="password"
-            type="password"
-            placeholder="Введіть новий пароль"
-            className={css.input}
-            required
-            minLength={8}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <button type="submit" className={css.button}>
-            {isSubmitting ? "Зберігаю..." : "Зберегти новий пароль"}
-          </button>
-        </form>
-
-        {message && <p className={css.message}>{message}</p>}
+					<div className={css.actions}>
+						<button type="submit" className={css.button} disabled={isSending}>
+							{isSending ? `Міняю пароль` : "Поміняти пароль"}
+						</button>
+					</div>
+				</Form>
+        </Formik>
+        <footer className={css.footer}>
+				<p>&copy; {new Date().getFullYear()} Clothica. Всі права захищені.</p>
+			</footer>
       </div>
-    </div>
-  );
+	)
 }
+
+export default ResetPassword
+
+
