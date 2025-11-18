@@ -1,5 +1,5 @@
 .burgerMenu {
-  background-color: var(--background);
+  background-color: var(--color-scheme-5-background);
   position: fixed;
   top: 72px;
   left: 0;
