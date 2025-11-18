@@ -219,11 +219,21 @@ export default function UserOrderInfoForm() {
 
 								<ErrorMessage name="warehoseNumber" component="p" className={css.error} />
 							</div>
+							<div className={css.label}>
+								<label htmlFor="comment">Коментар</label>
+
+								<Field
+									as="textarea"
+									id="comment"
+									className={`${getInputClass(errors.comment, touched.comment)} ${css.comment}`}
+									name="comment"
+									placeholder="Введіть ваш коментар"
+									rows={6}
+								/>
+								<ErrorMessage name="comment" component="p" className={css.error} />
+							</div>
 						</fieldset>
 
-						<button className={css.button} type="submit" disabled={isSubmitting || mutation.isPending}>
-							{mutation.isPending ? "Оформлення замовлення..." : "Оформити замовлення"}
-						</button>
 						<button className={css.button} type="submit" disabled={isSubmitting || mutation.isPending}>
 							{mutation.isPending ? "Оформлення замовлення..." : "Оформити замовлення"}
 						</button>
