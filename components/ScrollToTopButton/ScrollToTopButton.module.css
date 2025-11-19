@@ -63,11 +63,11 @@
   fill: var(--color-scheme-5-text);
 }
 
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
   .scrollToTopBtn {
     right: calc(50% - 400px);
   }
-}
+}*/
 
 @media (min-width: 1440px) {
   .scrollToTopBtn {
