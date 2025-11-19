@@ -1,7 +1,8 @@
 .scrollToTopBtn {
   position: fixed;
   right: 16px;
-  bottom: 16px; /* щоб не битися з пальмою React Query */
+  bottom: 16px;
+  /* щоб не битися з пальмою React Query */
   z-index: 9999;
 
   width: 48px;
@@ -60,4 +61,16 @@
   width: 32px;
   height: 32px;
   fill: var(--color-scheme-5-text);
+}
+
+@media (min-width: 768px) {
+  .scrollToTopBtn {
+    right: calc(50% - 400px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .scrollToTopBtn {
+    right: calc(50% - 700px);
+  }
 }

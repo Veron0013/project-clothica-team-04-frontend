@@ -6,10 +6,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*min-height: 100vh;*/
-    /* border: solid 1px black */
+
     border-radius: 12px;
-    background: #f3f9ed;
+    background-color: var(--color-scheme-1-background);
     box-shadow: inset 17px 17px 48px #c2c7be,
         inset -17px -17px 48px #ffffff;
 }
@@ -34,7 +33,7 @@
 }
 
 .NotFoundLink {
-
+    text-align: center;
     margin-top: 32px;
     cursor: pointer;
     transition: background-color 0.25s ease, transform 0.1s ease;
@@ -46,17 +45,17 @@
     border: 1px solid var(--color-deco);
     border-radius: 100px;
     padding: 6px 12px;
-    background: var(--color-deco);
+    background-color: var(--color-deco);
 }
 
 .NotFoundLink:hover {
-    background: var(--color-deco-dark);
+    background-color: var(--color-deco-dark);
     border: 1px solid var(--color-deco-darker);
     transform: scale(1.03);
 }
 
 .NotFoundLink:active {
-    background: var(--color-deco-darkest);
+    background-color: var(--color-deco-darkest);
     border: 1px solid var(--color-deco);
     transform: scale(1.03);
 }

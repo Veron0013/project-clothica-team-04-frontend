@@ -1,3 +1,8 @@
-const Default = () => null
+import { redirect } from 'next/navigation';
 
-export default Default
+const BasketPage = () => {
+  redirect('/order');
+  return null;
+};
+
+export default BasketPage;

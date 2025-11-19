@@ -1,4 +1,6 @@
 import { toast, type ToastPosition } from 'react-hot-toast';
+import * as Yup from 'yup';
+import { PHONE_REGEXP } from './vars';
 
 export enum MyToastType {
   success = 'success',
@@ -49,3 +51,25 @@ export function normalizePhone(phone: string): string | null {
 
   return null;
 }
+
+export const ExportUserInfoFormSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, 'Ім`я має бути більше 2 символів')
+    .max(36)
+    .required('Це поле обовʼязкове!'),
+  lastname: Yup.string()
+    .min(2, 'Прізвище має бути быльше 2 символів')
+    .max(36)
+    .required('Це поле обовʼязкове!'),
+  phone: Yup.string()
+    .matches(PHONE_REGEXP, 'Введіть коректний номер телефону')
+    .required('Це поле обовʼязкове!'),
+  city: Yup.string()
+    .min(3, 'Назва міста має бути быльша 3 символів')
+    .required('Це поле обовʼязкове!'),
+  //warehoseNumber: Yup.string().min(1).required('Це поле обовʼязкове!'),
+  warehoseNumber: Yup.number()
+    .typeError('Вкажіть номер відділення цифрами')
+    .min(1, 'Номер не може бути меншим за 1')
+    .required('Це поле обовʼязкове!'),
+});

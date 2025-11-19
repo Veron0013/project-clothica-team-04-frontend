@@ -4,6 +4,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   width: 100%;
+  gap: 24px;
   padding-bottom: 64px;
 }
 
@@ -18,7 +19,7 @@
   line-height: 1.4;
   letter-spacing: -0.01em;
   text-align: center;
-  padding-bottom: 24px;
+  /*padding-bottom: 24px;*/
 }
 
 .label_wrapper {
@@ -27,6 +28,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   min-width: 100%;
+  row-gap: 24px;
 }
 
 .label {
@@ -51,7 +53,7 @@
   padding: 10px 12px;
   font-size: 14px;
   background-color: var(--color-scheme-1-background);
-  margin-bottom: 16px;
+  /*margin-bottom: 16px;*/
 }
 
 .input::placeholder {
@@ -110,6 +112,7 @@
   }
 
   .button {
+    display: block;
     width: auto;
     height: 36px;
     padding: 6px 24px;
@@ -117,20 +120,18 @@
   }
 }
 
-/* ========================== */
-/*   DESKTOP ≥ 1440px         */
-/* ========================== */
 @media screen and (min-width: 1440px) {
   .text {
     padding-top: 0;
     padding-bottom: 24px;
   }
 
-  .label {
-    flex: 1 1 calc(33.33% - 32px);
-    /* 3 поля в рядок */
-    min-width: 280px;
+  /*.input{
+    width: 304px;
   }
+.inputTel{
+  width: 640px;
+}*/
 
   .form {
     padding-bottom: 16px;

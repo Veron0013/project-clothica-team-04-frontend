@@ -60,11 +60,7 @@ export interface SubmitReviewData {
 
 // КЛІЄНТСЬКИЙ FETCH
 
-export const getGoodByIdClient = async (
-  id: string,
-  page: number,
-  limit: number
-): Promise<Good> => {
+export const getGoodByIdClient = async (id: string): Promise<Good> => {
   const { data } = await nextServer.get<Good>(`/goods/${id}`);
   return data;
 };
@@ -85,16 +81,17 @@ export const getFeedbackByGoodIdClient = async (
 export const postFeedback = async (
   data: SubmitReviewData
 ): Promise<Feedback> => {
-  const isSessionValid = await checkSession();
-  if (isSessionValid) {
-    const { data: newFeedback } = await nextServer.post<Feedback>(
-      '/feedback',
-      data
-    );
-    return newFeedback;
-  } else {
+  try {
+    await checkSession();
+    const res = await nextServer.post<Feedback>('/feedback', data);
+    return res.data;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
     throw new Error(
-      JSON.stringify({ message: 'Session expired or not found', code: 401 })
+      JSON.stringify({
+        message: 'Сесія протермінована або не знайдена',
+        code: 401,
+      })
     );
   }
 };
@@ -104,13 +101,16 @@ export const addToCart = async (
   size: string,
   color?: string
 ): Promise<void> => {
-  const isSessionValid = await checkSession();
-  if (isSessionValid) {
-    // Припускаємо, що ендпоінт для кошика - /basket
+  try {
+    await checkSession();
     await nextServer.post('/basket', { goodId, size, color, quantity: 1 });
-  } else {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
     throw new Error(
-      JSON.stringify({ message: 'Session expired or not found', code: 401 })
+      JSON.stringify({
+        message: 'Сесія протермінована або не знайдена',
+        code: 401,
+      })
     );
   }
 };

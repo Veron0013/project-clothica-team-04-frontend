@@ -1,30 +1,17 @@
 'use client';
 
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
+//import * as Yup from 'yup';
 import css from './UserInfoForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { updateMe } from '@/lib/api/clientApi';
-import { PHONE_REGEXP } from '@/lib/vars';
 import { useAuthStore } from '@/stores/authStore';
 import toastMessage, {
+  ExportUserInfoFormSchema,
   MyToastType,
   normalizePhone,
 } from '@/lib/messageService';
-
-const UserInfoFormSchema = Yup.object().shape({
-  name: Yup.string().min(2).max(20).required('Це поле обовʼязкове!'),
-  lastname: Yup.string().min(3).max(20).required('Це поле обовʼязкове!'),
-  phone: Yup.string()
-    .matches(PHONE_REGEXP, 'Введіть коректний номер телефону')
-    .required('Це поле обовʼязкове!'),
-  city: Yup.string().min(3).required('Це поле обовʼязкове!'),
-  warehoseNumber: Yup.number()
-    .typeError('Вкажіть номер відділення цифрами')
-    .min(1, 'Номер не може бути меншим за 1')
-    .required('Це поле обовʼязкове!'),
-});
 
 interface UserInfoFormValues {
   name: string;
@@ -39,15 +26,6 @@ export default function UserInfoForm() {
   const user = useAuthStore(state => state.user);
   const setUser = useAuthStore(state => state.setUser);
 
-  //console.log("form-user", user, user?.name)
-
-  const initialValues: UserInfoFormValues = {
-    name: user?.name || '',
-    lastname: user?.lastname || user?.lastname || '',
-    phone: user?.phone || '',
-    city: user?.city || '',
-    warehoseNumber: user?.warehoseNumber || user?.warehoseNumber || '',
-  };
   const router = useRouter();
 
   const mutation = useMutation({
@@ -83,8 +61,15 @@ export default function UserInfoForm() {
   return (
     <div className={css.order_container}>
       <Formik
-        initialValues={initialValues}
-        validationSchema={UserInfoFormSchema}
+        enableReinitialize
+        initialValues={{
+          name: user?.name || '',
+          lastname: user?.lastname || '',
+          phone: user?.phone || '',
+          city: user?.city || '',
+          warehoseNumber: user?.warehoseNumber || '',
+        }}
+        validationSchema={ExportUserInfoFormSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, errors, touched }) => (

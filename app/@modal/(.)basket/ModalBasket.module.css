@@ -1,27 +1,17 @@
 .modal {
-  background-color: var(--color-scheme-3-background);
+  background-color: var(--color-scheme-1-background);
   color: var(--color-scheme-4-text);
   width: 100%;
   max-width: 100%;
-  height: 100%;
-  max-height: 100vh;
+  height: 100vh;
+  /* max-height: 100vh; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   padding: 24px 16px;
   position: relative;
   overflow-y: auto;
+  border-radius: 8px;
 }
 
-@media screen and (min-width: 768px) {
-  .modal {
-    min-width: 552px;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .modal {
-    min-width: 589px;
-  }
-}
 
 .closeBtn {
   position: absolute;
@@ -53,13 +43,12 @@
 }
 
 .btnGoods {
-  background-color: rgba(0, 0, 0, 0.05);
   border-radius: 100px;
   padding: 6px 12px;
-  width: 342px;
+  width: 100%;
   margin-bottom: 16px;
   color: var(--color-scheme-6-text);
-  background: var(--opacity-neutral-darkest-5);
+  background-color: var(--opacity-neutral-darkest-5);
 }
 
 .btnGoods:hover,
@@ -82,7 +71,7 @@
   border: none;
   border-radius: 100px;
   padding: 6px 12px;
-  width: 342px;
+  width: 100%;
   color: var(--color-scheme-6-text);
   background-color: var(--color-deco);
 }
@@ -102,7 +91,20 @@
   color: #000;
 }
 
+@media screen and (min-width: 375px) {
+
+  .btnGoods,
+  .btnOrder {
+    width: 342px;
+  }
+}
+
 @media screen and (min-width: 768px) {
+
+  .modal {
+    min-width: 552px;
+  }
+
   .btnForm {
     flex-direction: row;
     justify-content: space-between;
@@ -119,7 +121,12 @@
   }
 }
 
+
 @media screen and (min-width: 1440px) {
+  .modal {
+    min-width: 589px;
+  }
+
   .btnGoods {
     max-width: 234px;
   }

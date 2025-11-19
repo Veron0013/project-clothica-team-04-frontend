@@ -1,14 +1,14 @@
 'use client';
 
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
 import css from './UserOrderInfoForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { sendOrder } from '@/lib/api/clientApi';
-import { DELIVERY_PRICE, PHONE_REGEXP } from '@/lib/vars';
+import { DELIVERY_PRICE } from '@/lib/vars';
 import { useAuthStore } from '@/stores/authStore';
 import toastMessage, {
+  ExportUserInfoFormSchema,
   MyToastType,
   normalizePhone,
 } from '@/lib/messageService';
@@ -24,20 +24,6 @@ import { Order } from '@/types/orders';
 import { UserOrderInfoFormValues } from '@/types/user';
 import { useBasket } from '@/stores/basketStore';
 
-const UserInfoFormSchema = Yup.object().shape({
-  name: Yup.string().min(2).max(20).required('Це поле обовʼязкове!'),
-  lastname: Yup.string().min(3).max(20).required('Це поле обовʼязкове!'),
-  phone: Yup.string()
-    .matches(PHONE_REGEXP, 'Введіть коректний номер телефону')
-    .required('Це поле обовʼязкове!'),
-  city: Yup.string().min(3).required('Це поле обовʼязкове!'),
-  //warehoseNumber: Yup.string().min(1).required('Це поле обовʼязкове!'),
-  warehoseNumber: Yup.number()
-    .typeError('Вкажіть номер відділення цифрами')
-    .min(1, 'Номер не може бути меншим за 1')
-    .required('Це поле обовʼязкове!'),
-});
-
 export default function UserOrderInfoForm() {
   const user = useAuthStore(state => state.user);
   const router = useRouter();
@@ -52,7 +38,7 @@ export default function UserOrderInfoForm() {
   //const [loadingCities, setLoadingCities] = useState(false)
   const [loadingWarehouses, setLoadingWarehouses] = useState(false);
 
-  console.log('form-user', user, user?.name);
+  //console.log('form-user', user, user?.name);
 
   useEffect(() => {
     debouncedSearch(cityQuery);
@@ -103,7 +89,7 @@ export default function UserOrderInfoForm() {
     values: UserOrderInfoFormValues,
     actions: FormikHelpers<UserOrderInfoFormValues>
   ) => {
-    console.log(values);
+    //console.log(values);
     if (basketGoods.length === 0) {
       toastMessage(MyToastType.error, 'Кошик порожній!');
       actions.setSubmitting(false);
@@ -133,7 +119,10 @@ export default function UserOrderInfoForm() {
 
     mutation.mutate(order, {
       onSettled: () => actions.setSubmitting(false),
-      onSuccess: () => actions.resetForm({ values }),
+      onSuccess: () => {
+        actions.resetForm({ values });
+        router.push(user ? '/profile' : '/');
+      },
     });
   };
 
@@ -155,7 +144,7 @@ export default function UserOrderInfoForm() {
           warehoseNumber: user?.warehoseNumber || '',
           comment: '',
         }}
-        validationSchema={UserInfoFormSchema}
+        validationSchema={ExportUserInfoFormSchema}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, errors, touched }) => (
@@ -271,7 +260,6 @@ export default function UserOrderInfoForm() {
                   />
                 </div>
               </div>
-
               <div className={css.label}>
                 <label htmlFor="comment">Коментар</label>
 

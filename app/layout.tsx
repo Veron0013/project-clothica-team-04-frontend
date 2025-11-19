@@ -27,19 +27,28 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Clothica - best clothers',
-  description: 'Find your own style today',
+  title: 'Clothica — стильний одяг | Головна',
+  description:
+    'Clothica — онлайн-магазин базового одягу: універсальні моделі, які легко поєднуються, високоякісні тканини та сучасний дизайн. Оберіть свою базу на кожен день вже сьогодні.',
+  keywords: [
+    'Clothica',
+    'базовий одяг',
+    'універсальний стиль',
+    'онлайн-магазин одягу Україна',
+    'якісний базовий одяг',
+    'одяг кожен день',
+  ],
   openGraph: {
-    title: `Clothica - best clothers`,
-    description: 'Find your own style today',
-    url: `https://movieDB.com`,
-    siteName: 'Clothica',
+    title: 'Clothica — стильний одяг | Головна',
+    description:
+      'Clothica — онлайн-магазин базового одягу: універсальні моделі, які легко поєднуються, високоякісні тканини та сучасний дизайн. Оберіть свою базу на кожен день вже сьогодні.',
+    url: 'https://clothica-team-04-frontend.vercel.app/',
     images: [
       {
-        url: 'https://ac.goit.global/fullstack/react/movie DB-og-meta.jpg',
+        url: 'https://res.cloudinary.com/dgqxe7g3j/image/upload/v1763214919/Clothica_c9xfco.webp',
         width: 1200,
         height: 630,
-        alt: 'Clothica',
+        alt: 'Clothica — базовий стиль одягу',
       },
     ],
     type: 'website',
