@@ -10,17 +10,15 @@ type FilterItemProps = {
   name: string;
   value: string;
   label: string;
-  onClose?: () => void;
   multi?: boolean;
   hideInput?: boolean;
-  variant?: 'default' | 'pill'; // 👈 додали
+  variant?: 'default' | 'pill';
 };
 
 export default function FilterItem({
   name,
   value,
   label,
-  onClose,
   multi = false,
   hideInput = false,
   variant = 'default',
@@ -67,8 +65,6 @@ export default function FilterItem({
       router.push(href);
     });
     setTimeout(() => setPending(false), 1500);
-
-    onClose?.();
   };
 
   const inputClass = hideInput ? css.filterInputHidden : css.filterInput;
