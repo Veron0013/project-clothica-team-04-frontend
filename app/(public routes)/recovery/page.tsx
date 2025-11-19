@@ -39,7 +39,7 @@ export default function RecoveryPassword() {
 
     try {
       const res = await passwordSendMail(values);
-      console.log(res);
+      //console.log(res);
 
       if (!res.message || res?.status !== 200) {
         toastMessage(

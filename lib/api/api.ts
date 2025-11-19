@@ -26,7 +26,7 @@ export const getGoods = async (
 ): Promise<GoodsResponse> => {
   const params = new URLSearchParams();
 
-  console.log('p1', `/goods?${params.toString()}`);
+  //console.log('p1', `/goods?${params.toString()}`);
   // Перетворення для всіх параметрів
   Object.entries(searchParams).forEach(([key, value]) => {
     if (Array.isArray(value)) {

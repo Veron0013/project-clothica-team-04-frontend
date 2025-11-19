@@ -49,7 +49,7 @@ const ProductsPageClient = () => {
       params[key] = allValues.length > 1 ? allValues : allValues[0];
     }
 
-    console.log('params', params);
+    //console.log('params', params);
     return params as GoodsQuery;
   }, [sp, limit]);
 
@@ -65,7 +65,7 @@ const ProductsPageClient = () => {
 
   useEffect(() => {
     if (!data) return;
-    console.log('filters', data?.goods.length);
+    //console.log('filters', data?.goods.length);
     const fetchGoods = () => {
       const newItemsCount = data.goods.length - prevLimit.current;
       setDataQty(newItemsCount > 0 ? newItemsCount : data.goods.length);
