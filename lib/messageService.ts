@@ -1,6 +1,7 @@
 import { toast, type ToastPosition } from 'react-hot-toast';
 import * as Yup from 'yup';
 import { PHONE_REGEXP } from './vars';
+import css from '../components/UserInfoForm/UserInfoForm.module.css';
 
 export enum MyToastType {
   success = 'success',
@@ -73,3 +74,7 @@ export const ExportUserInfoFormSchema = Yup.object().shape({
     .min(1, 'Номер не може бути меншим за 1')
     .required('Це поле обовʼязкове!'),
 });
+
+export const getInputClass = (error: unknown, touched: boolean | undefined) => {
+  return error && touched ? `${css.input} ${css.inputError}` : css.input;
+};
