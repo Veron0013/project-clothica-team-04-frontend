@@ -43,7 +43,7 @@ const ResetPassword = () => {
     try {
       const res = await resetPassword({ ...values, token: String(token) });
 
-      console.log(res);
+      //console.log(res);
 
       if (!res.message || res?.status !== 200) {
         toastMessage(

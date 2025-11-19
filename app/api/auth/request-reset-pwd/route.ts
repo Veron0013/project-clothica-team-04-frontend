@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log('reset-email', data, status);
+    //console.log('reset-email', data, status);
 
     return NextResponse.json(data, { status: status ?? 500 });
     //return NextResponse.json(apiRes.data, { status: apiRes.status })

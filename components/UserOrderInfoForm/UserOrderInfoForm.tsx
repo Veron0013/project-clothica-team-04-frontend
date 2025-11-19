@@ -89,7 +89,7 @@ export default function UserOrderInfoForm() {
     values: UserOrderInfoFormValues,
     actions: FormikHelpers<UserOrderInfoFormValues>
   ) => {
-    console.log(values);
+    //console.log(values);
     if (basketGoods.length === 0) {
       toastMessage(MyToastType.error, 'Кошик порожній!');
       actions.setSubmitting(false);

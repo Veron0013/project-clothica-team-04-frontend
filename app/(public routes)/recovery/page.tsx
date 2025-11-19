@@ -32,7 +32,7 @@ export default function RecoveryPassword() {
     values: SendMailFormValues,
     formikHelpers: FormikHelpers<SendMailFormValues>
   ) => {
-    console.log('submit');
+    //console.log('submit');
 
     setIsSending(true);
     formikHelpers.resetForm();
