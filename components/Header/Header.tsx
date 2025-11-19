@@ -10,7 +10,7 @@ import { useBasket } from '@/stores/basketStore';
 //import { getMe, logout } from '@/lib/api/clientApi';
 //import { useTheme } from '@/components/ThemeProvider/ThemeProvider';
 import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
-import { logout } from '@/lib/api/clientApi';
+import { getMe, getUsersMe, logout } from '@/lib/api/clientApi';
 
 export default function Header() {
   const router = useRouter();
@@ -18,7 +18,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const isAuthenticated = useAuthStore(state => state.isAuthenticated);
-  //const setUser = useAuthStore(state => state.setUser);
+  const setUser = useAuthStore(state => state.setUser);
   const user = useAuthStore(state => state.user);
   //const clearIsAuthenticated = useAuthStore(
   //  state => state.clearIsAuthenticated
@@ -38,12 +38,12 @@ export default function Header() {
 
     const fetchCurrentUser = async () => {
       //try {
-      //const userData = await getMe();
-      console.log('header-user', user);
+      //const userData = await getUsersMe();
+      //console.log('header-user', user);
       if (!user) {
         await logout();
       }
-      //setUser(user);
+      //setUser(userData);
       //} catch (e) {
       //  console.log('header-error', e);
       //  if (isAuthenticated) clearIsAuthenticated();
@@ -52,7 +52,7 @@ export default function Header() {
       //}
     };
     fetchCurrentUser();
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated]);
 
   //console.log("after fetch", user, isAuthenticated)
   //// невеликий QoL: якщо стан вже став isAuthenticated=true (з форми) — не чекай fetch
