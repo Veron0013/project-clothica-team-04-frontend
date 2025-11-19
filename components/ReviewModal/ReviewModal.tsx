@@ -50,7 +50,7 @@ export default function ReviewModal({
         author: name.trim(),
         rate: Number(rating.toFixed(1)),
         comment: text.trim(),
-        goodId: productId,
+        productId,
         category: category ?? '',
       };
 
