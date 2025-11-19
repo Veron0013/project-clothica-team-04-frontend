@@ -1,7 +1,7 @@
-import css from "./HomeGoodInfo.module.css";
-import { type Good } from "@/types/goods";
-import Link from "next/link";
-import Image from "next/image";
+import css from './HomeGoodInfo.module.css';
+import { type Good } from '@/types/goods';
+import Link from 'next/link';
+import Image from 'next/image';
 
 interface HomeGoodInfoProp {
   item: Good;
@@ -39,7 +39,7 @@ export default function HomeGoodInfo({ item }: HomeGoodInfoProp) {
               <span className={css.metaStat}>{item.averageRating ?? 0}</span>
             </div>
             <div className={css.metaRowInner}>
-              <svg width="14" height="13">
+              <svg className={css.iconFeed} width="14" height="13">
                 <use href="/sprite.svg#feedbacks" />
               </svg>
               <span className={css.metaStat}>{item.feedbackCount ?? 2}</span>
