@@ -44,6 +44,11 @@ export interface Feedback {
   };
 }
 
+export type FilterOption = {
+  value: string;
+  label: string;
+};
+
 export interface FeedbackResponse {
   items: Feedback[];
   page: number;

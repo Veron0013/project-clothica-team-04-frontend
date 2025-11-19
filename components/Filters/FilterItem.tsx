@@ -28,8 +28,17 @@ export default function FilterItem({
   const sp = useSearchParams();
   const [pending, setPending] = useState(false);
 
+  const isAllOption = value === 'all';
+
   const currentValues = multi ? sp.getAll(name) : [sp.get(name) ?? ''];
-  const isActive = multi
+
+  const isAllActive =
+    isAllOption &&
+    (multi ? sp.getAll(name).length === 0 : sp.get(name) === null);
+
+  const isActive = isAllOption
+    ? isAllActive
+    : multi
     ? currentValues.includes(value)
     : sp.get(name) === value;
 
@@ -52,6 +61,9 @@ export default function FilterItem({
         next.delete(name);
       } else {
         next.set(name, value);
+        if (value === 'all') {
+          next.delete(name);
+        }
         next.set('limit', String(PER_PAGE));
       }
     }
@@ -64,7 +76,7 @@ export default function FilterItem({
     startTransition(() => {
       router.push(href);
     });
-    setTimeout(() => setPending(false), 1500);
+    setTimeout(() => setPending(false), 800);
   };
 
   const inputClass = hideInput ? css.filterInputHidden : css.filterInput;
@@ -72,6 +84,9 @@ export default function FilterItem({
   const linkClassName = [
     css.filterLink,
     variant === 'pill' && css.filterLink_pill,
+    isActive &&
+      name === 'category' &&
+      `${css.filterLink_active} ${css.active_category}`,
     isActive && css.filterLink_active,
     isActive && variant === 'pill' && css.filterLink_pill_active,
     pending && css.filterLink_disabled,

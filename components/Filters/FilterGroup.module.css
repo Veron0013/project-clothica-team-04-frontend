@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 16px;
 }
+
 .titleBtnContainer {
   display: flex;
   align-items: center;
@@ -15,6 +16,7 @@
   line-height: 150%;
   color: var(--color-scheme-1-text);
 }
+
 .clear {
   font-weight: 400;
   font-size: 16px;
@@ -22,6 +24,7 @@
   color: var(--color-neutral-darkest);
   transition: color 0.2s ease, opacity 0.2s ease;
 }
+
 .clear:hover {
   opacity: 0.7;
 }
@@ -32,6 +35,7 @@
   gap: 16px;
   list-style: none;
 }
+
 .filterDivider {
   width: 100%;
   height: 1px;
@@ -40,8 +44,28 @@
   margin: 8px 0;
   opacity: 0.7;
 }
+
 .filterList_wrap {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.filterAll:hover {
+  /*font-size: 20px;*/
+  font-weight: 600;
+}
+
+.filterAll:focus {
+  font-weight: 600;
+  /*font-size: 20px;*/
+  line-height: 150%;
+  text-decoration: underline;
+}
+
+.filterAll:disabled {
+  color: var(--color-neutral-light);
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
 }

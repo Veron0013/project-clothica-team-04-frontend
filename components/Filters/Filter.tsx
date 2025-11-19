@@ -4,6 +4,7 @@ import { AllFilters } from '@/types/filters';
 import FilterGroup from './FilterGroup';
 import FilterGroupPrice from './FilterGroupPrice';
 import css from './Filter.module.css';
+import { GENDER_OPTIONS } from '@/lib/vars';
 
 type FilterProps = {
   options: AllFilters;
@@ -20,7 +21,7 @@ export default function Filter({
 
   const {
     categories = [],
-    genders = [],
+    //genders = [],
     sizes = [],
     //colors = [],
     fromPrice = 1,
@@ -66,7 +67,7 @@ export default function Filter({
       <FilterGroup
         title="Стать"
         name="gender"
-        options={genders.map(g => ({ value: g, label: g }))}
+        options={GENDER_OPTIONS}
         className={css.groupGender}
       />
     </div>
