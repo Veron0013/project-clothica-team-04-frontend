@@ -18,13 +18,13 @@
 	padding: 12px 16px;
 	border-radius: 6px;
 	border: 1px solid transparent;
-	color: #084298;
+	color: var(--color-neutral-darkest);
 	background-color: var(--color-deco);
 	border-color: var(--color-deco-lightest);
 	align-items: center;
 	justify-content: center;
 }
 
-.text{
+.text {
 	color: var(--color-neutral-darkest);
 }
