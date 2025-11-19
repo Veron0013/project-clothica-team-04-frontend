@@ -12,6 +12,7 @@ import toastMessage, {
   MyToastType,
   normalizePhone,
 } from '@/lib/messageService';
+import AvatarEditor from '../AvatarEditor/AvatarEditor';
 
 interface UserInfoFormValues {
   name: string;
@@ -76,6 +77,7 @@ export default function UserInfoForm() {
           <Form className={css.form}>
             <fieldset className={css.form}>
               <legend className={css.text}>Особиста інформація</legend>
+              <AvatarEditor />
               <div className={css.label_wrapper}>
                 <div className={css.label}>
                   <label htmlFor="name">Імʼя*</label>

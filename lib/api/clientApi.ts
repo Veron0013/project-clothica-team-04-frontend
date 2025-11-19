@@ -140,6 +140,12 @@ export const updateMe = async (payload: UpdateUserRequest): Promise<User> => {
   }
 };
 
+export const updateAvatar = async (formData: FormData) => {
+  return nextAuthServer.patch('/users/me', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
+
 export const sendOrder = async (payload: Order): Promise<Order> => {
   try {
     const res = await nextAuthServer.post<Order>('/order', payload);
