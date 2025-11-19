@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import css from './RecoveryPassword.module.css';
 import { useId, useState } from 'react';
-import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import toastMessage, { MyToastType } from '@/lib/messageService';
 import { passwordSendMail } from '@/lib/api/clientApi';
@@ -79,6 +79,7 @@ export default function RecoveryPassword() {
         validationSchema={SendMailSchema}
         onSubmit={handleSubmit}
       >
+{({  errors, touched}) => (
         <Form className={css.form}>
           <div className={css.formGroup}>
             <label htmlFor="phone">Введіть свій номер телефону</label>
@@ -87,10 +88,10 @@ export default function RecoveryPassword() {
               type="tel"
               name="phone"
               placeholder="+38 (0__) ___-__-__"
-              className={css.input}
+              className={`${css.input} ${errors.phone && touched.phone ? css.inputError : ""}`}
             />
           </div>
-
+<ErrorMessage name="phone" component="p" className={css.error} />
           <div className={css.formGroup}>
             <label htmlFor="email">Введіть свій e-mail</label>
             <Field
@@ -98,16 +99,16 @@ export default function RecoveryPassword() {
               type="text"
               name="email"
               placeholder=""
-              className={css.input}
+              className={`${css.input} ${errors.email && touched.email ? css.inputError : ""}`}
             />
           </div>
-
+<ErrorMessage name="email" component="p" className={css.error} />
           <div className={css.actions}>
             <button type="submit" className={css.button} disabled={isSending}>
               {isSending ? `Відправляю...` : 'Відправити'}
             </button>
           </div>
-        </Form>
+        </Form>)}
       </Formik>
       <footer className={css.footer}>
         <p>&copy; {new Date().getFullYear()} Clothica. Всі права захищені.</p>

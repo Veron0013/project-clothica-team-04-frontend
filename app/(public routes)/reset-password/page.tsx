@@ -1,7 +1,7 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { Field, Form, Formik, type FormikHelpers } from 'formik';
+import { ErrorMessage, Field, Form, Formik, type FormikHelpers } from 'formik';
 import { useId, useState } from 'react';
 import css from './ResetPassword.module.css';
 import * as Yup from 'yup';
@@ -85,6 +85,7 @@ const ResetPassword = () => {
         validationSchema={SendMailSchema}
         onSubmit={handleSubmit}
       >
+        {({ errors, touched}) => (
         <Form className={css.form}>
           <div className={css.formGroup}>
             <label htmlFor="password">Введіть свій новий пароль</label>
@@ -95,12 +96,14 @@ const ResetPassword = () => {
                 name="password"
                 placeholder=""
                 autoComplete="off"
-                className={css.input}
+                className={`${css.input} ${errors.password && touched.password ? css.inputError : ""}`}
               />
+              
               <span className={css.toggleIcon} onClick={() => setShow(!show)}>
 								{!show ? <BiHide /> : <BiShow />}
 									</span>
             </div>
+            <ErrorMessage name="password" component="p" className={css.error} />
           </div>
 
           <div className={css.actions}>
@@ -109,6 +112,7 @@ const ResetPassword = () => {
             </button>
           </div>
         </Form>
+        )}
       </Formik>
       <footer className={css.footer}>
         <p>&copy; {new Date().getFullYear()} Clothica. Всі права захищені.</p>
