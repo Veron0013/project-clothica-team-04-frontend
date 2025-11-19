@@ -191,10 +191,6 @@ body {
   min-height: 100vh;
 }
 
-svg {
-  fill: var(--color-scheme-6-foreground);
-  stroke: var(--color-neutral-darkest);
-}
 
 a {
   text-decoration: none;

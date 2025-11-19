@@ -117,7 +117,7 @@ export default function Header() {
                 onClick={() => router.push('/basket')}
                 aria-label="Кошик"
               >
-                <svg width="24" height="24">
+                <svg className={css.iconBasket} width="24" height="24">
                   <use href="/sprite.svg#shopping_cart" />
                 </svg>
                 {basketCount > 0 && (

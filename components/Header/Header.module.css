@@ -57,6 +57,15 @@
   fill: #fff;
   cursor: pointer;
   position: relative;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.basket:hover,
+.basket:focus-visible {
+  border-color: var(
+    --opacity-neutral-darkest-15
+  ); /* колір підсвітки бордера (приклад) */
+  box-shadow: 0 0 0 4px #2a412566; /* м’яка “аура” навколо */
 }
 
 .badge {
@@ -81,6 +90,13 @@
 .link:hover,
 .link:focus {
   color: var(--color-deco-dark);
+}
+.iconBasket {
+  fill: var(--color-scheme-6-foreground);
+}
+
+.basket:hover,
+.basket:focus {
 }
 @media screen and (min-width: 768px) {
   .auth {

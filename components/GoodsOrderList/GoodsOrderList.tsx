@@ -116,7 +116,7 @@ export default function GoodsOrderList() {
                         0
                       </>
                     )}
-                    <svg width="12" height="12">
+                    <svg className={css.iconfeed} width="12" height="12">
                       <use href="/sprite.svg#feedbacks" />
                     </svg>{' '}
                     {item.feedbackCount}
@@ -148,7 +148,7 @@ export default function GoodsOrderList() {
                 onClick={() => removeGood(item.key)}
                 className={css.basketItemRemove}
               >
-                <svg width="24" height="24">
+                <svg className={css.iconDel} width="24" height="24">
                   <use href="/sprite.svg#delete" />
                 </svg>
               </button>

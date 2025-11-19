@@ -25,7 +25,7 @@
   background: none;
   padding: 0;
   font: inherit;
-  color: var(--color-neutral-darkest, #000);
+  color: var(--color-neutral-darkest);
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
@@ -54,7 +54,7 @@
 
 /* активна частина між бігунками */
 .sliderTrack::before {
-  content: "";
+  content: '';
   position: absolute;
   left: var(--start);
   right: calc(100% - var(--end));
@@ -123,11 +123,11 @@
 
 /* щоб один бігунок гарантовано був над іншим */
 
-.sliderWrapper input[type="range"]:first-of-type {
+.sliderWrapper input[type='range']:first-of-type {
   z-index: 2;
 }
 
-.sliderWrapper input[type="range"]:last-of-type {
+.sliderWrapper input[type='range']:last-of-type {
   z-index: 3;
 }
 
