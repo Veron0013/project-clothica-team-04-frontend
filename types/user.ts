@@ -9,7 +9,7 @@ export type User = {
   warehoseNumber?: string;
   city?: string;
   avatar?: string;
-  error?: string;
+  //error?: string;
 };
 
 export interface UserOrderInfoFormValues {

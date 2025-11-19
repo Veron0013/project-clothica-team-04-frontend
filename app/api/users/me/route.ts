@@ -10,7 +10,7 @@ export async function GET() {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('accessToken')?.value;
-    console.error('get users/me', accessToken);
+    console.log('get users/me', accessToken);
     //return NextResponse.json({ error: cookieStore.toString() }, { status: 500 })
     const res = await api.get('/users/me', {
       headers: {

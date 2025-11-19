@@ -1,31 +1,37 @@
-import { User } from "@/types/user"
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { User } from '@/types/user';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type AuthStore = {
-	isAuthenticated: boolean
-	user: User | null
-	setUser: (user: User) => void
-	clearIsAuthenticated: () => void
-}
+  isAuthenticated: boolean;
+  user: User | null;
+
+  hasHydrated: boolean;
+  setHasHydrated: (v: boolean) => void;
+
+  setUser: (u: User | null) => void;
+  clearIsAuthenticated: () => void;
+};
 
 export const useAuthStore = create<AuthStore>()(
-	persist(
-		(set) => ({
-			isAuthenticated: false,
-			user: null,
+  persist(
+    set => ({
+      isAuthenticated: false,
+      user: null,
 
-			setUser: (user: User) => {
-				set(() => ({ user, isAuthenticated: true }))
-			},
+      hasHydrated: false,
+      setHasHydrated: v => set({ hasHydrated: v }),
 
-			clearIsAuthenticated: () => {
-				set(() => ({ user: null, isAuthenticated: false }))
-			},
-		}),
-		{
-			name: "auth-store",
-			skipHydration: false,
-		}
-	)
-)
+      setUser: user => set({ user, isAuthenticated: Boolean(user) }),
+
+      clearIsAuthenticated: () => set({ user: null, isAuthenticated: false }),
+    }),
+    {
+      name: 'auth-store',
+      skipHydration: false,
+      onRehydrateStorage: () => state => {
+        state?.setHasHydrated(true);
+      },
+    }
+  )
+);
