@@ -7,61 +7,71 @@ import css from './Header.module.css';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import { useAuthStore } from '@/stores/authStore';
 import { useBasket } from '@/stores/basketStore';
+//import { getMe, logout } from '@/lib/api/clientApi';
+//import { useTheme } from '@/components/ThemeProvider/ThemeProvider';
 import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
-import { getUsersMe } from '@/lib/api/clientApi';
+import { getMe, getUsersMe, logout } from '@/lib/api/clientApi';
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
-
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Zustand
-  const hasHydrated = useAuthStore(s => s.hasHydrated);
-  const user = useAuthStore(s => s.user);
-  const setUser = useAuthStore(s => s.setUser);
-  const clearIsAuthenticated = useAuthStore(s => s.clearIsAuthenticated);
-  const isAuthenticated = useAuthStore(s => s.isAuthenticated);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
+  const setUser = useAuthStore(state => state.setUser);
+  const user = useAuthStore(state => state.user);
+  //const clearIsAuthenticated = useAuthStore(
+  //  state => state.clearIsAuthenticated
+  //);
+  //const { theme, toggleTheme } = useTheme();
 
-  const goods = useBasket(s => s.goods);
+  //const [authChecked, setAuthChecked] = useState(false);
+
+  const goods = useBasket(state => state.goods);
   const basketCount = goods.reduce((sum, item) => sum + item.quantity, 0);
-
-  console.log(
-    'HEADER RENDER',
-    'hasHydrated',
-    hasHydrated,
-    'user',
-    user,
-    'isAuthenticated',
-    isAuthenticated
-  );
+  // ✅ якщо стор уже каже, що логін виконано — вважаємо, що можна рендерити одразу
+  //const ready = authChecked || isAuthenticated;
 
   useEffect(() => {
-    if (!hasHydrated) return;
+    //console.log("fetch", user, isAuthenticated)
+    //if (isAuthenticated) return setAuthChecked(true)
 
-    const verify = async () => {
-      try {
-        const data = await getUsersMe();
-        setUser(data);
-      } catch (e) {
-        clearIsAuthenticated();
+    const fetchCurrentUser = async () => {
+      //try {
+      //const userData = await getUsersMe();
+      //console.log('header-user', user);
+      if (!user) {
+        await logout();
       }
+      //setUser(userData);
+      //} catch (e) {
+      //  console.log('header-error', e);
+      //  if (isAuthenticated) clearIsAuthenticated();
+      //} finally {
+      //  setAuthChecked(true);
+      //}
     };
+    fetchCurrentUser();
+  }, [isAuthenticated]);
 
-    verify();
-  }, [hasHydrated, isAuthenticated]);
+  //console.log("after fetch", user, isAuthenticated)
+  //// невеликий QoL: якщо стан вже став isAuthenticated=true (з форми) — не чекай fetch
+  //useEffect(() => {
+  //	//console.log("header-user-effect", isAuthenticated, user)
+  //	if (isAuthenticated) setAuthChecked(true)
+  //}, [isAuthenticated])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
   }, [menuOpen]);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
-    setMenuOpen(false);
+    const fetch = async () => {
+      setMenuOpen(false);
+    };
+    fetch();
   }, [pathname]);
-
-  if (!hasHydrated) {
-    return null; // або skeleton
-  }
 
   return (
     <header className={css.section}>
@@ -90,14 +100,15 @@ export default function Header() {
               </Link>
             </li>
           </ul>
-
           <ThemeToggle />
 
           <div className={css.auth}>
             {isAuthenticated ? (
-              <Link href="/profile" className={css.navUpBasket}>
-                Кабінет
-              </Link>
+              <>
+                <Link href="/profile" className={css.navUpBasket}>
+                  Кабінет
+                </Link>
+              </>
             ) : (
               <>
                 <Link href="/sign-in" className={css.navUp}>
@@ -119,7 +130,6 @@ export default function Header() {
                   <use href={`/sprite.svg#${menuOpen ? 'close' : 'menu'}`} />
                 </svg>
               </button>
-
               <button
                 className={css.basket}
                 onClick={() => router.push('/basket')}
