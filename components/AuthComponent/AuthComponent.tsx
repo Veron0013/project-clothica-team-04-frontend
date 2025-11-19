@@ -11,6 +11,8 @@ import { useAuthStore } from "@/stores/authStore"
 import { callAuth } from "@/lib/api/clientApi"
 import { AuthValues } from "@/lib/api/authApi"
 import { PHONE_REGEXP } from "@/lib/vars"
+import { BiHide, BiShow } from "react-icons/bi"
+import { useState } from "react"
 
 interface AuthComponentProps {
 	login?: boolean
@@ -29,6 +31,7 @@ const SignInSchema = Yup.object().shape({
 
 export default function AuthComponent({ login = false }: AuthComponentProps) {
 	const router = useRouter()
+	const [show, setShow] = useState(false)
 
 	const setUser = useAuthStore((s) => s.setUser)
 
@@ -137,14 +140,19 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
 
 							<div className={css.formGroup}>
 								<label htmlFor="password">Пароль*</label>
+								<div className={css.inputWrapper}>
 								<Field
 									id="password"
 									name="password"
-									type="password"
+									type={!show ? "password" : "text"}
 									className={`${css.input} ${errors.password && touched.password ? css.inputError : ""}`}
 									placeholder="********"
 									autoComplete={login ? "current-password" : "new-password"}
 								/>
+								<span className={css.toggleIcon} onClick={() => setShow(!show)}>
+								{!show ? <BiHide /> : <BiShow />}
+									</span>
+									</div>
 								<ErrorMessage name="password" component="p" className={css.error} />
 
 								{login && 

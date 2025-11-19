@@ -9,7 +9,7 @@ export type User = {
   warehoseNumber?: string;
   city?: string;
   avatar?: string;
-  error?: string;
+  //error?: string;
 };
 
 export interface UserOrderInfoFormValues {
@@ -20,5 +20,4 @@ export interface UserOrderInfoFormValues {
   comment: string;
   warehoseNumber: string;
 }
-
 export type EditUser = Omit<User, 'avatar'>;

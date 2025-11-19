@@ -11,9 +11,9 @@ type GoodPageProps = {
 	searchParams: Promise<{ reviewsPage?: string }>
 }
 export async function generateMetadata({ params }: GoodPageProps): Promise<Metadata> {
-  const {id: goodId} = await params;
+  const {id: productId} = await params;
   try {
-		const good: Good = await getGoodByIdServer(goodId)
+		const good: Good = await getGoodByIdServer(productId)
 
 		const price = `${good.price} ${good.currency || '₴'}`
 		

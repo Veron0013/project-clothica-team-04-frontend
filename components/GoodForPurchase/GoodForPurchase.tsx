@@ -8,6 +8,7 @@ import { useBasket } from "@/stores/basketStore"
 import toast from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import StarRating from "../StarRating/StarRating"
 
 interface GoodForPurchaseProps {
 	good: Good
@@ -114,30 +115,6 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
 		}
 	}, [good._id])
 
-	const renderStars = (rating: number) => {
-		const MAX_STARS = 5
-		const fullStars = Math.floor(rating) || 0
-		const hasHalfStar = rating % 1 >= 0.5
-		const emptyStars = MAX_STARS - fullStars - (hasHalfStar ? 1 : 0)
-
-		const stars = []
-		const starProps = { width: 20, height: 20 }
-
-		for (let i = 0; i < fullStars; i++) {
-			stars.push(<Image key={`full-${i}`} src="/svg/star-filled.svg" alt="full star" {...starProps} />)
-		}
-
-		if (hasHalfStar) {
-			stars.push(<Image key="half" src="/svg/star_half.svg" alt="half star" {...starProps} />)
-		}
-
-		for (let i = 0; i < emptyStars; i++) {
-			stars.push(<Image key={`empty-${i}`} src="/svg/star.svg" alt="empty star" {...starProps} />)
-		}
-
-		return stars
-	}
-
 	return (
 		<section className={styles.section}>
 			<div className={styles.container}>
@@ -202,7 +179,7 @@ export default function GoodForPurchase({ good }: GoodForPurchaseProps) {
 							{good.price} {good.currency || "₴"}
 						</span>
 						<div className={styles.rating}>
-							{renderStars(good.averageRating || 0)}
+							<StarRating rate={good.averageRating || 0} />
 							<span>({good.averageRating || 0})</span> •
 							<span className={styles.reviewsCount}>{good.feedbackCount || 0} відгуків</span>
 						</div>

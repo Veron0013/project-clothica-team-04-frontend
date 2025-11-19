@@ -3,7 +3,7 @@
 /* ===== СВІТЛА ТЕМА (дефолт) ===== */
 :root[data-theme="light"] {
   --color-scheme-1-background: var(--color-deco-lightest);
-  --color-neutral-darkest: #000;
+  --color-neutral-darkest: #333333;
   --color-scheme-1-border: var(--opacity-neutral-darkest-20);
   --color-scheme-1-text: var(--color-neutral-darkest);
   --color-neutral-lighter: #d8d8d8;
@@ -191,10 +191,6 @@ body {
   min-height: 100vh;
 }
 
-svg {
-  fill: var(--color-scheme-6-foreground);
-  stroke: var(--color-neutral-darkest);
-}
 
 a {
   text-decoration: none;

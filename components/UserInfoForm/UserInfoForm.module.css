@@ -4,6 +4,7 @@
   flex-direction: column;
   flex-wrap: wrap;
   width: 100%;
+  gap: 24px;
   padding-bottom: 64px;
 }
 
@@ -18,7 +19,7 @@
   line-height: 1.4;
   letter-spacing: -0.01em;
   text-align: center;
-  padding-bottom: 24px;
+  /*padding-bottom: 24px;*/
 }
 
 .label_wrapper {
@@ -27,6 +28,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   min-width: 100%;
+  row-gap: 24px;
 }
 
 .label {
@@ -51,7 +53,7 @@
   padding: 10px 12px;
   font-size: 14px;
   background-color: var(--color-scheme-1-background);
-  margin-bottom: 16px;
+  /*margin-bottom: 16px;*/
 }
 
 .input::placeholder {
@@ -74,7 +76,7 @@
 
 .error {
   position: absolute;
-  bottom: -4px;
+  bottom: -16px;
   left: 6px;
   font-size: 10px;
   color: var(--color-red);
@@ -123,12 +125,13 @@
     padding-top: 0;
     padding-bottom: 24px;
   }
-  .input{
+
+  /*.input{
     width: 304px;
   }
 .inputTel{
   width: 640px;
-}
+}*/
 
   .form {
     padding-bottom: 16px;

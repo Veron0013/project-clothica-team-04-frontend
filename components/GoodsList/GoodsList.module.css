@@ -71,6 +71,9 @@
   line-height: 150%;
   color: var(--color-scheme-1-text);
 }
+.iconFeed {
+  fill: var(--color-scheme-1-text);
+}
 
 .cardPrice {
   font-weight: 400;

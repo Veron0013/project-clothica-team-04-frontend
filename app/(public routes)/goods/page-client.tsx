@@ -1,10 +1,10 @@
 'use client';
 
 import { GoodsList } from '@/components/GoodsList';
-import { getGoods } from '@/lib/api/api';
+import { getFilterOptions, getGoods } from '@/lib/api/api';
 import toastMessage, { MyToastType } from '@/lib/messageService';
 import { CLEAR_FILTERS, PER_PAGE } from '@/lib/vars';
-import { Good, GoodsQuery } from '@/types/goods';
+import { Good, GoodsQuery, QueryRecord } from '@/types/goods';
 import { useQuery } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -14,7 +14,7 @@ import MessageNoInfo from '@/components/MessageNoInfo/MessageNoInfo';
 import FilterPanel from '@/components/Filters/FilterPanel';
 import Loading from '@/app/loading';
 import css from './page-client.module.css';
-import { AllSortData } from '@/types/filters';
+import { AllFilters, AllSortData } from '@/types/filters';
 import SortDropdown from '@/components/SortDropdown/SortDropdown';
 
 const ProductsPageClient = () => {
@@ -24,6 +24,8 @@ const ProductsPageClient = () => {
 
   const [displayedGoods, setDisplayedGoods] = useState<Good[]>([]);
   const [dataQty, setDataQty] = useState(0);
+  const [currentCategory, setCurrentCategory] = useState<string>('Всі товари');
+  const [filters, setFilters] = useState<AllFilters | null>(null);
 
   const limit = PER_PAGE;
   const initialSearch = sp.get('search') || '';
@@ -36,14 +38,20 @@ const ProductsPageClient = () => {
   // зберігаємо попередній limit для анімації нових товарів
   const prevLimit = useRef(Number(sp.get('limit')) || limit);
 
-  const searchParams: GoodsQuery = useMemo(
-    () => ({
+  const searchParams: GoodsQuery = useMemo(() => {
+    const params: QueryRecord = {
       limit: Number(sp.get('limit')) || limit,
       page: 1,
-      ...Object.fromEntries(sp.entries()),
-    }),
-    [sp, limit]
-  );
+    };
+
+    for (const key of sp.keys()) {
+      const allValues = sp.getAll(key);
+      params[key] = allValues.length > 1 ? allValues : allValues[0];
+    }
+
+    //console.log('params', params);
+    return params as GoodsQuery;
+  }, [sp, limit]);
 
   const { data, isFetching } = useQuery({
     queryKey: ['GoodsByCategories', searchParams],
@@ -57,6 +65,7 @@ const ProductsPageClient = () => {
 
   useEffect(() => {
     if (!data) return;
+    //console.log('filters', data?.goods.length);
     const fetchGoods = () => {
       const newItemsCount = data.goods.length - prevLimit.current;
       setDataQty(newItemsCount > 0 ? newItemsCount : data.goods.length);
@@ -68,13 +77,35 @@ const ProductsPageClient = () => {
   }, [data]);
 
   useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        const data = await getFilterOptions();
+        setFilters(data);
+      } catch (error) {
+        console.error('Не вдалося завантажити фільтри:', error);
+      }
+    };
+    fetchFilters();
+  }, []);
+
+  useEffect(() => {
     const fetchSearch = () => {
       if (sp.toString() === '') {
         setSearchValue('');
       }
+      if (sp.get('category') && filters) {
+        const catData = filters.categories?.filter(
+          item => item._id === sp.get('category')
+        );
+        if (catData) {
+          setCurrentCategory(catData ? catData[0].name : 'Всі товари');
+        }
+      } else {
+        setCurrentCategory('Всі товари');
+      }
     };
     fetchSearch();
-  }, [sp]);
+  }, [sp, filters]);
 
   const handleShowMore = () => {
     const nextLimit = Number(searchParams.limit) + 3;
@@ -117,9 +148,10 @@ const ProductsPageClient = () => {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
+  //console.log(displayedGoods[0]);
   return (
     <section className={css.goods}>
-      <h1 className={css.title}>Всі товари</h1>
+      <h1 className={css.title}>{currentCategory}</h1>
 
       <div className={css.layout}>
         <FilterPanel

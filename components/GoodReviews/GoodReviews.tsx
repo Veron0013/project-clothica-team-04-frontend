@@ -1,30 +1,31 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   keepPreviousData,
   useQuery,
   useQueryClient,
-} from "@tanstack/react-query";
+} from '@tanstack/react-query';
 
 import {
   getFeedbackByGoodIdClient,
   type FeedbackResponse,
-} from "@/lib/productsServise";
+} from '@/lib/productsServise';
 
-import Loader from "@/app/loading";
-import ProductRewiews from "../LastReviews/ProductRewiews";
-import ReviewModal from "@/components/ReviewModal/ReviewModal";
+import Loader from '@/app/loading';
+import ProductRewiews from '../LastReviews/ProductRewiews';
+import ReviewModal from '@/components/ReviewModal/ReviewModal';
 
-import styles from "./GoodReviews.module.css";
+import css from './GoodReviews.module.css';
+import reviewStyles from '@/components/LastReviews/LastReviews.module.css';
 
 interface GoodReviewsProps {
-  goodId: string;
+  productId: string;
   reviewsPerPage: number;
 }
 
 export default function GoodReviews({
-  goodId,
+  productId,
   reviewsPerPage,
 }: GoodReviewsProps) {
   const [page, setPage] = useState(1);
@@ -34,44 +35,48 @@ export default function GoodReviews({
 
   const { data, isLoading, isError, isPlaceholderData } =
     useQuery<FeedbackResponse>({
-      queryKey: ["goodReviews", goodId, page],
-      queryFn: () => getFeedbackByGoodIdClient(goodId, page, reviewsPerPage),
+      queryKey: ['goodReviewsById', productId, page],
+      queryFn: () => getFeedbackByGoodIdClient(productId, page, reviewsPerPage),
       placeholderData: keepPreviousData,
     });
 
   if (isLoading) return <Loader />;
 
   if (isError) {
-    return <p className={styles.error}>Не вдалося завантажити відгуки.</p>;
+    return <p className={css.error}>Не вдалося завантажити відгуки.</p>;
   }
 
   const feedbacks = data?.items || [];
   const totalPages = data?.totalPages || 1;
-  const totalFeedbacks = data?.total || 0;
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
   const handleSubmitted = () => {
-    // після успішного відгуку:
-    // - закриваємо модалку
-    // - скидаємо сторінку на 1
-    // - перезавантажуємо список відгуків
     setIsModalOpen(false);
     setPage(1);
-    queryClient.invalidateQueries({ queryKey: ["goodReviews", goodId] });
+    queryClient.invalidateQueries({ queryKey: ['goodReviewsById', productId] });
   };
 
+  // Функції керування пагінацією
+  const handlePrevPage = () => {
+    setPage(prev => Math.max(1, prev - 1));
+  };
+
+  const handleNextPage = () => {
+    setPage(prev => Math.min(totalPages, prev + 1));
+  };
+
+  const isFirstPage = page === 1;
+  const isLastPage = page >= totalPages;
+
   return (
-    <section className={styles.reviewsSection} id="reviews">
-      <div className={styles.header}>
-        <h2 className={styles.title}>
-           Відгуки клієнтів
-           <span className={styles.count}>({totalFeedbacks})</span>
-        </h2>
+    <section className={css.reviewsSection} id="reviews">
+      <div className={css.header}>
+        <h2 className={css.title}>Відгуки клієнтів</h2>
 
         <button
-          className={styles.writeBtn}
+          className={css.writeBtn}
           type="button"
           onClick={handleOpenModal}
         >
@@ -79,20 +84,52 @@ export default function GoodReviews({
         </button>
       </div>
 
-      <div className={styles.content}>
+      <div className={css.content}>
         {feedbacks.length > 0 ? (
-          <ProductRewiews reviews={feedbacks} />
+          <>
+            <ProductRewiews reviews={feedbacks} />
+
+            {totalPages > 1 && (
+              <div className={reviewStyles.controls}>
+                <button
+                  type="button"
+                  className={reviewStyles.btnPrev}
+                  onClick={handlePrevPage}
+                  disabled={isFirstPage || isPlaceholderData}
+                  aria-label="Попередня сторінка відгуків"
+                >
+                  <svg width={24} height={24}>
+                    <use href="/sprite.svg#arrow_back" />
+                  </svg>
+                </button>
+
+                <button
+                  type="button"
+                  className={reviewStyles.btnNext}
+                  onClick={handleNextPage}
+                  disabled={isLastPage || isPlaceholderData}
+                  aria-label="Наступна сторінка відгуків"
+                >
+                  <svg width={24} height={24}>
+                    <use href="/sprite.svg#arrow_forward" />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </>
         ) : (
-            <div className={styles.noReviews}>
-              <p>Ще немає відгуків про цей товар. Будьте першим!</p>
-              
-        <button
-          className={styles.writeBtnNoReviews}
-          type="button"
-          onClick={handleOpenModal}
-        >
-          Залишити відгук
-        </button>
+          <div className={css.noReviews}>
+            <p className={css.noReviewsText}>
+              Ще немає відгуків про цей товар. Будьте першим!
+            </p>
+
+            <button
+              className={css.writeBtnNoReviews}
+              type="button"
+              onClick={handleOpenModal}
+            >
+              Залишити відгук
+            </button>
           </div>
         )}
       </div>
@@ -101,7 +138,7 @@ export default function GoodReviews({
       <ReviewModal
         open={isModalOpen}
         onClose={handleCloseModal}
-        productId={goodId}
+        productId={productId}
         onSubmitted={handleSubmitted}
       />
     </section>

@@ -69,14 +69,17 @@
 }
 
 .logoutBtn {
-  margin-top: 48px;
+  display: inline-flex; /* або inline-block */
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 
   border-radius: 100px;
   min-width: 100%;
   padding: 6px 12px;
-
+  margin: 48px auto;
   cursor: pointer;
-  margin-bottom: 48px;
+  /* margin-bottom: 48px; */
   text-align: center;
   background-color: var(--color-deco);
   border: 1px solid var(--color-deco);

@@ -9,7 +9,7 @@ const Loading = () => {
 	const override: CSSProperties = {
 		display: "block",
 		margin: "0 auto",
-		borderColor: "#004182",
+		borderColor: "#17862c",
 	}
 
 	//console.log("load")
@@ -17,7 +17,7 @@ const Loading = () => {
 	return (
 		<div className={css.wrapper}>
 			<ScaleLoader
-				color="#004182"
+				color="#17862c"
 				loading={true}
 				cssOverride={override}
 				//size={150}

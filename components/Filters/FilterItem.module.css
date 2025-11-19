@@ -4,6 +4,7 @@
   line-height: 150%;
   color: var(--color-scheme-1-text);
 }
+
 .filterLink {
   padding: 8px 0;
   font-size: 16px;
@@ -11,24 +12,30 @@
   transition: color 0.2s ease, opacity 0.2s ease,
     text-decoration-color 0.2s ease;
 }
+
 .filterLink:hover {
-  font-size: 20px;
+  /*font-size: 20px;*/
   font-weight: 600;
 }
 
 .filterLink_active {
   font-weight: 600;
-  font-size: 20px;
+  /*font-size: 20px;*/
   line-height: 150%;
-
-  padding-bottom: 2px;
+  /*padding-bottom: 2px;*/
 }
+
+.active_category {
+  text-decoration: underline;
+}
+
 .filterLink_disabled {
   color: var(--color-neutral-light);
   opacity: 0.6;
   pointer-events: none;
   cursor: not-allowed;
 }
+
 .filterInputHidden {
   position: absolute;
   opacity: 0;
@@ -65,11 +72,11 @@
   border-bottom: 3px solid #fff;
   transform: translate(-50%, -60%) rotate(-45deg);
 }
+
 .filterLink_pill {
   display: inline-block;
   padding: 6px 12px;
   background: transperent;
-  font-size: 14px;
   font-weight: 400;
   font-size: 16px;
   line-height: 150%;
@@ -87,6 +94,7 @@
   background: #000;
   color: #fff;
   border-color: #000;
+  text-decoration: none;
 }
 
 .filterLabel {
@@ -95,6 +103,7 @@
 
   gap: 8px;
 }
+
 .filterInput[type="radio"] {
   -webkit-appearance: none;
   appearance: none;

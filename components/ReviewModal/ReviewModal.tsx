@@ -50,7 +50,7 @@ export default function ReviewModal({
         author: name.trim(),
         rate: Number(rating.toFixed(1)),
         comment: text.trim(),
-        goodId: productId,
+        productId,
         category: category ?? '',
       };
 
@@ -63,6 +63,7 @@ export default function ReviewModal({
       setText('');
       setRating(0);
       onClose();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const msg = err?.message || 'Сталася помилка під час надсилання відгуку';
       setError(msg);

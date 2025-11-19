@@ -18,9 +18,13 @@
 	padding: 12px 16px;
 	border-radius: 6px;
 	border: 1px solid transparent;
-	color: #084298;
-	background-color: #e8f4fd;
-	border-color: #b6d4fe;
+	color: var(--color-neutral-darkest);
+	background-color: var(--color-deco);
+	border-color: var(--color-deco-lightest);
 	align-items: center;
 	justify-content: center;
+}
+
+.text {
+	color: var(--color-neutral-darkest);
 }

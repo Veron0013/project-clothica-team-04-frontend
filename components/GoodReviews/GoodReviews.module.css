@@ -8,6 +8,9 @@
   gap: 24px;
   margin-bottom: 40px;
 }
+.noReviewsText {
+  color: var(--color-scheme-6-text);
+}
 
 @media (min-width: 768px) {
   .header {
@@ -87,7 +90,7 @@
   color: var(--color-scheme-1-text);
   padding: 30px;
   border-radius: 16px;
-  background-color: #d6eac0;
+  background-color: var(--color-scheme-5-background);
 }
 
 @media (min-width: 1440px) {
@@ -111,7 +114,12 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 150%;
-  color: var(--color-neutral-darkest);
+  color: var(--color-scheme-6-text);
+}
+.writeBtnNoReviews:hover,
+.writeBtnNoReviews:focus {
+  background-color: var(--color-deco-darker);
+  border-color: var(--color-deco-darker);
 }
 
 @media (min-width: 768px) {

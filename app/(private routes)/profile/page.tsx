@@ -14,6 +14,14 @@ import { getUserOrders } from '@/lib/api/api';
 import MessageNoInfo from '@/components/MessageNoInfo/MessageNoInfo';
 import { logout } from '@/lib/api/clientApi';
 
+////////////////////////////////////////////////////
+
+//    можна зайти на    http://localhost:3000/profile
+
+//   треба робити редірект якщо не юзер
+
+//////////////////////////////////////////////////////////
+
 export default function ProfilePage() {
   const router = useRouter();
   const clearIsAuthenticated = useAuthStore(

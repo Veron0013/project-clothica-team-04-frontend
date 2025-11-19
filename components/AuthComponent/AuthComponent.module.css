@@ -28,6 +28,20 @@
   text-decoration: underline;
 }
 
+.toggleIcon{
+    position: absolute;
+      right: 25px;
+      top: 25px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 25px;
+      color: #888;
+      transition: color 0.2s ease;
+}
+.inputWrapper{
+  position: relative;
+}
+
 @media screen and (min-width: 768px) {
   .content {
     padding: 126px 0;
@@ -40,6 +54,7 @@
   .content {
     padding: 118.5px 0;
   }
+
 }
 
 /* Кнопки реєстрації та входу  */

@@ -9,6 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import css from "./LastReviews.module.css";
 import { getReviews } from "@/lib/api/reviewsApi";
+import StarRating from "../StarRating/StarRating";
 
 interface Review {
   _id?: string;
@@ -20,7 +21,7 @@ interface Review {
 
 export default function LastReviews() {
   const { data: reviews = [], isLoading, isError } = useQuery<Review[]>({
-    queryKey: ["reviews"],
+    queryKey: ["latestReviews"],
     queryFn: getReviews,
   });
 
@@ -70,56 +71,7 @@ export default function LastReviews() {
               {reviews.map((item) => (
                 <SwiperSlide key={item._id} className={css.item}>
                   <div className={css.stars}>
-                    {Array.from({ length: 5 }, (_, index) => {
-                      const diff = (item.rate ?? 0) - index;
-                      if (diff >= 1) {
-                        return (
-                          <svg
-                            key={index}
-                            width="20"
-                            height="20"
-                            className={css.starFull}
-                          >
-                            <use href="/sprite.svg#star-filled" />
-                          </svg>
-                        );
-                      } else if (diff > 0) {
-                        return (
-                          <span key={index} className={css.starPartialWrapper}>
-                            <svg
-                              width="20"
-                              height="20"
-                              className={css.starEmpty}
-                            >
-                              <use href="/sprite.svg#star" />
-                            </svg>
-                            <span
-                              className={css.starPartialFill}
-                              style={{ width: `${diff * 100}%` }}
-                            >
-                              <svg
-                                width="20"
-                                height="20"
-                                className={css.starFull}
-                              >
-                                <use href="/sprite.svg#star-filled" />
-                              </svg>
-                            </span>
-                          </span>
-                        );
-                      } else {
-                        return (
-                          <svg
-                            key={index}
-                            width="20"
-                            height="20"
-                            className={css.starEmpty}
-                          >
-                            <use href="/sprite.svg#star" />
-                          </svg>
-                        );
-                      }
-                    })}
+                  <StarRating rate={item.rate || 0} />
                   </div>
 
                   <p className={css.text}>{item.description || ""}</p>

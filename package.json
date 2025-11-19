@@ -22,6 +22,7 @@
 		"react": "19.2.0",
 		"react-dom": "19.2.0",
 		"react-hot-toast": "^2.6.0",
+		"react-icons": "^5.5.0",
 		"react-responsive": "^10.0.1",
 		"react-router-dom": "^7.9.5",
 		"react-spinners": "^0.17.0",

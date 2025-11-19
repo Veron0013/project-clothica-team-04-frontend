@@ -1,71 +1,59 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import css from "./Header.module.css";
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
-import { useAuthStore } from "@/stores/authStore";
-import { useBasket } from "@/stores/basketStore";
-import { getMe } from "@/lib/api/clientApi";
-import { useTheme } from "@/components/ThemeProvider/ThemeProvider";
-import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
+import css from './Header.module.css';
+import BurgerMenu from '../BurgerMenu/BurgerMenu';
+import { useAuthStore } from '@/stores/authStore';
+import { useBasket } from '@/stores/basketStore';
+import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
+import { getUsersMe } from '@/lib/api/clientApi';
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
+
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const setUser = useAuthStore((state) => state.setUser);
-  const user = useAuthStore((state) => state.user);
-  const clearIsAuthenticated = useAuthStore(
-    (state) => state.clearIsAuthenticated
-  );
-  const { theme, toggleTheme } = useTheme();
+  // Zustand
+  const hasHydrated = useAuthStore(s => s.hasHydrated);
+  //const user = useAuthStore(s => s.user);
+  const setUser = useAuthStore(s => s.setUser);
+  const clearIsAuthenticated = useAuthStore(s => s.clearIsAuthenticated);
+  const isAuthenticated = useAuthStore(s => s.isAuthenticated);
 
-  const [authChecked, setAuthChecked] = useState(false);
-
-  const goods = useBasket((state) => state.goods);
+  const goods = useBasket(s => s.goods);
   const basketCount = goods.reduce((sum, item) => sum + item.quantity, 0);
-  // ✅ якщо стор уже каже, що логін виконано — вважаємо, що можна рендерити одразу
-  const ready = authChecked || isAuthenticated;
-
-  //useEffect(() => {
-  //	//console.log("fetch", user, isAuthenticated)
-  //	//if (isAuthenticated) return setAuthChecked(true)
-
-  //	const fetchCurrentUser = async () => {
-  //		try {
-  //			const userData = await getMe()
-  //			console.log("header-user", userData)
-  //			if (!userData) throw new Error()
-  //			setUser(userData)
-  //		} catch (e) {
-  //			console.log("header-error", e)
-  //			if (isAuthenticated) clearIsAuthenticated()
-  //		} finally {
-  //			setAuthChecked(true)
-  //		}
-  //	}
-  //	fetchCurrentUser()
-  //}, [isAuthenticated])
-
-  //console.log("after fetch", user, isAuthenticated)
-  //// невеликий QoL: якщо стан вже став isAuthenticated=true (з форми) — не чекай fetch
-  //useEffect(() => {
-  //	//console.log("header-user-effect", isAuthenticated, user)
-  //	if (isAuthenticated) setAuthChecked(true)
-  //}, [isAuthenticated])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
+    if (!hasHydrated) return;
+
+    const verify = async () => {
+      try {
+        const data = await getUsersMe();
+        setUser(data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        clearIsAuthenticated();
+      }
+    };
+
+    verify();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasHydrated, isAuthenticated]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
   }, [menuOpen]);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  if (!hasHydrated) {
+    return null; // або skeleton
+  }
 
   return (
     <header className={css.section}>
@@ -94,15 +82,14 @@ export default function Header() {
               </Link>
             </li>
           </ul>
+
           <ThemeToggle />
 
           <div className={css.auth}>
             {isAuthenticated ? (
-              <>
-                <Link href="/profile" className={css.navUpBasket}>
-                  Кабінет
-                </Link>
-              </>
+              <Link href="/profile" className={css.navUpBasket}>
+                Кабінет
+              </Link>
             ) : (
               <>
                 <Link href="/sign-in" className={css.navUp}>
@@ -121,15 +108,16 @@ export default function Header() {
                 aria-label="Відкрити меню"
               >
                 <svg width="24" height="24">
-                  <use href={`/sprite.svg#${menuOpen ? "close" : "menu"}`} />
+                  <use href={`/sprite.svg#${menuOpen ? 'close' : 'menu'}`} />
                 </svg>
               </button>
+
               <button
                 className={css.basket}
-                onClick={() => router.push("/basket")}
+                onClick={() => router.push('/basket')}
                 aria-label="Кошик"
               >
-                <svg width="24" height="24">
+                <svg className={css.iconBasket} width="24" height="24">
                   <use href="/sprite.svg#shopping_cart" />
                 </svg>
                 {basketCount > 0 && (

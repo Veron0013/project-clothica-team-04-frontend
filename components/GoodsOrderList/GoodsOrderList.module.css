@@ -12,6 +12,12 @@
   /*padding: 12px;*/
   border-radius: 8px;
 }
+.iconfeed {
+  fill: var(--color-scheme-1-text);
+}
+.iconDel {
+  fill: var(--color-scheme-1-text);
+}
 
 @media screen and (min-width: 768px) {
   .basketItem {

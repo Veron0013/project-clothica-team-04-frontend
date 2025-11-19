@@ -15,23 +15,29 @@ interface GoodPageClientProps {
   reviewsPerPage: number;
 }
 
-export default function GoodPageClient({ goodId, reviewsPerPage }: GoodPageClientProps) {
-
-   const { data: good, isLoading, isError, isFetched } = useQuery<Good>({
+export default function GoodPageClient({
+  goodId,
+  reviewsPerPage,
+}: GoodPageClientProps) {
+  const {
+    data: good,
+    isLoading,
+    isError,
+  } = useQuery<Good>({
     queryKey: ['good', goodId],
     queryFn: () => getGoodByIdClient(goodId),
     staleTime: 1000 * 60 * 5,
     enabled: !!goodId,
   });
 
-    if (isLoading) {
+  if (isLoading) {
     return <Loader />;
   }
 
   if (isError || !good) {
     return (
       <div className={styles.centerContainer}>
-          <MessageNoInfo
+        <MessageNoInfo
           text="На жаль, товар не знайдено, або виникла помилка завантаження."
           buttonText="До покупок"
           route="/goods"
@@ -40,15 +46,12 @@ export default function GoodPageClient({ goodId, reviewsPerPage }: GoodPageClien
     );
   }
 
-    return (
+  return (
     <main className={styles.main}>
       <div className={styles.container}>
-        
         <GoodForPurchase good={good} />
-        <GoodReviews goodId={goodId} reviewsPerPage={reviewsPerPage} />
-                
+        <GoodReviews productId={goodId} reviewsPerPage={reviewsPerPage} />
       </div>
     </main>
   );
 }
-
