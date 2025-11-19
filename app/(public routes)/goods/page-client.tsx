@@ -4,7 +4,7 @@ import { GoodsList } from '@/components/GoodsList';
 import { getFilterOptions, getGoods } from '@/lib/api/api';
 import toastMessage, { MyToastType } from '@/lib/messageService';
 import { CLEAR_FILTERS, PER_PAGE } from '@/lib/vars';
-import { Good, GoodsQuery } from '@/types/goods';
+import { Good, GoodsQuery, QueryRecord } from '@/types/goods';
 import { useQuery } from '@tanstack/react-query';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -38,14 +38,20 @@ const ProductsPageClient = () => {
   // зберігаємо попередній limit для анімації нових товарів
   const prevLimit = useRef(Number(sp.get('limit')) || limit);
 
-  const searchParams: GoodsQuery = useMemo(
-    () => ({
+  const searchParams: GoodsQuery = useMemo(() => {
+    const params: QueryRecord = {
       limit: Number(sp.get('limit')) || limit,
       page: 1,
-      ...Object.fromEntries(sp.entries()),
-    }),
-    [sp, limit]
-  );
+    };
+
+    for (const key of sp.keys()) {
+      const allValues = sp.getAll(key);
+      params[key] = allValues.length > 1 ? allValues : allValues[0];
+    }
+
+    //console.log('params', params);
+    return params as GoodsQuery;
+  }, [sp, limit]);
 
   const { data, isFetching } = useQuery({
     queryKey: ['GoodsByCategories', searchParams],
@@ -59,6 +65,7 @@ const ProductsPageClient = () => {
 
   useEffect(() => {
     if (!data) return;
+    //console.log('filters', data?.goods.length);
     const fetchGoods = () => {
       const newItemsCount = data.goods.length - prevLimit.current;
       setDataQty(newItemsCount > 0 ? newItemsCount : data.goods.length);

@@ -54,3 +54,7 @@ export type GoodsQuery = {
   limit: number;
   page: number;
 };
+
+export type QueryValue = string | number | string[];
+
+export type QueryRecord = Record<string, QueryValue>;

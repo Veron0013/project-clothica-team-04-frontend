@@ -32,14 +32,14 @@ export default function RecoveryPassword() {
     values: SendMailFormValues,
     formikHelpers: FormikHelpers<SendMailFormValues>
   ) => {
-    console.log('submit');
+    //console.log('submit');
 
     setIsSending(true);
     formikHelpers.resetForm();
 
     try {
       const res = await passwordSendMail(values);
-      console.log(res);
+      //console.log(res);
 
       if (!res.message || res?.status !== 200) {
         toastMessage(

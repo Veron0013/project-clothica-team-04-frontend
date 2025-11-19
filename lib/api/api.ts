@@ -24,7 +24,20 @@ export const nextServer = axios.create({
 export const getGoods = async (
   searchParams: GoodsQuery
 ): Promise<GoodsResponse> => {
-  const response = await nextServer.get('/goods', { params: searchParams });
+  const params = new URLSearchParams();
+
+  //console.log('p1', `/goods?${params.toString()}`);
+  // Перетворення для всіх параметрів
+  Object.entries(searchParams).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach(v => params.append(key, v)); // sizes=XS&sizes=S
+    } else if (value !== undefined && value !== null) {
+      params.append(key, String(value)); // limit=12
+    }
+  });
+
+  //const response = await nextServer.get('/goods', { params: searchParams });
+  const response = await nextServer.get(`/goods?${params.toString()}`);
   return response.data;
 };
 
