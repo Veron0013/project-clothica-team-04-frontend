@@ -1,0 +1,31 @@
+.stars {
+  display: flex;
+  gap: 4px;
+}
+
+.starFull {
+  fill: var(--color-neutral-darkest);
+  color: var(--color-neutral-darkest);
+}
+
+.starEmpty {
+  fill: var(--color-neutral-darkest); /* Колір порожньої зірки */
+  color: var(--color-neutral-darkest);
+}
+
+.starPartialWrapper {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.starPartialFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  display: block;
+}
+
