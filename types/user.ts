@@ -20,5 +20,4 @@ export interface UserOrderInfoFormValues {
   comment: string;
   warehoseNumber: string;
 }
-
 export type EditUser = Omit<User, 'avatar'>;

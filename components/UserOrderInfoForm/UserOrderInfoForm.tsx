@@ -1,6 +1,13 @@
 'use client';
 
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import {
+  ErrorMessage,
+  Field,
+  FieldProps,
+  Form,
+  Formik,
+  FormikHelpers,
+} from 'formik';
 import css from './UserOrderInfoForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
@@ -33,17 +40,15 @@ export default function UserOrderInfoForm() {
   const [cityQuery, setCityQuery] = useState(''); // що вводить користувач
   const [cities, setCities] = useState<CityRespNP[]>([]);
   const [selectedCityRef, setSelectedCityRef] = useState<string | null>(null);
+  const [showCitiesList, setShowCitiesList] = useState(false);
 
   const [warehouses, setWarehouses] = useState<WarehoseRespNP[]>([]);
+  const [warehouseQuery, setWarehouseQuery] = useState('');
   //const [loadingCities, setLoadingCities] = useState(false)
-  const [loadingWarehouses, setLoadingWarehouses] = useState(false);
+  //const [loadingWarehouses, setLoadingWarehouses] = useState(false);
+  const [showWarehousesList, setShowWarehousesList] = useState(false);
 
   //console.log('form-user', user, user?.name);
-
-  useEffect(() => {
-    debouncedSearch(cityQuery);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cityQuery]);
 
   const debouncedSearch = useMemo(
     () =>
@@ -56,19 +61,68 @@ export default function UserOrderInfoForm() {
     []
   );
 
-  const handleCityInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCityQuery(e.target.value);
-    debouncedSearch(e.target.value);
-    setSelectedCityRef(null); // якщо юзер почав писати знову — скидаємо вибране місто
+  const debouncedSearchWh = useMemo(
+    () =>
+      debounce(async (ref: string, search: string) => {
+        if (!ref || search.length === 0) return;
+        //setLoadingWarehouses(true);
+
+        try {
+          const data = await searchWarehouses(ref, search); // API-based search
+          setWarehouses(data);
+        } finally {
+          //setLoadingWarehouses(false);
+        }
+      }, 400),
+    []
+  );
+
+  useEffect(() => {
+    if (!selectedCityRef) return;
+
+    if (warehouseQuery.length === 0) {
+      setWarehouses([]);
+      setShowWarehousesList(false);
+      return;
+    }
+    debouncedSearchWh(selectedCityRef, warehouseQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warehouseQuery, selectedCityRef]);
+
+  useEffect(() => {
+    debouncedSearch(cityQuery);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cityQuery]);
+
+  const handleCityChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: (field: string, value: unknown) => void
+  ) => {
+    const value = e.target.value;
+
+    setCityQuery(value);
+    setFieldValue('city', value);
+
+    setSelectedCityRef(null);
+    setWarehouses([]);
+    setFieldValue('warehoseNumber', '');
+
+    if (value.length >= 3) {
+      setShowCitiesList(true);
+    } else {
+      setShowCitiesList(false);
+    }
   };
 
-  const loadWarehouses = async (cityRef: string) => {
-    setLoadingWarehouses(true);
+  const loadWarehouses = async (ref: string, search: string) => {
+    //setLoadingWarehouses(true);
+
     try {
-      const data = await searchWarehouses(cityRef);
+      const data = await searchWarehouses(ref, search);
       setWarehouses(data);
+      setShowWarehousesList(true);
     } finally {
-      setLoadingWarehouses(false);
+      //setLoadingWarehouses(false);
     }
   };
 
@@ -126,7 +180,7 @@ export default function UserOrderInfoForm() {
     });
   };
 
-  //console.log("fetch", cities, warehouses)
+  console.log('fetch', cities, warehouses);
 
   const getInputClass = (error: unknown, touched: boolean | undefined) => {
     return error && touched ? `${css.input} ${css.inputError}` : css.input;
@@ -203,54 +257,147 @@ export default function UserOrderInfoForm() {
               <div className={css.label_wrapper}>
                 <div className={css.label}>
                   <label htmlFor="city">Місто доставки*</label>
-                  <Field
-                    id="city"
-                    name="city"
-                    type="text"
-                    //value={cityQuery}
-                    //onChange={handleCityInputChange}
-                    className={getInputClass(errors.city, touched.city)}
-                    placeholder="Ваше місто"
-                  />
+                  <Field name="city">
+                    {({ field, form }: FieldProps<string>) => (
+                      <div className={css.inputWrapper}>
+                        <input
+                          id="city"
+                          type="text"
+                          name={field.name}
+                          value={field.value ?? ''}
+                          onChange={e =>
+                            handleCityChange(e, form.setFieldValue)
+                          }
+                          onBlur={field.onBlur}
+                          autoComplete="off"
+                          placeholder="Ваше місто"
+                          className={getInputClass(errors.city, touched.city)}
+                        />
+
+                        {field.value.length > 0 && (
+                          <button
+                            type="button"
+                            className={css.clearButton}
+                            onClick={() => {
+                              form.setFieldValue('city', '');
+                              setCityQuery('');
+                              setSelectedCityRef(null);
+                              setShowCitiesList(false);
+                              setCities([]);
+                              setWarehouses([]);
+                            }}
+                          >
+                            ×
+                          </button>
+                        )}
+
+                        {showCitiesList && cities.length > 0 && (
+                          <ul className={css.customOptionsList}>
+                            {cities.map(city => (
+                              <li
+                                key={city.Ref}
+                                className={css.customOptionItem}
+                                onClick={async () => {
+                                  form.setFieldValue('city', city.Description);
+                                  setCityQuery(city.Description);
+                                  setSelectedCityRef(city.Ref);
+
+                                  setShowCitiesList(false);
+                                  setCities([]);
+
+                                  await loadWarehouses(city.Ref, '');
+                                }}
+                              >
+                                {city.Description}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    )}
+                  </Field>
+
                   <ErrorMessage
                     name="city"
                     component="p"
                     className={css.error}
                   />
-
-                  {/*{cities.length > 0 && (
-                    <ul className={css.suggestions}>
-                      {cities.map(c => (
-                        <li key={c.Ref} onClick={() => loadWarehouses(c.Ref)}>
-                          {c.Description}
-                        </li>
-                      ))}
-                    </ul>
-                  )}*/}
                 </div>
+
                 <div className={css.label}>
                   <label htmlFor="warehoseNumber">
                     Номер відділення Нової Пошти*
                   </label>
+                  <Field name="warehoseNumber">
+                    {({ field, form }: FieldProps<string>) => (
+                      <div className={css.inputWrapper}>
+                        {/* INPUT */}
+                        <input
+                          id="warehoseNumber"
+                          type="text"
+                          name={field.name}
+                          value={field.value ?? ''}
+                          onChange={e => {
+                            form.setFieldValue(
+                              'warehoseNumber',
+                              e.target.value
+                            );
+                            setWarehouseQuery(e.target.value);
+                            setShowWarehousesList(true);
+                          }}
+                          onBlur={field.onBlur}
+                          autoComplete="off"
+                          disabled={!selectedCityRef}
+                          placeholder={
+                            selectedCityRef
+                              ? 'Пошук відділення'
+                              : 'Спочатку оберіть місто'
+                          }
+                          className={getInputClass(
+                            errors.warehoseNumber,
+                            touched.warehoseNumber
+                          )}
+                        />
 
-                  <Field
-                    id="warehoseNumber"
-                    name="warehoseNumber"
-                    //as="select"
-                    type="text"
-                    //disabled={!selectedCityRef || loadingWarehouses}
-                    placeholder="Ваш номер відділення"
-                    className={getInputClass(
-                      errors.warehoseNumber,
-                      touched.warehoseNumber
+                        {/* CLEAR BUTTON */}
+                        {field.value.length > 0 && (
+                          <button
+                            type="button"
+                            className={css.clearButton}
+                            onClick={() => {
+                              form.setFieldValue('warehoseNumber', '');
+                              setWarehouseQuery('');
+                              setShowWarehousesList(false);
+                              setWarehouses([]);
+                            }}
+                          >
+                            ×
+                          </button>
+                        )}
+
+                        {/* OPTIONS LIST */}
+                        {showWarehousesList && warehouses.length > 0 && (
+                          <ul className={css.customOptionsList}>
+                            {warehouses.map(wh => (
+                              <li
+                                key={wh.Number}
+                                className={css.customOptionItem}
+                                onClick={() => {
+                                  form.setFieldValue(
+                                    'warehoseNumber',
+                                    wh.Number
+                                  );
+                                  setWarehouseQuery(wh.Number);
+                                  setShowWarehousesList(false); // <-- важливо
+                                }}
+                              >
+                                № {wh.Number} — {wh.ShortAddress}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                     )}
-                  >
-                    {/*<option value="">Оберіть відділення</option>
-                    {warehouses.map(wh => (
-                      <option key={wh.Number} value={wh.Number}>
-                        {`№ ${wh.Number} – ${wh.ShortAddress}`}
-                      </option>
-                    ))}*/}
                   </Field>
 
                   <ErrorMessage
