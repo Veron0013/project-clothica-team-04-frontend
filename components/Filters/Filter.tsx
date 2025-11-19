@@ -13,7 +13,7 @@ type FilterProps = {
 
 export default function Filter({
   options,
-  onClose,
+
   variant = 'sidebar',
 }: FilterProps) {
   if (!options) return null;
@@ -38,7 +38,6 @@ export default function Filter({
         title="Усі"
         name="category"
         options={categories.map(c => ({ value: c._id, label: c.name }))}
-        onClose={onClose}
         className={css.groupAll}
         hideInput
       />
@@ -47,7 +46,6 @@ export default function Filter({
         title="Розміри"
         name="sizes"
         options={sizes.map(s => ({ value: s, label: s }))}
-        onClose={onClose}
         className={css.groupSizes}
         multi
       />
@@ -69,7 +67,6 @@ export default function Filter({
         title="Стать"
         name="gender"
         options={genders.map(g => ({ value: g, label: g }))}
-        onClose={onClose}
         className={css.groupGender}
       />
     </div>

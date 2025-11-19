@@ -10,7 +10,7 @@ type FilterGroupProps = {
   title: string;
   name: string;
   options: { value: string; label: string }[];
-  onClose?: () => void;
+
   className?: string;
   multi?: boolean;
   hideInput?: boolean;
@@ -22,7 +22,7 @@ export default function FilterGroup({
   title,
   name,
   options,
-  onClose,
+
   className,
   multi = false,
   hideInput = false,
@@ -65,7 +65,6 @@ export default function FilterGroup({
             name={name}
             value={opt.value}
             label={opt.label}
-            onClose={onClose}
             multi={multi}
             hideInput={hideInput}
             variant={variant}
