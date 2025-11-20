@@ -247,6 +247,7 @@
 
   .cardPrice {
     font-size: 20px;
+    font-weight: 600;
   }
 
   .itemPrice {
@@ -259,4 +260,5 @@
   .cardCta {
     margin-bottom: 0;
   }
+
 }

@@ -28,6 +28,13 @@ export default function RecoveryPassword() {
       .matches(PHONE_REGEXP, 'Введіть коректний номер телефону')
       .required('Це поле обовʼязкове!'),
   });
+
+
+  const getInputClass = (error: unknown, touched: boolean | undefined) => {
+    return error && touched ? `${css.input} ${css.inputError}` : css.input;
+  };
+
+
   const handleSubmit = async (
     values: SendMailFormValues,
     formikHelpers: FormikHelpers<SendMailFormValues>
@@ -79,7 +86,7 @@ export default function RecoveryPassword() {
         validationSchema={SendMailSchema}
         onSubmit={handleSubmit}
       >
-{({  errors, touched}) => (
+{({ isSubmitting, errors, touched}) => (
         <Form className={css.form}>
           <div className={css.formGroup}>
             <label htmlFor="phone">Введіть свій номер телефону</label>
@@ -88,8 +95,9 @@ export default function RecoveryPassword() {
               type="tel"
               name="phone"
               placeholder="+38 (0__) ___-__-__"
-              className={`${css.input} ${errors.phone && touched.phone ? css.inputError : ""}`}
+              className={getInputClass(errors.phone, touched.phone)}
             />
+            
           </div>
 <ErrorMessage name="phone" component="p" className={css.error} />
           <div className={css.formGroup}>
@@ -105,7 +113,7 @@ export default function RecoveryPassword() {
 <ErrorMessage name="email" component="p" className={css.error} />
           <div className={css.actions}>
             <button type="submit" className={css.button} disabled={isSending}>
-              {isSending ? `Відправляю...` : 'Відправити'}
+              {isSubmitting ? `Відправляю...` : 'Відправити'}
             </button>
           </div>
         </Form>)}

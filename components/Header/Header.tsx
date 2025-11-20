@@ -16,9 +16,7 @@ export default function Header() {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Zustand
   const hasHydrated = useAuthStore(s => s.hasHydrated);
-  //const user = useAuthStore(s => s.user);
   const setUser = useAuthStore(s => s.setUser);
   const clearIsAuthenticated = useAuthStore(s => s.clearIsAuthenticated);
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
@@ -33,7 +31,6 @@ export default function Header() {
       try {
         const data = await getUsersMe();
         setUser(data);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         clearIsAuthenticated();
       }
@@ -52,7 +49,7 @@ export default function Header() {
   }, [pathname]);
 
   if (!hasHydrated) {
-    return null; // або skeleton
+    return null;
   }
 
   return (
@@ -114,6 +111,7 @@ export default function Header() {
 
               <button
                 className={css.basket}
+                data-cart-button="header-cart" // 👈 для анімації
                 onClick={() => router.push('/basket')}
                 aria-label="Кошик"
               >

@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import css from "./PopularGoods.module.css";
-import Link from "next/link";
-import { useRef, useState, useMemo } from "react";
-import { type Good } from "@/types/goods";
-import HomeGoodInfo from "../HomeGoodInfo/HomeGoodInfo";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Swiper as SwiperType } from "swiper";
-import { Navigation, Keyboard } from "swiper/modules";
-import { fetchPopularGoods } from "@/lib/api/mainPageApi";
-import "swiper/css";
-import "swiper/css/navigation";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import css from './PopularGoods.module.css';
+import Link from 'next/link';
+import { useRef, useState, useMemo } from 'react';
+import { type Good } from '@/types/goods';
+import HomeGoodInfo from '../HomeGoodInfo/HomeGoodInfo';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper as SwiperType } from 'swiper';
+import { Navigation, Keyboard } from 'swiper/modules';
+import { fetchPopularGoods } from '@/lib/api/mainPageApi';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 type PopularGoodsProps = {
   initialData: {
@@ -40,11 +40,11 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
     isFetchingNextPage,
     isError,
   } = useInfiniteQuery({
-    queryKey: ["popularGoods"],
+    queryKey: ['popularGoods'],
     initialPageParam: seed.page,
     queryFn: ({ pageParam }) =>
       fetchPopularGoods({ page: pageParam as number, limit }),
-    getNextPageParam: (last) =>
+    getNextPageParam: last =>
       last.page < last.totalPages ? last.page + 1 : undefined,
     initialData: {
       pages: [seed],
@@ -53,10 +53,10 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
   });
 
   const goods = useMemo(() => {
-    const list = (data?.pages ?? []).flatMap((p) => p.items);
+    const list = (data?.pages ?? []).flatMap(p => p.items);
     const seen = new Set<string>();
 
-    return list.filter((item) =>
+    return list.filter(item =>
       seen.has(item._id) ? false : (seen.add(item._id), true)
     );
   }, [data]);
@@ -66,6 +66,7 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [slidesPerViewState, setSlidesPerViewState] = useState(1);
   const [isPaginationReady, setIsPaginationReady] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   const hasNextPage = !!_hasNextPage;
 
@@ -73,7 +74,7 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
     let currentSpv = 1;
     const paramSpv = swiper.params.slidesPerView;
 
-    if (typeof paramSpv === "number") {
+    if (typeof paramSpv === 'number') {
       currentSpv = paramSpv;
     }
 
@@ -149,16 +150,16 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
 
         <div className={css.sliderWrapper}>
           {showError ? (
-            <p>Не вдалося завантажити категорії</p>
+            <p>Не вдалося завантажити товари</p>
           ) : (
             <Swiper
               modules={[Navigation, Keyboard]}
-              onBeforeInit={(swiper) => {
+              onBeforeInit={swiper => {
                 swiperRef.current = swiper;
                 updateSlidesPerView(swiper);
                 setIsPaginationReady(true);
               }}
-              onSlideChange={(swiper) => {
+              onSlideChange={swiper => {
                 setActiveIndex(swiper.realIndex);
                 updateSlidesPerView(swiper);
               }}
@@ -172,11 +173,17 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
                 768: { slidesPerView: 2 },
                 1440: { slidesPerView: 4 },
               }}
+              onTouchStart={() => setIsDragging(false)}
+              onTouchMove={() => setIsDragging(true)}
+              onTouchEnd={() => {
+                setTimeout(() => setIsDragging(false), 0);
+              }}
+              onSliderFirstMove={() => setIsDragging(true)}
               className={css.swiper}
             >
-              {goods.map((good) => (
+              {goods.map(good => (
                 <SwiperSlide tag="ul" key={good._id}>
-                  <HomeGoodInfo item={good} />
+                  <HomeGoodInfo item={good} isDragging={isDragging} />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -214,7 +221,7 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
           <button
             type="button"
             className={`${css.navBtn} ${css.navPrev} ${
-              isPrevDisabled ? css.navBtnDisabled : ""
+              isPrevDisabled ? css.navBtnDisabled : ''
             }`}
             onClick={handlePrev}
             disabled={isPrevDisabled}
@@ -228,7 +235,7 @@ export default function PopularGoods({ initialData }: PopularGoodsProps) {
           <button
             type="button"
             className={`${css.navBtn} ${css.navNext} ${
-              isNextDisabled ? css.navBtnDisabled : ""
+              isNextDisabled ? css.navBtnDisabled : ''
             }`}
             onClick={handleNext}
             disabled={isNextDisabled}
