@@ -20,7 +20,6 @@
   margin-bottom: 40px;
 }
 
-
 .text {
   font-family: var(--second-family);
   font-weight: 400;
@@ -28,9 +27,13 @@
   line-height: 140%;
   letter-spacing: -0.01em;
   margin-bottom: 32px;
-  min-height: 75px;
-}
+  /* min-height: 75px;  // можна лишити або забрати, як буде виглядати */
 
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* скільки рядків залишити */
+  -webkit-box-orient: vertical;
+  overflow: auto;
+}
 .name {
   font-weight: 600;
   font-size: 16px;
@@ -77,7 +80,6 @@
   display: flex;
   justify-content: center;
   gap: 9px;
-
 }
 
 @media (min-width: 768px) {
@@ -85,7 +87,6 @@
     justify-content: flex-end;
   }
 }
-
 
 .btnPrev,
 .btnNext {
@@ -117,7 +118,6 @@
   background: var(--color-deco-darkest);
   fill: white;
 }
-
 
 /* .btnPrev svg,
 .btnNext svg {

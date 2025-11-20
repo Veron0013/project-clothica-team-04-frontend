@@ -49,6 +49,7 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 150%;
+  min-height: 48px;
   color: var(--color-scheme-1-text);
   margin-bottom: 24px;
 }
@@ -57,6 +58,8 @@
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .metaRowInner {
@@ -64,7 +67,28 @@
   gap: 2.5px;
   align-items: center;
 }
+/* 🔹 кнопка-іконка кошика в ряду зі зіркою і коментарями */
+.addToCartBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-left: auto;
+
+  line-height: 0; /* прибирає “зайву” висоту */
+}
+
+/* 🔹 сама іконка */
+.addToCartIcon {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
 .metaStat {
   font-weight: 400;
   font-size: 10px;
@@ -95,10 +119,10 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 150%;
-  color: var(--color-neutral-darkest);
-
   background-color: var(--opacity-neutral-darkest-5);
-  border: 1px solid var(--opacity-transparent);
+
+  transition: background-color 0.3s ease, border 0.3s ease;
+  color: var(--color-scheme-6-text);
   border-radius: 100px;
 
   transition: background-color 0.25s ease, color 0.25s ease,
@@ -106,16 +130,63 @@
 }
 
 .cardCta:hover {
-  background-color: var(--color-deco);
-  border-color: var(--color-deco);
-  transform: translateY(-2px);
+  background-color: var(--opacity-neutral-darkest-15);
 }
 
 .cardCta:active {
   transform: translateY(0);
   background-color: var(--color-deco);
 }
+.addToCartBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  padding: 0;
+  margin: 0;
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.addToCartIcon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  fill: var(--color-scheme-1-text);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.addedBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--color-deco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-deco-lighter);
+}
+
+.iconAddedBadge {
+  width: 10px;
+  height: 10px;
+  color: var(--color-scheme-6-text);
+}
+
+.addToCartBtn:hover .addToCartIcon {
+  transform: scale(1.05);
+}
+
+.addToCartBtn:active .addToCartIcon {
+  transform: scale(0.97);
+}
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -183,10 +254,6 @@
     align-items: start;
     justify-content: space-between;
     height: 54px;
-  }
-
-  .metaRowInner {
-    margin-bottom: 16px;
   }
 
   .cardCta {

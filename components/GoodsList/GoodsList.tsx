@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import css from './GoodsList.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,6 +9,8 @@ import { AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '@/lib/hooks/useMediaQuery';
 import { useIsClient } from '@/lib/hooks/useIsClient';
 import { BREAKPOINTS } from '@/lib/vars';
+import { useBasket } from '@/stores/basketStore';
+import toastMessage, { MyToastType } from '@/lib/messageService';
 
 type Props = {
   items: Good[];
@@ -18,6 +21,26 @@ export function GoodsList({ items, dataQty }: Props) {
   const isClient = useIsClient();
   const isDesktopLayout = useMediaQuery(`(min-width: ${BREAKPOINTS.desktop})`);
 
+  // локальний стан: які товари вже "додані" (для зеленої кнопки+галочки)
+  const [addedGoods, setAddedGoods] = useState<Record<string, boolean>>({});
+
+  // не підписуємося на стор, а просто викликаємо дію напряму
+  const handleAddToBasket = (item: Good) => {
+    useBasket.getState().addGood({
+      id: item._id,
+      price: item.price,
+    });
+
+    // позначаємо товар як доданий локально
+    setAddedGoods(prev => ({
+      ...prev,
+      [item._id]: true,
+    }));
+
+    // показуємо тост
+    toastMessage(MyToastType.success, `Товар «${item.name}» додано до кошика`);
+  };
+
   if (!isClient) return null;
 
   return (
@@ -26,6 +49,8 @@ export function GoodsList({ items, dataQty }: Props) {
         {items.map((item: Good, index: number) => {
           const isNew = index >= items.length - dataQty;
           const delay = isNew ? (index - (items.length - dataQty)) * 100 : 0;
+
+          const isAdded = !!addedGoods[item._id];
 
           return (
             <li
@@ -58,7 +83,7 @@ export function GoodsList({ items, dataQty }: Props) {
                     </div>
                   </Link>
 
-                  {/* 2. Низ картки: текст + ціна + кнопка */}
+                  {/* 2. Низ картки: текст + ціна + рейтинг + кнопка */}
                   <div className={css.cardBottom}>
                     <div className={css.cardBody}>
                       <div className={css.itemPrice}>
@@ -89,11 +114,40 @@ export function GoodsList({ items, dataQty }: Props) {
                           {item.feedbackCount ?? 2}
                         </span>
                       </div>
+
+                      {/* кнопка корзинки */}
+                      <button
+                        type="button"
+                        className={`${css.addToCartBtn} ${
+                          isAdded ? css.addToCartBtn_active : ''
+                        }`}
+                        onClick={() => handleAddToBasket(item)}
+                        aria-label="Додати в кошик"
+                      >
+                        <svg
+                          className={css.addToCartIcon}
+                          width="24"
+                          height="24"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#shopping_cart" />
+                        </svg>
+
+                        {isAdded && (
+                          <span className={css.addedBadge} aria-hidden="true">
+                            <svg width="12" height="12">
+                              <use href="/sprite.svg#check" />
+                            </svg>
+                          </span>
+                        )}
+                      </button>
                     </div>
 
-                    <Link href={`/goods/${item._id}`} className={css.cardCta}>
-                      Детальніше
-                    </Link>
+                    <div className={css.cardActions}>
+                      <Link href={`/goods/${item._id}`} className={css.cardCta}>
+                        Детальніше
+                      </Link>
+                    </div>
                   </div>
                 </article>
               ) : (
@@ -121,7 +175,7 @@ export function GoodsList({ items, dataQty }: Props) {
                     </div>
                   </Link>
 
-                  {/* 2. Низ картки: текст + ціна */}
+                  {/* 2. Низ картки: текст + рейтинг + ціна */}
                   <div className={css.cardBody}>
                     <h3 className={css.cardTitle}>{item.name}</h3>
 
@@ -145,6 +199,36 @@ export function GoodsList({ items, dataQty }: Props) {
                           {item.feedbackCount ?? 2}
                         </span>
                       </div>
+
+                      <button
+                        type="button"
+                        className={`${css.addToCartBtn} ${
+                          isAdded ? css.addToCartBtn_active : ''
+                        }`}
+                        onClick={() => handleAddToBasket(item)}
+                        aria-label="Додати в кошик"
+                      >
+                        <svg
+                          className={css.addToCartIcon}
+                          width="24"
+                          height="24"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#shopping_cart" />
+                        </svg>
+
+                        {isAdded && (
+                          <span className={css.addedBadge} aria-hidden="true">
+                            <svg
+                              className={css.iconAddedBadge}
+                              width="12"
+                              height="12"
+                            >
+                              <use href="/sprite.svg#check" />
+                            </svg>
+                          </span>
+                        )}
+                      </button>
                     </div>
 
                     <div className={css.cardPrice}>
@@ -153,9 +237,11 @@ export function GoodsList({ items, dataQty }: Props) {
                   </div>
 
                   {/* 3. Кнопка внизу */}
-                  <Link href={`/goods/${item._id}`} className={css.cardCta}>
-                    Детальніше
-                  </Link>
+                  <div className={css.cardActions}>
+                    <Link href={`/goods/${item._id}`} className={css.cardCta}>
+                      Детальніше
+                    </Link>
+                  </div>
                 </article>
               )}
             </li>

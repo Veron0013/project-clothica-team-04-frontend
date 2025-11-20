@@ -18,7 +18,7 @@ interface ToastProps {
 export default function toastMessage(toastType: MyToastType, text: string) {
   const toastProps: ToastProps = {
     duration: 3000,
-    position: 'top-right',
+    position: 'top-center',
   };
 
   return toast[toastType](text, toastProps);

@@ -1,27 +1,31 @@
-"use server"
+'use server';
 
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
-import ProductsPageClient from "./page-client"
-import { GoodsQuery } from "@/types/goods"
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import ProductsPageClient from './page-client';
+import { GoodsQuery } from '@/types/goods';
 
 interface Props {
-	searchParams: Promise<GoodsQuery>
+  searchParams: Promise<GoodsQuery>;
 }
 
 const ProductsPage = async ({ searchParams }: Props) => {
-	const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
 
-	//const queryParams = await searchParams
+  //const queryParams = await searchParams
 
-	//console.log("params", queryParams)
+  //console.log("params", queryParams)
 
-	return (
-		<>
-			<HydrationBoundary state={dehydrate(queryClient)}>
-				<ProductsPageClient />
-			</HydrationBoundary>
-		</>
-	)
-}
+  return (
+    <>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <ProductsPageClient />
+      </HydrationBoundary>
+    </>
+  );
+};
 
-export default ProductsPage
+export default ProductsPage;
