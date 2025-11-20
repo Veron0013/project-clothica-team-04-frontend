@@ -5,7 +5,6 @@
   width: 100%;
   gap: 16px;
   position: relative;
-
   border-radius: 16px;
   border: 1px solid transparent;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
@@ -13,7 +12,7 @@
 
 /* hover */
 .card:hover {
-  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.10);
   border-color: rgba(0, 0, 0, 0.06);
 }
 
@@ -41,6 +40,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 72px;
+  margin-top: 16px;
 }
 
 /* шапка: назва + ціна */
@@ -71,6 +71,7 @@
   line-height: 150%;
   color: var(--color-scheme-1-text);
   white-space: nowrap;
+  padding-left: 16px;
 }
 
 /* рейтинг + відгуки */
@@ -93,9 +94,6 @@
   line-height: 150%;
   color: var(--color-scheme-1-text);
 }
-.iconFeed {
-  fill: var(--color-scheme-1-text);
-}
 
 /* кнопка "Детальніше" */
 .cardCta {
@@ -116,8 +114,7 @@
   border: 1px solid transparent;
   border-radius: 100px;
 
-  transition: background-color 0.25s ease, border-color 0.25s ease,
-    color 0.25s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
 
 .cardCta:hover {
