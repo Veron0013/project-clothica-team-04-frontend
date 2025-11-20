@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
 import { useEffect } from 'react';
@@ -31,7 +32,6 @@ export default function AuthProvider({
     };
 
     initializeAuth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasHydrated, setUser, clear]);
 
   return <>{children}</>;
