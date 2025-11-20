@@ -166,6 +166,17 @@
     padding: 4px 10px;
     color: var(--color-neutral-darkest);
   }
+    .badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      background-color: #c62828;
+      color: white;
+      width: 14px;
+      height: 15px;
+      font-weight: 400;
+      font-size: 12px;
+    }
 }
 
 @media screen and (min-width: 1440px) {
