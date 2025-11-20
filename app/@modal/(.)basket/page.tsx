@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
-import { useBasket } from "@/stores/basketStore";
-import Modal from "@/components/Modal/Modal";
-import style from "./ModalBasket.module.css";
-import GoodsOrderList from "@/components/GoodsOrderList/GoodsOrderList";
-import MessageNoInfo from "@/components/MessageNoInfo/MessageNoInfo";
+import { useRouter } from 'next/navigation';
+import { useBasket } from '@/stores/basketStore';
+import Modal from '@/components/Modal/Modal';
+import style from './ModalBasket.module.css';
+import GoodsOrderList from '@/components/GoodsOrderList/GoodsOrderList';
+import MessageNoInfo from '@/components/MessageNoInfo/MessageNoInfo';
 
 export default function BasketModalPage() {
   const router = useRouter();
-  const goods = useBasket((state) => state.goods);
+  const goods = useBasket(state => state.goods);
 
   const closeModal = () => {
     router.back();
@@ -23,7 +23,7 @@ export default function BasketModalPage() {
   };
   return (
     <Modal open={true} onClose={closeModal}>
-      <div className={style.modal} onClick={(e) => e.stopPropagation()}>
+      <div className={style.modal} onClick={e => e.stopPropagation()}>
         <button
           onClick={() => {
             closeModal();
@@ -43,13 +43,13 @@ export default function BasketModalPage() {
 
             <div className={style.btnForm}>
               <button
-                onClick={() => handlePush("/goods")}
+                onClick={() => handlePush('/goods')}
                 className={style.btnGoods}
               >
                 Продовжити покупки
               </button>
               <button
-                onClick={() => handlePush("/order")}
+                onClick={() => handlePush('/order')}
                 className={style.btnOrder}
               >
                 Оформити замовлення

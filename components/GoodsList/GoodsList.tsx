@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import css from './GoodsList.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import { useIsClient } from '@/lib/hooks/useIsClient';
 import { BREAKPOINTS } from '@/lib/vars';
 import { useBasket } from '@/stores/basketStore';
 import toastMessage, { MyToastType } from '@/lib/messageService';
+import { animateToCart } from '@/lib/animateToCart';
 
 type Props = {
   items: Good[];
@@ -21,24 +22,79 @@ export function GoodsList({ items, dataQty }: Props) {
   const isClient = useIsClient();
   const isDesktopLayout = useMediaQuery(`(min-width: ${BREAKPOINTS.desktop})`);
 
-  // локальний стан: які товари вже "додані" (для зеленої кнопки+галочки)
   const [addedGoods, setAddedGoods] = useState<Record<string, boolean>>({});
 
-  // не підписуємося на стор, а просто викликаємо дію напряму
-  const handleAddToBasket = (item: Good) => {
+  const handleAddToBasket = (
+    item: Good,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    // 1. додаємо в кошик
     useBasket.getState().addGood({
       id: item._id,
       price: item.price,
     });
 
-    // позначаємо товар як доданий локально
     setAddedGoods(prev => ({
       ...prev,
       [item._id]: true,
     }));
 
-    // показуємо тост
     toastMessage(MyToastType.success, `Товар «${item.name}» додано до кошика`);
+
+    // 2. знаходимо кнопку кошика в Header
+    const cartIconEl = document.querySelector(
+      '[data-cart-button="header-cart"]'
+    ) as HTMLElement | null;
+
+    if (!cartIconEl) {
+      console.log('❌ Не знайшли кнопку кошика в Header');
+      return;
+    }
+
+    const button = event.currentTarget;
+    const card = button.closest(
+      '[data-card="good-card"]'
+    ) as HTMLElement | null;
+
+    if (!card) {
+      console.log('❌ Не знайшли card для анімації');
+      return;
+    }
+
+    const imgWrap = card.querySelector(
+      '[data-card-img-wrap="true"]'
+    ) as HTMLElement | null;
+
+    const sourceRect = imgWrap
+      ? imgWrap.getBoundingClientRect()
+      : button.getBoundingClientRect();
+
+    const cartRect = cartIconEl.getBoundingClientRect();
+
+    let imageSrc = '';
+
+    if (typeof item.image === 'string') {
+      imageSrc = item.image;
+    } else if (Array.isArray(item.image) && item.image.length > 0) {
+      const first = item.image[0] as any;
+      imageSrc =
+        typeof first === 'string'
+          ? first
+          : typeof first?.url === 'string'
+          ? first.url
+          : '';
+    }
+
+    if (!imageSrc) {
+      console.log('❌ imageSrc порожній, анімація не запущена');
+      return;
+    }
+
+    animateToCart({
+      imageRect: sourceRect,
+      cartRect,
+      imageSrc,
+    });
   };
 
   if (!isClient) return null;
@@ -59,21 +115,21 @@ export function GoodsList({ items, dataQty }: Props) {
               style={{ animationDelay: `${delay}ms` }}
             >
               {isDesktopLayout ? (
-                // 🔹 ДЕСКТОПНА РОЗМІТКА
+                // 🔹 ДЕСКТОП
                 <article
                   className={`${css.card} ${css.cardDesktop}`}
                   role="article"
                   aria-label={item.name}
+                  data-card="good-card"
                 >
-                  {/* 1. Верхній блок з картинкою (клікабельний) */}
                   <Link
                     href={`/goods/${item._id}`}
                     className={css.cardImgLink}
                     aria-label={item.name}
                   >
-                    <div className={css.cardImgWrap}>
+                    <div className={css.cardImgWrap} data-card-img-wrap="true">
                       <Image
-                        src={item.image}
+                        src={item.image as any}
                         alt={item.name}
                         fill
                         sizes="33vw"
@@ -83,7 +139,6 @@ export function GoodsList({ items, dataQty }: Props) {
                     </div>
                   </Link>
 
-                  {/* 2. Низ картки: текст + ціна + рейтинг + кнопка */}
                   <div className={css.cardBottom}>
                     <div className={css.cardBody}>
                       <div className={css.itemPrice}>
@@ -115,13 +170,12 @@ export function GoodsList({ items, dataQty }: Props) {
                         </span>
                       </div>
 
-                      {/* кнопка корзинки */}
                       <button
                         type="button"
                         className={`${css.addToCartBtn} ${
                           isAdded ? css.addToCartBtn_active : ''
                         }`}
-                        onClick={() => handleAddToBasket(item)}
+                        onClick={e => handleAddToBasket(item, e)}
                         aria-label="Додати в кошик"
                       >
                         <svg
@@ -156,16 +210,16 @@ export function GoodsList({ items, dataQty }: Props) {
                   className={css.card}
                   role="article"
                   aria-label={item.name}
+                  data-card="good-card"
                 >
-                  {/* 1. Верхній блок з картинкою (клікабельний) */}
                   <Link
                     href={`/goods/${item._id}`}
                     className={css.cardImgLink}
                     aria-label={item.name}
                   >
-                    <div className={css.cardImgWrap}>
+                    <div className={css.cardImgWrap} data-card-img-wrap="true">
                       <Image
-                        src={item.image}
+                        src={item.image as any}
                         alt={item.name}
                         fill
                         sizes="(min-width:1440px) 25vw, (min-width:768px) 25vw, 50vw"
@@ -175,7 +229,6 @@ export function GoodsList({ items, dataQty }: Props) {
                     </div>
                   </Link>
 
-                  {/* 2. Низ картки: текст + рейтинг + ціна */}
                   <div className={css.cardBody}>
                     <h3 className={css.cardTitle}>{item.name}</h3>
 
@@ -205,7 +258,7 @@ export function GoodsList({ items, dataQty }: Props) {
                         className={`${css.addToCartBtn} ${
                           isAdded ? css.addToCartBtn_active : ''
                         }`}
-                        onClick={() => handleAddToBasket(item)}
+                        onClick={e => handleAddToBasket(item, e)}
                         aria-label="Додати в кошик"
                       >
                         <svg
@@ -236,7 +289,6 @@ export function GoodsList({ items, dataQty }: Props) {
                     </div>
                   </div>
 
-                  {/* 3. Кнопка внизу */}
                   <div className={css.cardActions}>
                     <Link href={`/goods/${item._id}`} className={css.cardCta}>
                       Детальніше
