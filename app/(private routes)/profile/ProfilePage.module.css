@@ -9,7 +9,7 @@
   line-height: 1.2;
   letter-spacing: -0.01em;
   text-align: center;
-  color: var(--color-scheme-6-text);
+  color: var(--color-neutral-darkest);
 }
 
 .text {
@@ -18,7 +18,7 @@
   line-height: 1.4;
   letter-spacing: -0.01em;
   text-align: center;
-  color: var(--color-scheme-6-text);
+  color: var(--color-neutral-darkest);
   padding-bottom: 16px;
 }
 
@@ -44,32 +44,33 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 1.5;
-  color: #000;
+  color: var(--color-neutral-darkest);
 }
 
 .orderNumber {
   font-weight: 600;
   font-size: 18px;
   line-height: 1.5;
-  color: #000;
+  color: var(--color-neutral-darkest);
 }
 
 .orderLabel {
   font-weight: 600;
   font-size: 18px;
   line-height: 1.5;
-  color: #000;
+  color: var(--color-neutral-darkest);
 }
 
 .orderValue {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
-  color: #000;
+  color: var(--color-neutral-darkest);
 }
 
 .logoutBtn {
-  display: inline-flex; /* або inline-block */
+  display: inline-flex;
+  /* або inline-block */
   align-items: center;
   justify-content: center;
   white-space: nowrap;

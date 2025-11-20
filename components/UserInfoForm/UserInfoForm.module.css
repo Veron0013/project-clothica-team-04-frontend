@@ -65,7 +65,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--color-neutral-darkest);
+  color: var(--color-scheme-2-background);
   border: 1px solid var(--color-deco);
   border-radius: 100px;
   padding: 6px 12px;

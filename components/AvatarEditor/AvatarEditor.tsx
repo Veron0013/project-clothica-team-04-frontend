@@ -32,7 +32,11 @@ export default function AvatarEditor() {
     <div className={css.wrapper}>
       <div className={css.avatarBox}>
         <Image
-          src={preview || user?.avatar || '/default-avatar.png'}
+          src={
+            preview ||
+            user?.avatar ||
+            'https://ac.goit.global/fullstack/react/default-avatar.jpg'
+          }
           alt="User avatar"
           width={140}
           height={140}
@@ -46,6 +50,7 @@ export default function AvatarEditor() {
           type="file"
           accept="image/*"
           hidden
+          disabled={mutation.isPending}
           onChange={handleFileChange}
         />
       </label>

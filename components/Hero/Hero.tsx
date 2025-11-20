@@ -13,8 +13,8 @@ export default function Hero() {
     const timer = setTimeout(() => {
       setShowVideo(true);
       videoRef.current?.play();
-      console.log('play');
-    }, 1000);
+      //console.log('play');
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);

@@ -1,27 +1,32 @@
-"use client";
+'use client';
 
-import { useRef, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Keyboard, A11y } from "swiper/modules";
-import { Swiper as SwiperClass } from "swiper/types";
-import "swiper/css";
-import "swiper/css/navigation";
-import css from "./LastReviews.module.css";
-import { getReviews } from "@/lib/api/reviewsApi";
-import StarRating from "../StarRating/StarRating";
+import { useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Keyboard, A11y } from 'swiper/modules';
+import { Swiper as SwiperClass } from 'swiper/types';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import css from './LastReviews.module.css';
+import { getReviews } from '@/lib/api/reviewsApi';
+import StarRating from '../StarRating/StarRating';
+import Link from 'next/link';
 
 interface Review {
   _id?: string;
   author?: string;
   description?: string;
   rate?: number;
-  productId?: { name: string };
+  productId?: { name: string; _id: string };
 }
 
 export default function LastReviews() {
-  const { data: reviews = [], isLoading, isError } = useQuery<Review[]>({
-    queryKey: ["latestReviews"],
+  const {
+    data: reviews = [],
+    isLoading,
+    isError,
+  } = useQuery<Review[]>({
+    queryKey: ['latestReviews'],
     queryFn: getReviews,
   });
 
@@ -39,6 +44,7 @@ export default function LastReviews() {
     return;
   };
 
+  console.log(reviews);
   return (
     <section className={css.section}>
       <div className={css.container}>
@@ -52,10 +58,10 @@ export default function LastReviews() {
           <>
             <Swiper
               modules={[Navigation, Keyboard, A11y]}
-              onBeforeInit={(swiper) => {
+              onBeforeInit={swiper => {
                 swiperRef.current = swiper;
               }}
-              onSlideChange={(swiper) => {
+              onSlideChange={swiper => {
                 setIsBeginning(swiper.isBeginning);
                 setIsEnd(swiper.isEnd);
               }}
@@ -68,15 +74,17 @@ export default function LastReviews() {
               }}
               className={css.swiper}
             >
-              {reviews.map((item) => (
+              {reviews.map(item => (
                 <SwiperSlide key={item._id} className={css.item}>
-                  <div className={css.stars}>
-                  <StarRating rate={item.rate || 0} />
-                  </div>
+                  <Link href={`/goods/${item.productId?._id}`}>
+                    <div className={css.stars}>
+                      <StarRating rate={item.rate || 0} />
+                    </div>
 
-                  <p className={css.text}>{item.description || ""}</p>
-                  <p className={css.name}>{item.author || "Анонім"}</p>
-                  <p className={css.product}>{item.productId?.name || "—"}</p>
+                    <p className={css.text}>{item.description || ''}</p>
+                    <p className={css.name}>{item.author || 'Анонім'}</p>
+                    <p className={css.product}>{item.productId?.name || '—'}</p>
+                  </Link>
                 </SwiperSlide>
               ))}
             </Swiper>

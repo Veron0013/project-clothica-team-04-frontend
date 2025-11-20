@@ -180,7 +180,7 @@ export default function UserOrderInfoForm() {
     });
   };
 
-  console.log('fetch', cities, warehouses);
+  //console.log('fetch', cities, warehouses);
 
   const getInputClass = (error: unknown, touched: boolean | undefined) => {
     return error && touched ? `${css.input} ${css.inputError}` : css.input;

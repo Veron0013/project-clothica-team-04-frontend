@@ -20,7 +20,7 @@
 
 .button {
     padding: 6px 12px;
-    color: var(--color-neutral-darkest);
+    color: var(--color-scheme-2-background);
     ;
     background-color: var(--color-deco);
     border-radius: 100px;
@@ -31,13 +31,11 @@
 
 }
 
-
-
 .button:hover {
-    background: #2c5282;
+    background: var(--color-deco-dark);
 }
 
 .loading {
     font-size: 14px;
-    color: #555;
+    color: var(--color-neutral-darkest);
 }

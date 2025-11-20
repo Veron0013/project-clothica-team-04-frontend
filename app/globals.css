@@ -40,7 +40,7 @@
   --color-deco-darker: #4e5a42;
   --color-deco-darkest: #3b4331;
   --color-scheme-2-text: var(--color-white);
-  --color-scheme-2-background: var(--color-neutral-darker);
+  --color-scheme-2-background: var(--color-neutral-darkest);
   --color-scheme-2-border: var(--opacity-white-20);
   --color-scheme-2-accent: var(--color-deco);
   --color-scheme-2-foreground: var(--color-neutral-darkest);
