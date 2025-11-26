@@ -73,6 +73,7 @@ export const ExportUserInfoFormSchema = Yup.object().shape({
     .typeError('Вкажіть номер відділення цифрами')
     .min(1, 'Номер не може бути меншим за 1')
     .required('Це поле обовʼязкове!'),
+  email: Yup.string().email('Некоректна пошта').optional(),
 });
 
 export const getInputClass = (error: unknown, touched: boolean | undefined) => {

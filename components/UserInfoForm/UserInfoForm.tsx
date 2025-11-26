@@ -1,9 +1,7 @@
 'use client';
 
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-//import * as Yup from 'yup';
 import css from './UserInfoForm.module.css';
-import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { updateMe } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/stores/authStore';
@@ -13,6 +11,8 @@ import toastMessage, {
   normalizePhone,
 } from '@/lib/messageService';
 import AvatarEditor from '../AvatarEditor/AvatarEditor';
+import React, { useState } from 'react';
+import { requestEmailChange } from '@/lib/api/api';
 
 interface UserInfoFormValues {
   name: string;
@@ -21,36 +21,77 @@ interface UserInfoFormValues {
   city: string;
   comment?: string;
   warehoseNumber: string;
+  email: string;
+  newEmail: string;
 }
 
 export default function UserInfoForm() {
   const user = useAuthStore(state => state.user);
   const setUser = useAuthStore(state => state.setUser);
 
-  const router = useRouter();
+  // початковий email, щоб порівнювати зміни
+  const initialEmail = user?.email || '';
+
+  // стан  редагування поля пошти
+  const [isEditingEmail, setIsEditingEmail] = useState(false);
 
   const mutation = useMutation({
     mutationFn: (data: UserInfoFormValues) => updateMe(data),
     onSuccess: updatedUser => {
       toastMessage(MyToastType.success, 'Ви успішно відредагували дані!');
-      router.push('/');
       setUser(updatedUser);
     },
   });
 
-  const handleSubmit = (
+  const handleSubmit = async (
     values: UserInfoFormValues,
     actions: FormikHelpers<UserInfoFormValues>
   ) => {
-    const userValues = { ...values };
-    userValues.phone = normalizePhone(userValues.phone) || userValues.phone;
+    const normalizedPhone = normalizePhone(values.phone) || values.phone;
 
-    mutation.mutate(userValues, {
+    const payloadForUpdate: UserInfoFormValues = {
+      name: values.name,
+      lastname: values.lastname,
+      phone: normalizedPhone,
+      city: values.city,
+      warehoseNumber: values.warehoseNumber,
+      comment: values.comment,
+      // включаємо email (поточний) і порожній newEmail, щоб відповідати типу
+      email: values.email,
+      newEmail: '',
+    };
+
+    const isNewEmailProvided = !!values.newEmail;
+
+    mutation.mutate(payloadForUpdate, {
       onSettled: () => {
         actions.setSubmitting(false);
       },
-      onSuccess: () => {
-        actions.resetForm({ values });
+      onSuccess: async () => {
+        if (isNewEmailProvided) {
+          try {
+            await requestEmailChange(values.newEmail);
+            toastMessage(
+              MyToastType.success,
+              'На вашу нову адресу надіслано лист для підтвердження!'
+            );
+            actions.setFieldValue('newEmail', '');
+            setIsEditingEmail(false);
+          } catch {
+            toastMessage(
+              MyToastType.error,
+              'Не вдалося відправити лист для підтвердження email.'
+            );
+          }
+        }
+        // оновлюємо форму (залишаєюнову Email порожнім)
+        actions.resetForm({ values: { ...values, newEmail: '' } });
+      },
+      onError: () => {
+        toastMessage(
+          MyToastType.error,
+          'Не вдалося оновити основну інформацію профілю.'
+        );
       },
     });
   };
@@ -69,6 +110,8 @@ export default function UserInfoForm() {
           phone: user?.phone || '',
           city: user?.city || '',
           warehoseNumber: user?.warehoseNumber || '',
+          email: user?.email || '',
+          newEmail: '',
         }}
         validationSchema={ExportUserInfoFormSchema}
         onSubmit={handleSubmit}
@@ -78,6 +121,8 @@ export default function UserInfoForm() {
             <fieldset className={css.form}>
               <legend className={css.text}>Особиста інформація</legend>
               <AvatarEditor />
+
+              {/* NAME*/}
               <div className={css.label_wrapper}>
                 <div className={css.label}>
                   <label htmlFor="name">Імʼя*</label>
@@ -110,6 +155,8 @@ export default function UserInfoForm() {
                   />
                 </div>
               </div>
+
+              {/* PHONE */}
               <div className={css.label}>
                 <label htmlFor="phone">Номер телефону*</label>
                 <Field
@@ -125,6 +172,70 @@ export default function UserInfoForm() {
                   className={css.error}
                 />
               </div>
+
+              {/* EMAIL */}
+              <div className={css.label_wrapper}>
+                <div className={css.label}>
+                  <label htmlFor="email">Поточний email</label>
+                  <ErrorMessage
+                    name="email"
+                    component="p"
+                    className={css.error}
+                  />
+                  {/* Це поле лише відображає поточну пошту */}
+                  <Field
+                    id="email"
+                    type="email"
+                    name="email"
+                    // className={можна задати постійний стиль}
+                    disabled={true}
+                  />
+                </div>
+
+                {!isEditingEmail && (
+                  <div className={css.label}>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingEmail(true)}
+                      className={css.change_button}
+                    >
+                      {initialEmail ? 'Змінити email ✉️' : 'Додати email ✉️'}
+                    </button>
+                  </div>
+                )}
+              </div>
+              {/* ПОЛЕ ДЛЯ ВВЕДЕННЯ НОВОЇ ПОШТИ */}
+              {isEditingEmail && (
+                <div className={css.label_wrapper}>
+                  <div className={css.label}>
+                    <label htmlFor="newEmail">Новий email</label>
+                    <ErrorMessage
+                      name="newEmail"
+                      component="p"
+                      className={css.error}
+                    />
+                    <Field
+                      id="newEmail"
+                      type="email"
+                      name="newEmail"
+                      className={getInputClass(
+                        errors.newEmail,
+                        touched.newEmail
+                      )}
+                      placeholder="Введіть новий email"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsEditingEmail(false);
+                    }}
+                  >
+                    Скасувати зміну пошти
+                  </button>
+                </div>
+              )}
+              {/* CITY */}
               <div className={css.label_wrapper}>
                 <div className={css.label}>
                   <label htmlFor="city">Місто доставки*</label>
