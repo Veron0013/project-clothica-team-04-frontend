@@ -1,0 +1,30 @@
+.container {
+    display: flex;
+    height: 80vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+
+.card {
+    background: var(--color-neutral-darkset);
+    color: var(--color-neutral-darkest);
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    text-align: center;
+    font-size: 20px;
+}
+
+/* якщо додати кнопку переходу кудись */
+.button {
+    margin-top: 20px;
+    display: inline-block;
+    background-color: var(--color-deco);
+    color: var(--color-neutral-darkest);
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+}

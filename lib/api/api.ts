@@ -12,12 +12,12 @@ import axios, { AxiosError } from 'axios';
 export type ApiError = AxiosError<{ error: string }>;
 
 export const nextAuthServer = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_PROXY_API_URL + '/api',
+  baseURL: process.env.NEXT_PUBLIC_PROXY_API_URL + '/api', //    http://localhost:3000
   withCredentials: true,
 });
 
 export const nextServer = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL, //  http://localhost:3030
   withCredentials: true,
 });
 
@@ -72,3 +72,17 @@ export const getUserOrders = async (): Promise<Order[]> => {
   const response = await nextAuthServer.get<Order[]>(`/order`);
   return response.data;
 };
+
+///////////////////////////////////
+
+// для запиту на заміну пошти
+export const requestEmailChange = async (newEmail: string) => {
+  const response = await nextServer.post('/auth/change-email-request', {
+    newEmail,
+  });
+
+  return response.data;
+};
+
+export const confirmEmailChange = (token: string) =>
+  nextServer.post('/auth/confirm-change-email', { token });
