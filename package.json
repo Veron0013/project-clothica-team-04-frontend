@@ -1,45 +1,45 @@
 {
-	"name": "project-clothica-team-04-frontend",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "eslint"
-	},
-	"dependencies": {
-		"@tanstack/react-query": "^5.90.7",
-		"@tanstack/react-query-devtools": "^5.90.2",
-		"@tanstack/react-virtual": "^3.13.12",
-		"@uidotdev/usehooks": "^2.4.1",
-		"axios": "^1.13.2",
-		"cookie": "^1.0.2",
-		"formik": "^2.4.9",
-		"framer-motion": "^12.23.24",
-		"lodash": "^4.17.21",
-		"next": "^16.0.7",
-		"react": "^19.2.1",
-		"react-dom": "^19.2.1",
-		"react-hot-toast": "^2.6.0",
-		"react-icons": "^5.5.0",
-		"react-responsive": "^10.0.1",
-		"react-router-dom": "^7.9.5",
-		"react-spinners": "^0.17.0",
-		"swiper": "^12.0.3",
-		"yup": "^1.7.1",
-		"zustand": "^5.0.8"
-	},
-	"devDependencies": {
-		"@tailwindcss/postcss": "^4",
-		"@types/lodash": "^4.17.20",
-		"@types/node": "^20",
-		"@types/react": "^19",
-		"@types/react-dom": "^19",
-		"eslint": "^9",
-		"eslint-config-next": "16.0.1",
-		"npm": "^11.6.2",
-		"tailwindcss": "^4",
-		"typescript": "^5"
-	}
+  "name": "project-clothica-team-04-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.90.7",
+    "@tanstack/react-query-devtools": "^5.90.2",
+    "@tanstack/react-virtual": "^3.13.12",
+    "@uidotdev/usehooks": "^2.4.1",
+    "axios": "^1.13.2",
+    "cookie": "^1.0.2",
+    "formik": "^2.4.9",
+    "framer-motion": "^12.23.24",
+    "lodash": "^4.17.21",
+    "next": "16.0.10",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.5.0",
+    "react-responsive": "^10.0.1",
+    "react-router-dom": "^7.9.5",
+    "react-spinners": "^0.17.0",
+    "swiper": "^12.0.3",
+    "yup": "^1.7.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.1",
+    "npm": "^11.6.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
 }
