@@ -7,6 +7,7 @@ export type ApiResponse<T> = { data: T };
 
 export type AuthValues = {
   name?: string;
+  email?: string;
   phone: string;
   password: string;
 };
