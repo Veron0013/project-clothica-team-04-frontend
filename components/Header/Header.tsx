@@ -31,6 +31,7 @@ export default function Header() {
       try {
         const data = await getUsersMe();
         setUser(data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         clearIsAuthenticated();
       }

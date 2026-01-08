@@ -20,17 +20,17 @@ type Props = {
 
 // 🔹 утиліта, яка безпечно дістає src картинки з товару
 const getImageSrc = (image: Good['image']): string => {
-  const value: any = image;
+  const value: Good['image'] = image;
 
   if (!value) return '';
 
   if (typeof value === 'string') return value;
 
-  if (Array.isArray(value) && value.length > 0) {
-    const first = value[0] as any;
-    if (typeof first === 'string') return first;
-    if (first && typeof first.url === 'string') return first.url;
-  }
+  //if (Array.isArray(value) && value.length > 0) {
+  //  const first = value[0] as Good['image'];
+  //  if (typeof first === 'string') return first;
+  //  if (first && typeof first.url === 'string') return first.url;
+  //}
 
   return '';
 };
@@ -113,7 +113,8 @@ export function GoodsList({ items, dataQty }: Props) {
           const delay = isNew ? (index - (items.length - dataQty)) * 100 : 0;
 
           const isAdded = !!addedGoods[item._id];
-          const cardImageSrc = getImageSrc(item.image) || (item.image as any); // fallback
+          const cardImageSrc =
+            getImageSrc(item.image) || (item.image as Good['image']); // fallback
 
           return (
             <li
@@ -136,7 +137,7 @@ export function GoodsList({ items, dataQty }: Props) {
                   >
                     <div className={css.cardImgWrap} data-card-img-wrap="true">
                       <Image
-                        src={cardImageSrc as any}
+                        src={cardImageSrc as Good['image']}
                         alt={item.name}
                         fill
                         sizes="33vw"
@@ -226,7 +227,7 @@ export function GoodsList({ items, dataQty }: Props) {
                   >
                     <div className={css.cardImgWrap} data-card-img-wrap="true">
                       <Image
-                        src={cardImageSrc as any}
+                        src={cardImageSrc as Good['image']}
                         alt={item.name}
                         fill
                         sizes="(min-width:1440px) 25vw, (min-width:768px) 25vw, 50vw"
