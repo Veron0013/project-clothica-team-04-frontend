@@ -6,6 +6,7 @@ export const API = process.env.NEXT_PUBLIC_API_URL ?? ""
 
 export type AuthValues = {
 	name?: string
+	email?: string
 	phone: string
 	password: string
 }

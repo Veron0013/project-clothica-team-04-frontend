@@ -23,6 +23,9 @@ const SignUpSchema = Yup.object().shape({
     .min(2, 'Імʼя повинно містити щонайменше 2 символи')
     .max(20, 'Імʼя може містити максимум 20 символів')
     .required('Це поле обовʼязкове!'),
+  email: Yup.string()
+    .email('Введіть коректний e-mail')
+    .required('Це поле обовʼязкове!'),
   phone: Yup.string()
     .matches(PHONE_REGEXP, 'Введіть коректний номер телефону')
     .required('Це поле обовʼязкове!'),
@@ -102,7 +105,7 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
   };
 
   const initLoginValues: AuthValues = { phone: '', password: '' };
-  const initRegValues: AuthValues = { name: '', phone: '', password: '' };
+  const initRegValues: AuthValues = { name: '', phone: '', email:'',  password: '' };
 
   return (
     <div className={css.wrapper}>
@@ -132,6 +135,7 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
               <h2 className={css.title}>{login ? 'Вхід' : 'Реєстрація'}</h2>
 
               {!login && (
+                <>
                 <div className={css.formGroup}>
                   <label htmlFor="name">Імʼя*</label>
                   <Field
@@ -149,7 +153,26 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
                     component="p"
                     className={css.error}
                   />
-                </div>
+                  </div>
+                  <div className={css.formGroup}>
+                  <label htmlFor="name">E-mail*</label>
+                  <Field
+                    id="email"
+                    name="email"
+                    type="email"
+                    className={`${css.input} ${
+                      errors.email && touched.email ? css.inputError : ''
+                    }`}
+                    placeholder="example@gmail.com"
+                      autoComplete="email"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="p"
+                    className={css.error}
+                  />
+                  </div>
+                  </>
               )}
 
               <div className={css.formGroup}>
