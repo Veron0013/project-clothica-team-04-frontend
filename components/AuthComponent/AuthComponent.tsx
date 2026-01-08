@@ -51,9 +51,9 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
 
   const setUser = useAuthStore(s => s.setUser);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (
     values: AuthValues,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     { setSubmitting, setFieldError, setStatus, resetForm }: any
   ) => {
     setStatus(null);
@@ -105,7 +105,12 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
   };
 
   const initLoginValues: AuthValues = { phone: '', password: '' };
-  const initRegValues: AuthValues = { name: '', phone: '', email:'',  password: '' };
+  const initRegValues: AuthValues = {
+    name: '',
+    phone: '',
+    email: '',
+    password: '',
+  };
 
   return (
     <div className={css.wrapper}>
@@ -136,43 +141,43 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
 
               {!login && (
                 <>
-                <div className={css.formGroup}>
-                  <label htmlFor="name">Імʼя*</label>
-                  <Field
-                    id="name"
-                    name="name"
-                    type="text"
-                    className={`${css.input} ${
-                      errors.name && touched.name ? css.inputError : ''
-                    }`}
-                    placeholder="Ваше імʼя"
-                    autoComplete="name"
-                  />
-                  <ErrorMessage
-                    name="name"
-                    component="p"
-                    className={css.error}
-                  />
+                  <div className={css.formGroup}>
+                    <label htmlFor="name">Імʼя*</label>
+                    <Field
+                      id="name"
+                      name="name"
+                      type="text"
+                      className={`${css.input} ${
+                        errors.name && touched.name ? css.inputError : ''
+                      }`}
+                      placeholder="Ваше імʼя"
+                      autoComplete="name"
+                    />
+                    <ErrorMessage
+                      name="name"
+                      component="p"
+                      className={css.error}
+                    />
                   </div>
                   <div className={css.formGroup}>
-                  <label htmlFor="name">E-mail*</label>
-                  <Field
-                    id="email"
-                    name="email"
-                    type="email"
-                    className={`${css.input} ${
-                      errors.email && touched.email ? css.inputError : ''
-                    }`}
-                    placeholder="example@gmail.com"
+                    <label htmlFor="name">E-mail*</label>
+                    <Field
+                      id="email"
+                      name="email"
+                      type="email"
+                      className={`${css.input} ${
+                        errors.email && touched.email ? css.inputError : ''
+                      }`}
+                      placeholder="example@gmail.com"
                       autoComplete="email"
-                  />
-                  <ErrorMessage
-                    name="email"
-                    component="p"
-                    className={css.error}
-                  />
+                    />
+                    <ErrorMessage
+                      name="email"
+                      component="p"
+                      className={css.error}
+                    />
                   </div>
-                  </>
+                </>
               )}
 
               <div className={css.formGroup}>
@@ -220,16 +225,15 @@ export default function AuthComponent({ login = false }: AuthComponentProps) {
                   component="p"
                   className={css.error}
                 />
-
-                {login && (
-                  <Link href="/recovery" className={css.reset}>
-                    {' '}
-                    Забули пароль?
-                  </Link>
-                )}
+                {status && <p className={css.error}>{status}</p>}
               </div>
 
-              {status && <p className={css.error}>{status}</p>}
+              {login && (
+                <Link href="/recovery" className={css.reset}>
+                  {' '}
+                  Забули пароль?
+                </Link>
+              )}
 
               <button
                 className={css.submitBtn}
