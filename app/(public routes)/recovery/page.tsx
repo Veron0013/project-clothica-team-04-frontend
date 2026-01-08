@@ -23,17 +23,17 @@ export default function RecoveryPassword() {
     phone: '',
   };
   const SendMailSchema = Yup.object().shape({
-    email: Yup.string().email('Невалідний формат e-mail').required('Це поле обовʼязкове!'),
+    email: Yup.string()
+      .email('Невалідний формат e-mail')
+      .required('Це поле обовʼязкове!'),
     phone: Yup.string()
       .matches(PHONE_REGEXP, 'Введіть коректний номер телефону')
       .required('Це поле обовʼязкове!'),
   });
 
-
   const getInputClass = (error: unknown, touched: boolean | undefined) => {
     return error && touched ? `${css.input} ${css.inputError}` : css.input;
   };
-
 
   const handleSubmit = async (
     values: SendMailFormValues,
@@ -81,43 +81,60 @@ export default function RecoveryPassword() {
           </svg>
         </Link>
       </header>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={SendMailSchema}
-        onSubmit={handleSubmit}
-      >
-{({ isSubmitting, errors, touched}) => (
-        <Form className={css.form}>
-          <div className={css.formGroup}>
-            <label htmlFor="phone">Введіть свій номер телефону</label>
-            <Field
-              id={`${fieldId}-phone`}
-              type="tel"
-              name="phone"
-              placeholder="+38 (0__) ___-__-__"
-              className={getInputClass(errors.phone, touched.phone)}
-            />
-            
-          </div>
-<ErrorMessage name="phone" component="p" className={css.error} />
-          <div className={css.formGroup}>
-            <label htmlFor="email">Введіть свій e-mail</label>
-            <Field
-              id={`${fieldId}-email`}
-              type="text"
-              name="email"
-              placeholder=""
-              className={`${css.input} ${errors.email && touched.email ? css.inputError : ""}`}
-            />
-          </div>
-<ErrorMessage name="email" component="p" className={css.error} />
-          <div className={css.actions}>
-            <button type="submit" className={css.button} disabled={isSending}>
-              {isSubmitting ? `Відправляю...` : 'Відправити'}
-            </button>
-          </div>
-        </Form>)}
-      </Formik>
+      <div className={css.content}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={SendMailSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting, errors, touched }) => (
+            <Form className={css.form}>
+              <h2 className={css.title}>Відновлення паролю</h2>
+              <div className={css.formGroup}>
+                <label htmlFor="phone">Введіть свій номер телефону</label>
+                <Field
+                  id={`${fieldId}-phone`}
+                  type="tel"
+                  name="phone"
+                  placeholder="+38 (0__) ___-__-__"
+                  className={getInputClass(errors.phone, touched.phone)}
+                />
+                <ErrorMessage
+                  name="phone"
+                  component="p"
+                  className={css.error}
+                />
+              </div>
+              <div className={css.formGroup}>
+                <label htmlFor="email">Введіть свій e-mail</label>
+                <Field
+                  id={`${fieldId}-email`}
+                  type="text"
+                  name="email"
+                  placeholder=""
+                  className={`${css.input} ${
+                    errors.email && touched.email ? css.inputError : ''
+                  }`}
+                />
+                <ErrorMessage
+                  name="email"
+                  component="p"
+                  className={css.error}
+                />
+              </div>
+              <div className={css.actions}>
+                <button
+                  type="submit"
+                  className={css.button}
+                  disabled={isSending}
+                >
+                  {isSubmitting ? `Відправляю...` : 'Відправити'}
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
       <footer className={css.footer}>
         <p>&copy; {new Date().getFullYear()} Clothica. Всі права захищені.</p>
       </footer>

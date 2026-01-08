@@ -22,8 +22,9 @@
 }
 
 .content {
-  padding: 79px 0;
   flex: 1;
+  margin: 0 auto;
+  padding-top: 60px;
 }
 
 .reset {
@@ -52,18 +53,9 @@
 
 @media screen and (min-width: 768px) {
   .content {
-    padding: 126px 0;
     max-width: 480px;
     width: 100%;
-    margin: 0 auto;
   }
-}
-
-@media screen and (min-width: 1440px) {
-  .content {
-    padding: 118.5px 0;
-  }
-
 }
 
 /* Кнопки реєстрації та входу  */
